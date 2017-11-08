@@ -131,7 +131,7 @@ Connnections                  ttl     opn     rt1     rt5     p50     p90
 
 ## Bug and Issues
 
-Have a bug or an issues with the package [Open a new issue] (https://github.com/tolmike23/IT-Project-Monitoring-System/issu)
+Have a bug or an issues with the package [Open a new issue](https://github.com/tolmike23/IT-Project-Monitoring-System/issu)
 
 ## Authors
 
