@@ -137,6 +137,7 @@ Have a bug or an issues with the package [Open a new issue](https://github.com/t
 
 * **Dale Barraca** - *Senior Developer* - [dalebarr](https://github.com/dalebarr)
 * **John Barraca** - *Junior Developer* - [tolmike23](https://github.com/tolmike23)
+* **Adrian Barraca** - *Junior Developer* - [jabarraca](https://github.com/jabarraca)
 
 See also the list of [contributors](https://github.com/tolmike23/IT-Project-Monitoring-System/graphs/contributors) who participated in this project.
 
