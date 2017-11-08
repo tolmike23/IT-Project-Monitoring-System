@@ -13,9 +13,9 @@ See deployment for notes on how to deploy the project on a live system.
 Things you need to install the software and how to install them
 
 ```
-NodeJS [Download Node JS](https://nodejs.org/en/)
-Npm Package Manager [Download Npm](https://www.npmjs.com/)
-AdonisJS Framework[Document v3.2](https://adonisjs.com/docs/3.2/)
+NodeJS - (https://nodejs.org/en/)
+Npm Package Manager - (https://www.npmjs.com/)
+AdonisJS Framework - (https://adonisjs.com/docs/3.2/)
 ```
 
 ### Installing
