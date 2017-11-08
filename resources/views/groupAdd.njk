@@ -1,0 +1,81 @@
+{% extends 'master' %}
+
+
+{% block content %}
+
+	<div class="container-fluid">
+		<div class="row">&nbsp;</div>
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<div class="panel panel-success">
+					<div class="panel-heading">Register</div>
+					<div class="panel-body">
+						<form class="form-horizontal" role="form" method="POST" action="/register">
+						   
+							{{ csrfField }}                       
+
+							<div class="form-group">
+								<label for="groupname" class="col-md-4 control-label">Group name</label>
+
+								<div class="col-md-6">
+									<input id="groupname" type="text" class="form-control" name="groupname" required>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="email" class="col-md-4 control-label">E-Mail Address</label>
+
+								<div class="col-md-6">
+									<input id="email" type="email" class="form-control" name="email" required>
+								</div>
+							</div>
+                            
+                            <div class="form-group">
+								<label for="firstname" class="col-md-4 control-label">Firstname</label>
+
+								<div class="col-md-6">
+									<input id="firstname" type="email" class="form-control" name="firstname" required>
+								</div>
+							</div>
+
+                            <div class="form-group">
+								<label for="firstname" class="col-md-4 control-label">Lastname</label>
+
+								<div class="col-md-6">
+									<input id="firstname" type="email" class="form-control" name="firstname" required>
+								</div>
+							</div>
+                            
+							<div class="form-group">
+								<label for="password" class="col-md-4 control-label">Password</label>
+
+								<div class="col-md-6">
+									<input id="password1" type="password" class="form-control" name="password1" required>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="password" class="col-md-4 control-label">Confirm password</label>
+								<div class="col-md-6">
+									<input id="password2" type="password" class="form-control" name="password2" required>
+								</div>
+								<div class="col-md-6 col-md-offset-4">
+									<label class="text-danger">{{registerMessage}}</label>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-md-6 col-md-offset-4">
+									<button type="submit" class="btn btn-primary">
+										<i class="fa fa-btn fa-sign-in">&nbsp;</i> Submit
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

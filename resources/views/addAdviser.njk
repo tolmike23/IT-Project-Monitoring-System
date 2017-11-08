@@ -1,0 +1,59 @@
+{% extends 'advisers' %}
+
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">&nbsp;</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2 animsition" data-animsition-in-class="fade-in-down-sm" data-animsition-in-duration="800">
+		  <div class="panel panel-success">
+			<div class="panel-heading">Add Adviser<a href="/advisers" class="pull-right" data-toggle="tooltip" data-placement="top" title="Close"><i class="material-icons">highlight_off</i></a></div>
+			  <div class="panel-body">
+				<form class="form-horizontal" role="form" method="POST" action="/advisers">
+
+					{{ csrfField }}
+
+					<div class="form-group">
+						<label for="email" class="col-md-4 control-label">E-Mail Address</label>
+						<div class="col-md-6">
+							<input id="email" type="email" class="form-control" name="email" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="firstname" class="col-md-4 control-label">Firstname</label>
+						<div class="col-md-6">
+							<input id="firstname" type="text" class="form-control" name="firstname" required>
+						</div>					
+					</div>
+					<div class="form-group">
+						<label for="lastname" class="col-md-4 control-label">Lastname</label>
+						<div class="col-md-6">
+							<input id="lastname" type="text" class="form-control" name="lastname" required>
+						</div>					
+					</div>
+					<div class="form-group">
+						<label for="role" class="col-md-4 control-label">Role</label>
+						<div class="col-md-6">
+							<select id="role" name="role" class="selectpicker show-menu-arrow show-tick" data-width="fit" required>
+								<option value="Adviser">Adviser</option>
+								<option value="Adviser/Panel">Adviser/Panelist</option>
+								<option value="Admin">Administrator</option>								
+							</select>
+						</div>					
+					</div>
+					<div class="form-group">
+						<div class="col-md-2 col-md-offset-4">
+							<button type="submit" class="btn btn-primary">
+								Save
+							</button>
+						</div>						
+					</div>
+				</form>					
+				
+			  </div>			
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->	
+	</div>
+</div>
+
+{% endblock %}
