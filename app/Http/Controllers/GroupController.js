@@ -12,55 +12,47 @@ class GroupController {
 
 	* show(request, response){
 
-    const user = yield request.auth.getUser()
+        const user = yield request.auth.getUser()
 		const group = yield Group.query().where('email', user.email).fetch()
 		yield response.sendView('dashboard', {group:group.toJSON()})
 	}
 
 	* join (request, response) {
 
-        const user = yield request.auth.getUser()
-        const groupControl = yield Database.select("*").from("GroupControl")
-        const groupKey = request.input('groupKey')
+        const user = yield request.auth.getUser()        
+        const groupKey = request.input('groupKey')        
+        const groupControl = yield Database.select("*").from("groupcontrol")
         const groupId = request.input('groupControl')
-				//dad's code groupControl
-        // const grpExist = yield groupControl.query().where('groupKey', groupKey).fetch()
+        const grpExist = yield GroupControl.query().where('groupKey', groupKey).fetch()        
 
-				//my test code
-				const grpExist = yield Database.select("groupKey").from("GroupControl")
-
-				const grpLen = JSON.stringify(grpExist)
+        const grpLen = JSON.stringify(grpExist)
         const grp = JSON.parse(grpLen)
-
-
+        
+        
         if (grp.length <= 0){
             yield response.sendView('dashboard', {user:false, grpKeyError: 'Invalid group key', groupControl:groupControl})
             response.redirect('back')
         }
-
+        
 		const grpMember = new Group()
 		//grpMember.groupname = user.username
         grpMember.groupId = groupId
         grpMember.email = user.email
         grpMember.firstname = user.firstname
-				grpMember.lastname = user.lastname
+		grpMember.lastname = user.lastname
         grpMember.middlename = user.middlename
-        grpMember.status = "active"
+        grpMember.status = "active"    
 
 		//grpMember.projectid = request.input('project')
-		yield grpMember.save()
-
+		yield grpMember.save()        
 
 		/* Group data */
-		const group = yield Group.query().where('groupId', request.input('groupControl')).fetch()
+		const group = yield Group.query()
+                                    .where('groupId', request.input('groupControl')).fetch()
 
-	  /* Endorse data*/
-		//dad's code Endorse
-	  // const endorse = yield Endorse.query().where('groupId', request.input('groupId')).fetch()
-
-		//my edit code for endorse
-		const endorse = yield Database.select("*").from("endorse")
-
+        /* Endorse data*/
+        const endorse = yield Endorse.query().where('groupId', request.input('groupId')).fetch() 
+        
 		//const project = yield Projects.query()
         //                            .where('id', //request.input('project')).fetch()
 		//const requirements = yield Requirements.query()
@@ -72,12 +64,7 @@ class GroupController {
 		//yield projectId.save()
 
 		//yield response.sendView('dashboard', {group:group.toJSON(), //endorse:endorse.toJSON(), project:project.toJSON(), //requirements:requirements.toJSON()})
-
-		//Dad's Code
-		// yield response.sendView('dashboard', {group:group.toJSON(), endorse:endorse.toJSON(), user:true})
-
-		//my edit code for endorse
-		yield response.sendView('dashboard', {user:true})
+        yield response.sendView('dashboard', {group:group.toJSON(), endorse:endorse.toJSON(), user:true})
 	}
 
     * edit (request, response){

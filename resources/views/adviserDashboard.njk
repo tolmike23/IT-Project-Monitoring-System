@@ -1,6 +1,6 @@
 {% extends 'master' %}
 
-{% block content %}
+{% block content %}		
 
 	<div class="row">
         <div class="col-lg-6 col-md-12">
@@ -13,7 +13,7 @@
 				<div class="card-header" data-background-color="blue">
 					<a>
 						<h4 class="title"><i class="material-icons">content_paste</i> Recent projects</h4>
-					</a>
+					</a>						
 				</div>
 				<div class="card-content table-responsive">
 					{% if currentUser %}
@@ -24,23 +24,23 @@
 							<th>Project name</th>
 							<th>Group</th>
 							<th>Created</th>
-							<th>Status</th>
-              <th>Notes</th>
+							<th>Status</th>							
+                            <th>Notes</th>
 						</thead>
 						<tbody>
-
+						
 							{% for project in projects %}
 								<tr>
 									<td><a class="btn btn-white btn-round btn-just-icon"><i class="material-icons">account_circle</i></a></td>
 									<td>{{project.id}}</td>
-									<td>{{project.projectname}}</td>
+									<td>{{project.projectname}}</td>		
 									<td>{{project.groupId}}</td>
 									<td>{{project.created_at}}</td>
 									<td>{{project.status}}</td>
 									<td>{{project.notes}}</td>
 								</tr>
 							{% endfor %}
-
+							
 						</tbody>
 					</table>
 					{% endif %}
@@ -52,19 +52,19 @@
 
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addGroup">
                                     <i class="material-icons">wc</i>&nbsp; Add
-                                </button>
-
+                                </button>								
+                                
                             </li>
 
-                        </ul>
-                    </div>
-
-                {% endif %}
+                        </ul>					
+                    </div>	
+                    
+                {% endif %}				
 			</div>
 		</div>
     </div>
-
-    <!-- Project Requirements Tab -->
+	
+    <!-- Project Requirements Tab -->	
 	<div class="row">
 		<div class="col-lg-12 col-md-12 animsition" data-animsition-in-class="fade-in-down-sm" data-animsition-in-duration="800">
 			<div class="card">
@@ -85,7 +85,7 @@
                             <th>&nbsp;</th>
 						</thead>
 						<tbody>
-
+						
 							{% for item in requirements %}
 								<tr>
 									<td>{{item.projectId}}</td>
@@ -95,23 +95,23 @@
                                     <td><a href="/editRequirement">Edit</a></td>
 								</tr>
 							{% endfor %}
-
+						
 						</tbody>
 					</table>
 					{% endif %}
 				</div>
 				<div class="card-footer">
 					<ul class="list-unstyled">
-						<li class="active">
+						<li class="active">						
 						    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRequirements">
                                 <i class="material-icons">list</i>&nbsp; Add
-                            </button>
-						</li>
+                            </button>								
+						</li>						
 					</ul>
-				</div>
+				</div>										
 			</div>
-		</div>
+		</div>		
 	</div>
 
 
-{% endblock %}
+{% endblock %}					

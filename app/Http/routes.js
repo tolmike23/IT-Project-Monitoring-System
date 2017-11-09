@@ -16,7 +16,9 @@
 */
 
 const Route = use('Route')
-const Helpers = use('Helpers')
+
+// Route.on('/').render('welcome')
+// Route.get('/', 'ListController.show')
 
 Route.get('/', 'AuthController.index')
 
@@ -33,33 +35,25 @@ Route.post('/advisers', 'AdviserController.add')
 Route.post('/addAdviser', 'AdviserController.call')
 
 Route.get('/dashboard', 'DashboardController.showGroup')
+Route.post('/submitProposal', 'DashboardController.submitProposal')
+
+Route.post('/dashboard', 'GroupController.add')
+Route.post('/addGroup', 'GroupController.add')
+Route.get('/editGroup', 'GroupController.edit')
 Route.get('/joinGroup', 'GroupController.join')
+Route.post('/updateMember', 'GroupController.post')
+Route.get('/adviserDashboard', 'DashboardController.showAdviser')
 
+Route.get('/projects', 'ProjectsController.show')
+Route.post('/addProject', 'ProjectsController.call')
+Route.post('/Projects', 'ProjectsController.add')
 
-//File Upload
-Route.post('/file', 'DashboardController.store')
-//Display File
-Route.get('/*', 'DashboardController.download')
-//Add Work Break Down Structure
-Route.post('/mustWork', 'DashboardController.mustHave')
+Route.post('/addRequirements', 'RequirementsController.create')
 
+Route.post('/addPanel','PanelistController.create')
 
+Route.get('errors.passwordNotMatch','RegisterController.doRegister')
 
-
-//--------------------------------NOT USED ROUTES--------------------------------
-// Route.post('/dashboard', 'GroupController.add')
-// Route.post('/addGroup', 'GroupController.add')
-// Route.get('/editGroup', 'GroupController.edit')
-//
-// Route.post('/updateMember', 'GroupController.post')
-// Route.get('/adviserDashboard', 'DashboardController.showAdviser')
-//
-// Route.get('/projects', 'ProjectsController.show')
-// Route.post('/addProject', 'ProjectsController.call')
-// Route.post('/Projects', 'ProjectsController.add')
-//
-// Route.post('/addRequirements', 'RequirementsController.create')
-//
-// Route.post('/addPanel','PanelistController.create')
-//
-// Route.get('errors.passwordNotMatch','RegisterController.doRegister')
+//Route.get('/got', function * (request, response) {
+//    response.status(200).json({ user: 'prosper' })
+//}).middleware('auth')
