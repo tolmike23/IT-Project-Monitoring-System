@@ -19,12 +19,11 @@ class GroupController {
 
 	* join (request, response) {
 
-        const user = yield request.auth.getUser()        
-        const groupKey = request.input('groupKey')        
-        const groupControl = yield Database.select("*").from("groupcontrol")
+        const user = yield request.auth.getUser()
+        const groupControl = yield Database.select("*").from("group_controls")
+        const groupKey = request.input('groupKey')
         const groupId = request.input('groupControl')
-        const grpExist = yield GroupControl.query().where('groupKey', groupKey).fetch()        
-
+        const grpExist = yield GroupControl.query().where('groupKey', groupKey).fetch()
         const grpLen = JSON.stringify(grpExist)
         const grp = JSON.parse(grpLen)
         
@@ -44,14 +43,16 @@ class GroupController {
         grpMember.status = "active"    
 
 		//grpMember.projectid = request.input('project')
-		yield grpMember.save()        
+		yield grpMember.save()
+        
 
 		/* Group data */
 		const group = yield Group.query()
                                     .where('groupId', request.input('groupControl')).fetch()
 
         /* Endorse data*/
-        const endorse = yield Endorse.query().where('groupId', request.input('groupId')).fetch() 
+        const endorse = yield Endorse.query().where('groupId', request.input('groupId')).fetch()        
+
         
 		//const project = yield Projects.query()
         //                            .where('id', //request.input('project')).fetch()

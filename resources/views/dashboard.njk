@@ -28,7 +28,7 @@
                                             <span class="input-group-addon">
                                                 <i class="fa fa-group"></i>
                                             </span>
-                                            <select id="groupControl" name="groupControl" data-style="btn  btn-rimary btn-round" class="form-control" required>
+                                            <select id="groupControl" name="groupControl" class="selectpicker" data-style="btn btn-rimary btn-round" required>
                                                 {% for gc in groupControl %}
                                                     <option value={{gc.groupId}}>{{gc.groupName}}&nbsp;/&nbsp;{{gc.clSched}}&nbsp;/&nbsp;{{gc.coordinator}}</option>
                                                 {% endfor %}
@@ -114,12 +114,71 @@
                                             <button type="button" class="btn btn-primary btn-round btn-md" data-toggle="modal" data-target="#createProposal">
                                                 <i class="fa fa-address-book-o"></i>&nbsp; Create Proposal
                                                 <div class="ripple-container"></div>
-                                            </button>				
+                                            </button>		
+                                            
+                                            <!--Fruit Jam ADD (Attached/Upload)-->
+                                            <button type="button" class="btn btn-primary btn-round btn-md" data-toggle="modal" data-target="#upload">
+                                                <i class="fa fa-file"></i>&nbsp; File Upload
+                                                <div class="ripple-container"></div>
+                                            </button>
                                         </li>
                                     </ul>					
                                 </div>
                             </div>
                             
+                            
+                            <div class="card">
+                                <div class="card-header" data-background-color="orange">
+                                    <ul class="nav nav-tabs nav-tabs-neutral">
+                                        <li class="nav-item">
+                                          <button type="button" class="btn btn-primary btn-round btn-md" data-toggle="modal" data-target="#wbs">
+                                              <i class="fa fa-pencil-square-o"></i>&nbsp; Work Break Down Structure
+                                              <div class="ripple-container"></div>
+                                          </button>
+                                        </li>
+                                    </ul>
+                                </div>
+
+
+                                <!--Display Work Break Down Structure-->
+                                <div class="card-body">
+                                    {% if currentUser %}
+                                        <table class="table table-hover table-md table-striped table-responsive">
+                                            <thead class="text-warning">
+                                                <th>Must ID</th>
+                                                <th>WBS Description</th>
+                                                <th>Email</th>
+                                                <th>Start Date</th>
+                                                <th>End Date</th>
+                                                <th>&nbsp;</th>
+                                            </thead>
+                                            <tbody>
+                                                {% for w in works %}
+                                                    <tr class="text-black">
+                                                        <td>{{w.must_id}}</td>
+                                                        <td>{{w.description}}</td>
+                                                        <td>{{w.email}}</td>
+                                                        <td>{{w.startdate}}</td>
+                                                        <td>{{w.enddate}}</td>
+                                                        <td>
+                                                            <form method="GET" action="/editWork">
+                                                                <input name="workId" id ="workId" value="{{w.workId}}" style='display:none'>
+                                                                <button type="submit" class="btn btn-xs btn-white btn-round" data-toggle="editWbs" data-placement="right" title="Edit"
+                                                                        data-container="body" data-animation="true" data-delay="100">
+                                                                    <i class="fa fa-pencil-square-o"></i>
+                                                                    <div class="ripple-container"></div>
+                                                                </button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    {% endif %}
+                                </div>
+                            </div>
+                    
+                    
                             <div class="card">
   
                                 <div class="card-header" data-background-color="orange">
@@ -308,6 +367,131 @@
     </div>
 </div>
 
+<!-- Fruit Jam Upload file -->
+<div class="modal fade" id="upload" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upload Document</h5>
+                <a class="nav nav-link nav-pills nav-pills-success"
+                   data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" method="POST" action="/file" enctype="multipart/form-data">
+
+                    {{ csrfField }}
+
+                    <div class="col-lg-12">
+                        <label for="endorsedBy" class="col-lg-12 control-label">Created by</label>
+                        <div class="form-group">
+                            <input id="endorsedBy" type="email" class="form-control" name="endorsedBy" value="{{currentUser.email}}" disabled>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8">
+                        <label for="project" class="col-lg-12 control-label">Upload Description</label>
+                        <div class="form-group">
+                            <input type="file" class="form-control" name="file" id="file">
+                        </div>
+                    </div>
+
+                    <div class="footer text-center">
+                       <button type="submit" class="btn btn-primary btn-round btn-lg">Upload</button>
+                    </div>
+                </form>
+
+                <!--Display Documents-->
+                <div class="card-body">
+                    {% if currentUser %}
+                        <table class="table table-hover table-md table-striped table-responsive">
+                            <thead class="text-warning">
+                                <th>Document</th>
+                                <th>Date Uploaded</th>
+                            </thead>
+                            <tbody>
+                                {% for docx in uploads %}
+                                    <tr class="text-black">
+                                        <td><a href = "users/{{ docx.document | replace(r/^.*[\\\/]/, '')}}" >{{ docx.document | replace(r/^.*[\\\/]/, '')}}</a></td>
+                                        <td>{{docx.updated_at}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </div>
+
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Fruit Jam ADD Work Break Down Structure -->
+<div class="modal fade" id="wbs" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Work Breakdown Structure</h5>
+                <a class="nav nav-link nav-pills nav-pills-success"
+                   data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+                </a>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" method="POST" action="/addWork">
+
+                    {{ csrfField }}
+
+                    <div class="col-lg-12">
+                        <label for="endorsedBy" class="col-lg-12 control-label">Created by</label>
+                        <div class="form-group">
+                            <input id="endorsedBy" name="endorsedBy" type="email" class="form-control" value = {{currentUser.email}} disabled>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                          <select name="mustId" id="mustId" class="form-control" required>
+                                <option disabled selected> ID | Must Have</option>
+                                {% for r in requirements %}
+                                <option value = {{ r.id }} > {{ r.id }} | {{ r.must_have }} </option>
+                                {% endfor %}
+                          </select>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <label class="col-lg-12 control-label">Work Breakdown Description</label>
+                        <div class="form-group">
+                          <input id="mustDesc" name="mustDesc" type="text" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                          <input id="startDate" name="startDate" type="date" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                          <input id="endDate" name="endDate" type="date" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="footer text-center">
+                       <button type="submit" class="btn btn-primary btn-round btn-lg">Submit</button>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
 {% endblock %}	
 
 				

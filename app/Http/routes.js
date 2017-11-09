@@ -54,6 +54,21 @@ Route.post('/addPanel','PanelistController.create')
 
 Route.get('errors.passwordNotMatch','RegisterController.doRegister')
 
+
+//jd
+
+//File Upload
+Route.post('/file', 'DashboardController.store')
+//Display File
+Route.get('users/*', 'DashboardController.download')
+//Add Work Break Down Structure
+Route.post('/addWork', 'DashboardController.mustHave')
+//Edit Work Break Down Structure Display Modal
+Route.get('/editWork', 'DashboardController.sendEditWbs')
+//Edit Work Break Down Structure post
+Route.post('/updateWbs', 'DashboardController.updateWbs')
+
+
 //Route.get('/got', function * (request, response) {
 //    response.status(200).json({ user: 'prosper' })
 //}).middleware('auth')
