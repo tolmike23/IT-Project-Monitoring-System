@@ -13,7 +13,7 @@
                         {% if user %}
                             {% for gc in groupControl %}
                                 <ul class="nav nav-tabs nav-tabs-neutral">
-                                    <li class="nav-item">
+                                    <li class="nav-item ">
                                         <a class="nav-link active" data-toggle="tab" role="tab">
                                             {{gc.groupName}}&nbsp;|&nbsp;{{gc.clSched}}&nbsp;|&nbsp;Coordinator: {{gc.coordinator}}&nbsp;|&nbsp;Adviser:&nbsp;{{gc.adviser}}
                                         </a>
@@ -64,7 +64,7 @@
                         {% if user %}
                             <p class="category">Group Dashboard</p>
                             <div class="card">
-                                <div class="card-header" data-background-color="orange">
+                                <div class="card-header bg-default">
                                     <ul class="nav nav-tabs nav-tabs-neutral">
                                         <li class="nav-item">
                                             <a class="nav-link active" data-toggle="tab" role="tab">
@@ -74,7 +74,7 @@
                                     </ul>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-hover table-md table-responsive">
+                                    <table class="table table-hover">
                                         <thead class="text-warning">
                                             <th>Member ID</th>
                                             <th>Project ID</th>
@@ -109,7 +109,7 @@
                                         {% endfor %}
                                     </table>
                                 </div>
-                                <div class="card-footer">
+                                <div class="footer">
                                     <ul class="list-unstyled">
                                         <li class="active">
                                             <button type="button" class="btn btn-primary btn-round btn-md" data-toggle="modal" data-target="#createProposal">
@@ -129,10 +129,10 @@
 
                             <!--Work Break Down Structure-->
                             <div class="card">
-                                <div class="card-header" data-background-color="orange">
+                                <div class="card-header bg-default">
                                     <ul class="nav nav-tabs nav-tabs-neutral">
                                         <li class="nav-item">
-                                          <button type="button" class="btn btn-primary btn-round btn-md" data-toggle="modal" data-target="#wbs">
+                                          <button type="button" class="btn btn-round nav-link active" data-toggle="modal" data-target="#wbs">
                                               <i class="fa fa-pencil-square-o"></i>&nbsp; Work Break Down Structure
                                               <div class="ripple-container"></div>
                                           </button>
@@ -142,9 +142,9 @@
 
 
                                 <!--Display Work Break Down Structure-->
-                                <div class="card-body">
+                                <div class="card-body table-fixed">
                                     {% if currentUser %}
-                                        <table class="table table-hover table-md table-striped table-responsive">
+                                        <table class="table table-fixed">
                                             <thead class="text-warning">
                                                 <th>Must ID</th>
                                                 <th>WBS Description</th>
@@ -183,8 +183,7 @@
 
 
                             <div class="card">
-
-                                <div class="card-header" data-background-color="orange">
+                                <div class="card-header bg-default">
                                     <ul class="nav nav-tabs nav-tabs-neutral">
                                         <li class="nav-item">
                                             <a class="nav-link active" data-toggle="tab" role="tab">
@@ -246,7 +245,6 @@
             {% if gc.id %}
             <!-- Project Requirements Tab -->
             <div class="row">
-
                 <div class="col-md-12 animsition" data-animsition-in-class="fade-in-down-sm" data-animsition-in-duration="800">
                     <p class="category">Project Requirements</p>
                     <div class="card">
@@ -460,13 +458,14 @@
                         <label class="col-lg-12 control-label">Work Breakdown Description</label>
                         <div class="form-group">
                           <input id="mustDesc" name="mustDesc" type="text" class="form-control"  required>
+
                         </div>
                     </div>
-
+                    <input type="text" class="form-control datetimepicker" value="10/05/2016">
                     <div class="col-lg-12">
                         <label class="col-lg-12 control-label">Status</label>
                         <div class="form-group">
-                          <select name="status" id="status" class="form-control" required>
+                          <select name="status" id="status" class=" selectpicker" data-style="btn btn-primary btn-round"  required>
                                 <option disabled selected> Status</option>
                                 <option value = "Not Started" > Not Started </option>
                                 <option value = "On-going" > On-going </option>
