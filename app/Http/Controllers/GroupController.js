@@ -7,7 +7,7 @@ const Endorse = use('App/Model/Endorse')
 const Projects = use('App/Model/Projects')
 const Requirements = use('App/Model/Requirement')
 
-class GroupController {
+class GroupController { 
 
 
 	* show(request, response){

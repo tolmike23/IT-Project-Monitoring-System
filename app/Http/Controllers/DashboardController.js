@@ -43,7 +43,7 @@ class DashboardController {
 			upload.groupId = Database.select('groupId').from('groups').where('email', user.email)
       yield upload.save()
 
-			return response.redirect('/dashboard')
+			return response.redirect('/dashboard') 
 	}
 
 	//Fruitjam Download file
