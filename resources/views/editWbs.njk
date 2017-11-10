@@ -1,62 +1,97 @@
 {% extends 'master' %}
 
-
 {% block content %}
+<div class="login-page sidebar-collapse animsition">
+    <div class="page-header" filter-color="orange">
+        <div class="container">
+            <div class="content-center">
+              <div class="card">
+                    <div class="card-header" data-background-color="orange">
+                        <h5 class="card-title">Edit Work Break Down Structure</h5>
+                    </div>
+                    <div class="card-body">
+                        <form class="form-horizontal" role="form" method="POST" action="/updateWbs">
 
-	<div class="container-fluid">
-		<div class="row">&nbsp;</div>
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
-				<div class="panel panel-success">
-					<div class="panel-heading">Edit WBS</div>
+                            {{ csrfField }}
 
-					<div class="panel-body">
-						<form class="form-horizontal" role="form" method="POST" action="/updateWbs">
+                            {% for w in works %}
+																<input type="text" name="workId" id ="workId" value="{{w.workId}}" style='display:none'>
+                                <div class="form-group">
+                                    <label for="groupname" class="text-muted">WBS Description</label>
+                                    <div class="col-md-12">
+                                        <input id="descWbs" name="descWbs" type="text" class="form-control"  value="{{w.description}}" required>
+                                    </div>
+                                </div>
+																<div class="form-group">
+                                    <label for="groupname" class="text-muted">Status:</label>
+                                    <div class="col-md-12">
+																			<select name="status" id="status" class="form-control" required>
+																						<option disabled selected> {{w.status}}</option>
+																						{%if w.status == 'Not Started' %}
+																						<option value = "On-going" > On-going </option>
+																						<option value = "Finished" > Finished </option>
+																						{% endif %}
+																						{%if w.status == 'Finished' %}
+																						<option value = "Not Started" > Not Started </option>
+																						<option value = "On-going" > On-going </option>
+																					  {% endif %}
+																						{%if w.status == 'On-going' %}
+																						<option value = "Not Started" > Not Started </option>
+																						<option value = "Finished" > Finished </option>
+																					  {% endif %}
+																			</select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastname" class="col-md-10 text-muted">Start Date</label>
+                                    <div class="col-md-12">
+                                        <input id="startDate" type="date" class="form-control" name="startDate" value="{{w.startdate}}" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastname" class="col-md-10 text-muted">End Date</label>
+                                    <div class="col-md-12">
+                                        <input id="endDate" type="date" class="form-control" name="endDate" value="{{w.enddate}}" required>
+                                    </div>
+                                </div>
+                            {% endfor%}
 
-							{{ csrfField }}
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary btn-round btn-md">
+                                        <i class="fa fa-btn fa-sign-in">&nbsp;</i> Save
+                                    </button>
+                                    <a href="/dashboard" class="btn btn-primary btn-round btn-md">
+                                        <i class="fa fa-btn fa-sign-out">&nbsp;</i> Cancel
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="container">
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="#">
+                                Disclaimer
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="copyright">
+                    &copy;
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script>, Designed by
+                    <a href="#" target="_blank">Jaboy</a>.
+                </div>
+            </div>
+        </footer>
 
-            {% for w in works %}
-
-
-              <input type="text" name="workId" id ="workId" value="{{w.workId}}" style='display:none'>
-
-
-							<div class="form-group">
-								<label for="groupname" class="col-md-4 control-label">WBS Description</label>
-								<div class="col-md-6">
-									<input id="descWbs" name="descWbs" type="text" class="form-control"  value="{{w.description}}" required>
-								</div>
-							</div>
-
-
-
-							<div class="form-group">
-								<label for="lastname" class="col-md-4 control-label">Start Date</label>
-								<div class="col-md-6">
-									<input id="startDate" type="date" class="form-control" name="startDate" value="{{w.startdate}}" required>
-								</div>
-							</div>
-
-              <div class="form-group">
-								<label for="lastname" class="col-md-4 control-label">End Date</label>
-								<div class="col-md-6">
-									<input id="endDate" type="date" class="form-control" name="endDate" value="{{w.enddate}}" required>
-								</div>
-							</div>
-
-            {% endfor%}
-							<div class="form-group">
-								<div class="col-md-6 col-md-offset-4">
-									<button type="submit" class="btn btn-primary">
-										<i class="fa fa-btn fa-sign-in">&nbsp;</i> Save  changes
-									</button>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
+    </div>
+</div>
 {% endblock %}

@@ -10,6 +10,7 @@ class WorkbreakdownsTableSchema extends Schema {
       table.integer('must_id').notNullable()
       table.string('description').notNullable()
       table.string('email').notNullable()
+      table.string('status').notNullable()
       table.string('startdate').notNullable()
       table.string('enddate').notNullable()
       table.timestamps()
