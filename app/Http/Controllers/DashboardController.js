@@ -20,7 +20,7 @@ class DashboardController {
       const upload = new Upload()
       //User uploaded document
       const file = request.file('file', {
-        maxSize: '1mb',
+        maxSize: '3mb',
         allowedExtensions: ['png', 'jpg', 'docx', 'pdf', 'xlsx']
       })
 
@@ -43,7 +43,7 @@ class DashboardController {
 			upload.groupId = Database.select('groupId').from('groups').where('email', user.email)
       yield upload.save()
 
-			return response.redirect('/dashboard') 
+			return response.redirect('/dashboard')
 	}
 
 	//Fruitjam Download file
@@ -51,9 +51,7 @@ class DashboardController {
 		try {
 			const media = request.param(0)
 			console.log("Media: "+ media)
-			// yield response.header('Content-type', 'multipart/form-data')
-			yield response.download('/dashboard', Helpers.storagePath(media))
-			// return response.redirect('/dashboard')
+			yield response.attachment(Helpers.storagePath(media))
 		} catch (e) {
 			yield response.sendView('dashboard', {
 					downloadMessage: e.message
@@ -89,13 +87,10 @@ class DashboardController {
 		const status = request.input('status')
 		const start = request.input('startDate')
 		const end = request.input('endDate')
-		console.log("Update Value: "+ desc + " " + status + " " + start + " " + end + " " + workId)
-		console.log("Update Value: "+ workId)
 		const affectedRows = yield Database.select('*').from('workbreakdowns')
 												.where('workId', request.input('workId')).update({ description: desc, status: status, startdate: start, enddate: end})
 		yield response.redirect('/dashboard')
 	}
-
 
 	* showGroup (request, response) {
 		const user = yield request.auth.getUser()
@@ -173,25 +168,25 @@ class DashboardController {
 		yield response.sendView('adviserDashboard', {projects:projects.toJSON(), user:false})
 	}
 
-    * submitProposal (request, response){
-      const endorse = new Endorse()
-      const user = yield request.auth.getUser()
-      const groupId = request.input('groupId')
-      endorse.studentId = groupId
-      endorse.endorseBy = user.email
-      endorse.description = request.input('description')
-      endorse.endorseType = request.input('endorseType')
-      endorse.endorseTo = request.input('endorseTo')
-      endorse.notes = request.input('notes')
-      yield endorse.save()
+  * submitProposal (request, response){
+    const endorse = new Endorse()
+    const user = yield request.auth.getUser()
+    const groupId = request.input('groupId')
+    endorse.studentId = groupId
+    endorse.endorseBy = user.email
+    endorse.description = request.input('description')
+    endorse.endorseType = request.input('endorseType')
+    endorse.endorseTo = request.input('endorseTo')
+    endorse.notes = request.input('notes')
+    yield endorse.save()
 
-      const endo = yield Endorse.query().where('studentId', groupId).fetch()
-      const group = yield Group.query().where('groupId', groupId).fetch()
-      const projects = yield Projects.query().where('groupId',groupId).fetch()
-      const groupControl = yield GroupControl.query().where('groupId', groupId).fetch()
+    const endo = yield Endorse.query().where('studentId', groupId).fetch()
+    const group = yield Group.query().where('groupId', groupId).fetch()
+    const projects = yield Projects.query().where('groupId',groupId).fetch()
+    const groupControl = yield GroupControl.query().where('groupId', groupId).fetch()
 
-      yield response.sendView('dashboard', {endorse:endo.toJSON(), group:group.toJSON(), projects:projects.toJSON(), groupControl:groupControl.toJSON(), user:true})
-    }
+    yield response.sendView('dashboard', {endorse:endo.toJSON(), group:group.toJSON(), projects:projects.toJSON(), groupControl:groupControl.toJSON(), user:true})
+  }
 
 }
 
