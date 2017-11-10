@@ -11,7 +11,7 @@ const Helpers = use('Helpers')
 const Workbreakdown = use('App/Model/Workbreakdown')
 
 class DashboardController {
-	
+
     //Fruitjam Upload file
 	* store (request, response) {
 			//get user
@@ -138,7 +138,7 @@ class DashboardController {
       //Error looking for itpms.group_controls
       const groupControl = yield Database.select('*').from('groupControl').where('groupId', grpCtr[0].groupId)
       //Error looking for itpms.endroses
-      const endorse = yield Database.select('*').from('endorses').where('studentId', grpCtr[0].groupId)
+      const endorse = yield Database.select('*').from('endorse').where('studentId', grpCtr[0].groupId)
 
       const requirements = yield Database.select('*').from('requirements').where('projectId', grpCtr[0].groupId)
       // My Code Edit

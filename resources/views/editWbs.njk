@@ -25,7 +25,7 @@
 																<div class="form-group">
                                     <label for="groupname" class="text-muted">Status:</label>
                                     <div class="col-md-12">
-																			<select name="status" id="status" class="form-control" required>
+																			<select name="status" id="status" class="selectpicker " data-style="btn  btn-default btn-round" required>
 																						<option disabled selected> {{w.status}}</option>
 																						{%if w.status == 'Not Started' %}
 																						<option value = "On-going" > On-going </option>
@@ -45,13 +45,13 @@
                                 <div class="form-group">
                                     <label for="lastname" class="col-md-10 text-muted">Start Date</label>
                                     <div class="col-md-12">
-                                        <input id="startDate" type="date" class="form-control" name="startDate" value="{{w.startdate}}" required>
+                                        <input id="startDate" type="text" class="form-control datetimepicker" placeholder="Start Date" name="startDate" value="{{w.startdate}}" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="lastname" class="col-md-10 text-muted">End Date</label>
                                     <div class="col-md-12">
-                                        <input id="endDate" type="date" class="form-control" name="endDate" value="{{w.enddate}}" required>
+                                        <input id="endDate" type="text" class="form-control datetimepicker" placeholder="End Date" name="endDate" value="{{w.enddate}}" required>
                                     </div>
                                 </div>
                             {% endfor%}
