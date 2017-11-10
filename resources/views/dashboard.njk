@@ -22,36 +22,34 @@
                             {% endfor %}
                         {% else %}
                             <form method="GET" action="joinGroup">
-                                <ul class="nav nav-tabs" role="tablist">
+                                <ul class="nav nav-tabs" role="tablist">    
                                     <li class="nav-item">
-                                        <div class="input-group form-group-no-border input-md">
-                                            <span class="input-group-addon">
-                                                <i class="fa fa-group"></i>
-                                            </span>
-                                            <select id="groupControl" name="groupControl" class="selectpicker" data-style="btn btn-rimary btn-round" required>
+                                        <div class="form-group">
+                                            <select id="groupControl" name="groupControl" class="selectpicker" data-size="7" data-style="btn btn-primary btn-round btn-md" required>
+                                                <option disabled selected>Select schedule</option>
                                                 {% for gc in groupControl %}
                                                     <option value={{gc.groupId}}>{{gc.groupName}}&nbsp;/&nbsp;{{gc.clSched}}&nbsp;/&nbsp;{{gc.coordinator}}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
                                     </li>
-                                    <li class="nav-item">&nbsp;&nbsp;</li>
                                     <li class="nav-item">
-                                        <div class="input-group form-group-no-border input-md">
-                                            <span class="input-group-addon">
-                                                <i class="fa fa-key"></i>
-                                            </span>
+                                        <div class="form-group">&nbsp;&nbsp;</div>
+                                    </li>
+                                    <li class="nav-item">
+                                        <div class="form-group form-group-no-border input-md">
                                             <input class="form-control" name="groupKey" id="groupKey" placeholder="Valid Group Key..." value="{{old('groupKey')}}" required/>
                                         </div>
                                         <div>{{grpKeyError}}</div>
                                     </li>
                                     <li class="nav-item">&nbsp;&nbsp;</li>
                                     <li class="nav-item">
-                                        <button type="submit" class="btn btn-primary btn-round btn-sm" data-toggle="modal">
-                                            Join group
-                                            <div class="ripple-container"></div>
-                                        </button>
-
+                                        <div class="form-group form-group-no-border input-md">
+                                            <button type="submit" class="btn btn-primary btn-round btn-md" data-toggle="modal">
+                                                Join group
+                                                <div class="ripple-container"></div>
+                                            </button>
+                                        </div>
                                     </li>
                                 </ul>
                             </form>
@@ -75,7 +73,7 @@
                                 </div>
                                 <div class="card-body">
                                     <table class="table table-hover">
-                                        <thead class="text-warning">
+                                        <thead class="text-warning strong">
                                             <th>Member ID</th>
                                             <th>Project ID</th>
                                             <th>Lastname</th>
