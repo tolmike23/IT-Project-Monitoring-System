@@ -136,11 +136,12 @@ class DashboardController {
       const group = yield Group.query().where('groupId', grpCtr[0].groupId).fetch()
 
       //Error looking for itpms.group_controls
-      const groupControl = yield Database.select('*').from('groupControl').where('groupId', grpCtr[0].groupId)
-      //Error looking for itpms.endroses
-      const endorse = yield Database.select('*').from('endorse').where('studentId', grpCtr[0].groupId)
+      const groupControl = yield GroupControl.query().where('groupId', grpCtr[0].groupId).fetch()
 
-      const requirements = yield Database.select('*').from('requirements').where('projectId', grpCtr[0].groupId)
+      //Error looking for itpms.endroses
+      const endorse = yield Endorse.query().where('studentId', grpCtr[0].groupId).fetch()
+
+      const requirements =  yield Requirements.query().where('projectId', grpCtr[0].groupId).fetch()
       // My Code Edit
 			// get Upload table field
 			const uploads = yield Database.select('*').from('uploads').where('groupId', grpCtr[0].groupId)
@@ -149,13 +150,15 @@ class DashboardController {
 			const works = yield Database.select('*').from('workbreakdowns').where('email', user.email).orderBy('must_id', 'asc')
 
       //Error groupControl.toJSON() & endorse.toJson()
-      yield response.sendView('dashboard', {group:group.toJSON(), projects:prj.toJSON(), groupControl, requirements,  works, uploads, endorse, user:true})
+      yield response.sendView('dashboard', {group:group.toJSON(), projects:prj.toJSON(), groupControl:groupControl.toJSON(), endorse:endorse.toJSON(),requirements:requirements.toJSON(),  works, uploads, user:true})
 
-			} else {
-            const groupControl = yield Database.select("*").from("GroupControl")
-            console.log('groupControl '+groupControl)
-            yield response.sendView('dashboard', {groupControl:groupControl, group:{}, projects:{}, endorse:{}, requirements:{}, user:false})
-            }
+			}
+			else
+			{
+		    const groupControl = yield GroupControl.query().fetch()
+		    console.log('groupControl '+groupControl)
+				yield response.sendView('dashboard', {groupControl:groupControl.toJSON(),user:false})
+      }
 		}
 		catch (e) {
 			console.log('Exception thrown from DashboardController: '+e.stack)
