@@ -7,22 +7,22 @@
             <div class="content-center">
               <div class="card">
                     <div class="card-header" data-background-color="orange">
-                        <h5 class="card-title">Edit member</h5>     
+                        <h5 class="card-title">Edit member</h5>
                     </div>
                     <div class="card-body">
                         <form class="form-horizontal" role="form" method="POST" action="/updateMember">
 
-                            {{ csrfField }}                       
+                            {{ csrfField }}
 
-                            {% for member in group %}                            
+                            {% for member in group %}
 
                                 <div class="form-group">
-                                    <label for="groupname" class="text-muted">First name</label>                                    
+                                    <label for="groupname" class="text-muted">First name</label>
                                     <div class="col-md-12">
                                         <input id="firstname" type="text" class="form-control" name="firstname" value="{{member.firstname}}" required>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group"> 
                                     <label for="lastname" class="col-md-10 text-muted">Last name</label>
                                     <div class="col-md-12">
                                         <input id="lastname" type="text" class="form-control" name="lastname" value="{{member.lastname}}" required>
@@ -34,7 +34,7 @@
                                         <select id="status" name="status" class="form-control show-menu-arrow show-tick" data-width="fit" required>
                                             <option value="active">Active</option>
                                             <option value="inactive">Inactive</option>
-                                            <option value="removed">Removed</option>			
+                                            <option value="removed">Removed</option>
                                         </select>
                                     </div>
                                 </div>
@@ -48,7 +48,7 @@
                                     </button>
                                     <a href="/dashboard" class="btn btn-primary btn-round btn-md">
                                         <i class="fa fa-btn fa-sign-out">&nbsp;</i> Cancel
-                                    </a>                                    
+                                    </a>
                                 </div>
                             </div>
                         </form>
@@ -72,11 +72,11 @@
                     <script>
                         document.write(new Date().getFullYear())
                     </script>, Designed by
-                    <a href="#" target="_blank">Jaboy</a>. 
+                    <a href="#" target="_blank">Jaboy</a>.
                 </div>
             </div>
         </footer>
-        
+
     </div>
 </div>
 {% endblock %}
