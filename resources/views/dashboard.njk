@@ -26,7 +26,7 @@
                                     <li class="nav-item">
                                         <div class="form-group">
                                             <select id="groupControl" name="groupControl" class="selectpicker" data-size="10" data-style="btn btn-info btn-round btn-md" required>
-                                                <option disabled selected>Select schedule &nbsp;</option>
+                                                <option disabled selected><strong>Select schedule</strong> &nbsp;</option>
                                                 {% for gc in groupControl %}
                                                     <option value={{gc.groupId}}>{{gc.groupName}}&nbsp;/&nbsp;{{gc.clSched}}&nbsp;/&nbsp;Coordinator: {{gc.coordinator}} &nbsp;</option>
                                                 {% endfor %}
@@ -44,7 +44,7 @@
                                     <li class="nav-item">
                                         <div class="form-group form-group-no-border input-md">
                                             <button type="submit" class="btn btn-success btn-round btn-md" data-toggle="modal">
-                                                Join group
+                                                <strong>Join group</strong>
                                                 <div class="ripple-container"></div>
                                             </button>
                                         </div>
@@ -60,7 +60,7 @@
                         {% if user %}
                             <p class="category">Group Dashboard</p>
                             <div class="card">
-                                <div class="card-header bg-default">
+                                <div class="card-header bg-primary">
                                     <ul class="nav nav-tabs nav-tabs-neutral">
                                         <li class="nav-item">
                                             <a class="nav-link active" data-toggle="tab" role="tab">
@@ -70,13 +70,13 @@
                                     </ul>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-hover">
-                                        <thead class="text-warning strong">
-                                            <th>Member ID</th>
-                                            <th>Project ID</th>
-                                            <th>Lastname</th>
-                                            <th>Firstname</th>
-                                            <th>Status</th>
+                                    <table class="table table-hover table-responsive">
+                                        <thead class="text-primary">
+                                            <th><strong>Member ID</strong></th>
+                                            <th><strong>Project ID</strong></th>
+                                            <th><strong>Lastname</strong></th>
+                                            <th><strong>Firstname</strong></th>
+                                            <th><strong>Status</strong></th>
                                             <th>&nbsp;</th>
                                         </thead>
                                         {% for member in group %}
@@ -123,63 +123,9 @@
                                 </div>
                             </div>
 
-                            <!--Work Break Down Structure-->
+                            <!-- Project Proposal -->
                             <div class="card">
-                                <div class="card-header bg-default">
-                                    <ul class="nav nav-tabs nav-tabs-neutral">
-                                        <li class="nav-item">
-                                          <button type="button" class="btn btn-round nav-link active" data-toggle="modal" data-target="#wbs">
-                                              <i class="fa fa-pencil-square-o"></i>&nbsp; Work Break Down Structure
-                                              <div class="ripple-container"></div>
-                                          </button>
-                                        </li>
-                                    </ul>
-                                </div>
-
-
-                                <!--Display Work Break Down Structure-->
-                                <div class="card-body table-fixed">
-                                    {% if currentUser %}
-                                        <table class="table">
-                                            <thead class="text-warning">
-                                                <th>Must ID</th>
-                                                <th>WBS Description</th>
-                                                <th>Email</th>
-                                                <th>Status</th>
-                                                <th>Start Date</th>
-                                                <th>End Date</th>
-                                                <th>&nbsp;</th>
-                                            </thead>
-                                            <tbody>
-                                                {% for w in works %}
-                                                    <tr class="text-black">
-                                                        <td>{{w.must_id}}</td>
-                                                        <td>{{w.description}}</td>
-                                                        <td>{{w.email}}</td>
-                                                        <td>{{w.status}}</td>
-                                                        <td>{{w.startdate}}</td>
-                                                        <td>{{w.enddate}}</td>
-                                                        <td>
-                                                            <form method="GET" action="/editWork">
-                                                                <input name="workId" id ="workId" value="{{w.workId}}" style='display:none'>
-                                                                <button type="submit" class="btn btn-xs btn-white btn-round" data-toggle="editWbs" data-placement="right" title="Edit"
-                                                                        data-container="body" data-animation="true" data-delay="100">
-                                                                    <i class="fa fa-pencil-square-o"></i>
-                                                                    <div class="ripple-container"></div>
-                                                                </button>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    {% endif %}
-                                </div>
-                            </div>
-
-
-                            <div class="card">
-                                <div class="card-header bg-default">
+                                <div class="card-header bg-primary">
                                     <ul class="nav nav-tabs nav-tabs-neutral">
                                         <li class="nav-item">
                                             <a class="nav-link active" data-toggle="tab" role="tab">
@@ -191,14 +137,14 @@
                                 <div class="card-body">
 
                                     <table class="table table-hover table-md table-responsive">
-                                        <thead class="text-warning">
-                                            <th>Proposal Idea</th>
-                                            <th>Endorse type</th>
-                                            <th>Endorse by</th>
-                                            <th>Endorse to</th>
-                                            <th>Created</th>
-                                            <th>Approved?</th>
-                                            <th>Remarks</th>
+                                        <thead class="text-primary">
+                                            <th><strong>Proposal Idea</strong></th>
+                                            <th><strong>Endorse type</strong></th>
+                                            <th><strong>Endorse by</strong></th>
+                                            <th><strong>Endorse to</strong></th>
+                                            <th><strong>Created</strong></th>
+                                            <th><strong>Approved?</strong></th>
+                                            <th><strong>Remarks</strong></th>
                                             <th>&nbsp;</th>
                                         </thead>
                                         {% for e in endorse %}
@@ -232,6 +178,60 @@
 
                                 </div>
 
+                            </div>
+                    
+                            <!--Work Break Down Structure-->
+                            <div class="card">
+                                <div class="card-header bg-primary">
+                                    <ul class="nav nav-tabs nav-tabs-neutral">
+                                        <li class="nav-item">
+                                          <button type="button" class="btn btn-round nav-link active" data-toggle="modal" data-target="#wbs">
+                                              <i class="fa fa-pencil-square-o"></i>&nbsp; Work Break Down Structure
+                                              <div class="ripple-container"></div>
+                                          </button>
+                                        </li>
+                                    </ul>
+                                </div>
+
+
+                                <!--Display Work Break Down Structure-->
+                                <div class="card-body table-fixed">
+                                    {% if currentUser %}
+                                        <table class="table table-responsive">
+                                            <thead class="text-primary">
+                                                <th><strong>Must ID</strong></th>
+                                                <th><strong>WBS Description</strong></th>
+                                                <th><strong>Email</strong></th>
+                                                <th><strong>Status</strong></th>
+                                                <th><strong>Start Date</strong></th>
+                                                <th><strong>End Date</strong></th>
+                                                <th>&nbsp;</th>
+                                            </thead>
+                                            <tbody>
+                                                {% for w in works %}
+                                                    <tr class="text-black">
+                                                        <td>{{w.must_id}}</td>
+                                                        <td>{{w.description}}</td>
+                                                        <td>{{w.email}}</td>
+                                                        <td>{{w.status}}</td>
+                                                        <td>{{w.startdate}}</td>
+                                                        <td>{{w.enddate}}</td>
+                                                        <td>
+                                                            <form method="GET" action="/editWork">
+                                                                <input name="workId" id ="workId" value="{{w.workId}}" style='display:none'>
+                                                                <button type="submit" class="btn btn-xs btn-white btn-round" data-toggle="editWbs" data-placement="right" title="Edit"
+                                                                        data-container="body" data-animation="true" data-delay="100">
+                                                                    <i class="fa fa-pencil-square-o"></i>
+                                                                    <div class="ripple-container"></div>
+                                                                </button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    {% endif %}
+                                </div>
                             </div>
                         {% endif %}
                     {% endif %}
