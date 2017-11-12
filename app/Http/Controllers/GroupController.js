@@ -22,26 +22,29 @@ class GroupController {
         const groupId = request.input('groupControl')
 
 				//Error looking for group_Controls table
-        const grpExist = yield GroupControl.query().where('groupKey', groupKey).fetch()
+        const grpExist = yield Database.from('group_controls').whereRaw('groupId = ?',groupId, 'AND groupKey = ?', groupKey) 
+        //const grpExist = yield GroupControl.query().where('groupKey', groupKey).fetch()
 			  // const grpExist = yield Database.select('*').from('groupcontrol').where('groupKey', groupKey)
         const grpLen = JSON.stringify(grpExist)
         const grp = JSON.parse(grpLen)
-
+        console.log('grp '+grp.length)
         if (grp.length <= 0){
-            yield response.sendView('dashboard', {user:false, grpKeyError: 'Invalid group key'})
-            response.redirect('back')
-        }
-
-				const grpMember = new Group()
+            console.log('invalid group key')
+            const groupControl = yield Database.select('*').from('group_controls')
+            yield response.sendView('dashboard', {groupControl, grpKeyError: 'Invalid group key', user:false})
+            //response.redirect('back')
+        } else {
+              console.log('valid group info entered')
+              const grpMember = new Group()
 				//grpMember.groupname = user.username
 			  grpMember.groupId = groupId
 			  grpMember.email = user.email
 			  grpMember.firstname = user.firstname
-				grpMember.lastname = user.lastname
+              grpMember.lastname = user.lastname
 			  grpMember.middlename = user.middlename
 			  grpMember.status = "active"
 				//grpMember.projectid = request.input('project')
-				yield grpMember.save()
+              yield grpMember.save()
 
 				/* Group data */
 				const group = yield Group.query().where('groupId', request.input('groupControl')).fetch()
@@ -59,7 +62,8 @@ class GroupController {
 				//yield projectId.save()
 
 				//Error endorse is already return toJSON.
-			  yield response.sendView('dashboard', {group:group.toJSON(), endorse:endorse.toJSON(), user:true})
+			  yield response.sendView('dashboard', {group:group.toJSON(), endorse:endorse.toJSON(), user:false})
+        }
 	}
 
     * edit (request, response){

@@ -25,27 +25,25 @@
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item">
                                         <div class="form-group">
-                                            <select id="groupControl" name="groupControl" class="selectpicker" data-size="7" data-style="btn btn-primary btn-round btn-md" required>
-                                                <option disabled selected>Select schedule</option>
+                                            <select id="groupControl" name="groupControl" class="selectpicker" data-size="10" data-style="btn btn-info btn-round btn-md" required>
+                                                <option disabled selected>Select schedule &nbsp;</option>
                                                 {% for gc in groupControl %}
-                                                    <option value={{gc.groupId}}>{{gc.groupName}}&nbsp;/&nbsp;{{gc.clSched}}&nbsp;/&nbsp;{{gc.coordinator}}</option>
+                                                    <option value={{gc.groupId}}>{{gc.groupName}}&nbsp;/&nbsp;{{gc.clSched}}&nbsp;/&nbsp;Coordinator: {{gc.coordinator}} &nbsp;</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
                                     </li>
+                                    <li class="nav-item">&nbsp;&nbsp;</li>
                                     <li class="nav-item">
-                                        <div class="form-group">&nbsp;&nbsp;</div>
-                                    </li>
-                                    <li class="nav-item">
-                                        <div class="form-group form-group-no-border input-md">
+                                        <div class="form-group" style="padding-top:10px;">
                                             <input class="form-control" name="groupKey" id="groupKey" placeholder="Valid Group Key..." value="{{old('groupKey')}}" required/>
                                         </div>
-                                        <div>{{grpKeyError}}</div>
+                                        <div class="form-group">&nbsp;&nbsp;&nbsp;&nbsp;{{grpKeyError}}</div>
                                     </li>
                                     <li class="nav-item">&nbsp;&nbsp;</li>
                                     <li class="nav-item">
                                         <div class="form-group form-group-no-border input-md">
-                                            <button type="submit" class="btn btn-primary btn-round btn-md" data-toggle="modal">
+                                            <button type="submit" class="btn btn-success btn-round btn-md" data-toggle="modal">
                                                 Join group
                                                 <div class="ripple-container"></div>
                                             </button>

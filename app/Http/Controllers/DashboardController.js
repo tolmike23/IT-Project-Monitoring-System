@@ -94,73 +94,73 @@ class DashboardController {
 	}
 
 	* showGroup (request, response) {
-		const user = yield request.auth.getUser()
+        const user = yield request.auth.getUser()
 		try {
 
 			console.log('Current User : '+user.email)
-      var prj = null
-      const projects = yield Projects.query().where('groupId', user.email).fetch()
+            var prj = null
+            const projects = yield Projects.query().where('groupId', user.email).fetch()
 
-      //console.log('projects '+Object.keys(JSON.stringify(projects)).length)
-      const prjGrp = Object.keys(JSON.stringify(projects)).length
-      if (prjGrp > 2) {  // no project available
-          prj = projects
-          //console.log('prj1 '+JSON.stringify(prj))
-      }else {
-          prj = yield Projects.query().where('groupId', "").fetch()
-          //console.log('prj2 '+JSON.stringify(prj))
-      }
-			const group = yield Group.query().where('email', user.email).fetch()
-			const grpStr = JSON.stringify(group)
-			const grpCtr = JSON.parse(grpStr)
-      var members = []
-      for (var i=0; i<grpCtr.length; i++){
-          var tempItem = grpCtr[i]
-          members.push({
-              "row" : i,
-              "id": tempItem.id,
-              "groupName": tempItem.groupName,
-              "email": tempItem.email,
-              "firstname": tempItem.firstname,
-              "lastname": tempItem.lastname,
-              "status": tempItem.status,
-              "projectId": tempItem.projectId,
-              "created_at": tempItem.created_at,
-              "updated_at": tempItem.updated_at
-          })
-      }
+            //console.log('projects '+Object.keys(JSON.stringify(projects)).length)
+            const prjGrp = Object.keys(JSON.stringify(projects)).length
+            if (prjGrp > 2) {  // no project available
+                prj = projects
+                //console.log('prj1 '+JSON.stringify(prj))
+            }else {
+                prj = yield Projects.query().where('groupId', "").fetch()
+                //console.log('prj2 '+JSON.stringify(prj))
+            }
+            const group = yield Group.query().where('email', user.email).fetch()
+            const grpStr = JSON.stringify(group)
+            const grpCtr = JSON.parse(grpStr)
+            var members = []
+            for (var i=0; i<grpCtr.length; i++){
+                var tempItem = grpCtr[i]
+                members.push({
+                  "row" : i,
+                  "id": tempItem.id,
+                  "groupName": tempItem.groupName,
+                  "email": tempItem.email,
+                  "firstname": tempItem.firstname,
+                  "lastname": tempItem.lastname,
+                  "status": tempItem.status,
+                  "projectId": tempItem.projectId,
+                  "created_at": tempItem.created_at,
+                  "updated_at": tempItem.updated_at
+                })
+            }
 
-      members = JSON.parse(JSON.stringify(members))
-			if (grpCtr.length > 0){
-      console.log('Group ID : '+grpCtr[0].groupId)
-      const group = yield Group.query().where('groupId', grpCtr[0].groupId).fetch()
+            members = JSON.parse(JSON.stringify(members))
+            if (grpCtr.length > 0){
+                  console.log('Group ID : '+grpCtr[0].groupId)
+                  const group = yield Group.query().where('groupId', grpCtr[0].groupId).fetch()
 
-      //Error looking for itpms.group_controls
-      const groupControl = yield GroupControl.query().where('groupId', grpCtr[0].groupId).fetch()
+                  //Error looking for itpms.group_controls
+                  //const groupControl = yield GroupControl.query().where('groupId', grpCtr[0].groupId).fetch()
+                  const groupControl = yield GroupControl.query().where('groupId', grpCtr[0].groupId)
 
-      //Error looking for itpms.endroses
-      const endorse = yield Endorse.query().where('studentId', grpCtr[0].groupId).fetch()
+                  //Error looking for itpms.endroses
+                  const endorse = yield Endorse.query().where('studentId', grpCtr[0].groupId).fetch()
 
-      const requirements =  yield Requirements.query().where('projectId', grpCtr[0].groupId).fetch()
-      // My Code Edit
-			// get Upload table field
-			const uploads = yield Database.select('*').from('uploads').where('groupId', grpCtr[0].groupId)
+                  const requirements =  yield Requirements.query().where('projectId', grpCtr[0].groupId).fetch()
+                  // My Code Edit
+                  // get Upload table field
+                  const uploads = yield Database.select('*').from('uploads').where('groupId', grpCtr[0].groupId)
 
-			//get Workbreakdowns table field
-			const works = yield Database.select('*').from('workbreakdowns').where('email', user.email).orderBy('must_id', 'asc')
+                  //get Workbreakdowns table field
+                  const works = yield Database.select('*').from('workbreakdowns').where('email', user.email).orderBy('must_id', 'asc')
 
-      //Error groupControl.toJSON() & endorse.toJson()
-      yield response.sendView('dashboard', {group:group.toJSON(), projects:prj.toJSON(), groupControl:groupControl.toJSON(), endorse:endorse.toJSON(),requirements:requirements.toJSON(),  works, uploads, user:true})
+                  //Error groupControl.toJSON() & endorse.toJson()
+                  yield response.sendView('dashboard', {group:group.toJSON(), projects:prj.toJSON(), groupControl, endorse:endorse.toJSON(),requirements:requirements.toJSON(),  works, uploads, user:true})
 
-			}
-			else
-			{
-		    const groupControl = yield GroupControl.query().fetch()
-		    console.log('groupControl '+groupControl)
-				yield response.sendView('dashboard', {groupControl:groupControl.toJSON(),user:false})
-      }
-		}
-		catch (e) {
+            }
+         else
+         {
+                const groupControl = yield GroupControl.query().fetch()
+                console.log('groupControl '+groupControl)
+                yield response.sendView('dashboard', {groupControl:groupControl.toJSON(),user:false})
+          }
+    } catch (e) {
 			console.log('Exception thrown from DashboardController: '+e.stack)
 		}
 	}
