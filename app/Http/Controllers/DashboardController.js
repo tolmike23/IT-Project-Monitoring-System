@@ -142,6 +142,7 @@ class DashboardController {
 		}
 
 		members = JSON.parse(JSON.stringify(members))
+		console.log("members data: "+ members)
 		if (grpCtr.length > 0){
 
 		const group = yield Group.query().where('groupId', grpCtr[0].groupId).fetch()
@@ -162,19 +163,48 @@ class DashboardController {
 		const notifyGroup = yield Database.select('*').from('notifications').where({category: 'Group', status:'unread'}).count('* as counter')
 		const jsonNotify = JSON.stringify(notifyGroup)
 		const notifyCounter = JSON.parse(jsonNotify)
+
 		//count notification data for All
 		const notifyAll = yield Database.select('*').from('notifications').where({category: 'All', status:'unread'}).count('* as counter')
 		const jsonNotifyAll = JSON.stringify(notifyAll)
 		const notifyCounterAll = JSON.parse(jsonNotifyAll)
-		//Total Counter
-		const notifyGroupNotifyCounter = notifyCounter[0].counter + notifyCounterAll[0].counter
+
+		// workbreakdowns end date
+		const jsonDate = JSON.stringify(works)
+		const endDate = JSON.parse(jsonDate)
+		var counter = 0 // How many due within 7 days
+		var jsonObjWbs = []
+		for(var i=0; i<endDate.length; i++){
+			var end =  endDate[i].enddate // end date data from wbs
+			var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+			var firstDate = new Date()//Today date
+			var secondDate = new Date(end)//enddates
+			var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay))) // Date Difference
+			console.log("End Dates diff from Today Date: "+diffDays)
+			//Check wbs end date if its due within 7 days
+			if(diffDays <= 7){
+				 counter++
+				 console.log("Counter: "+counter)
+				 var tempData = endDate[i]
+				 jsonObjWbs.push({
+					 	"description" : tempData.description,
+						"id" : tempData.workId
+				 })
+			}
+		}
+
+		//Print the Necessary Values for WBS date comparison
+		jsonObjWbs = JSON.parse(JSON.stringify(jsonObjWbs))
+
+		//Notification Total Counter
+		const notifyGroupNotifyCounter = notifyCounter[0].counter + notifyCounterAll[0].counter + counter
+
 		//Fetch notification data for All & Group
 		const fetchNotify = yield Database.select('*').from('notifications').whereNot({category: 'Faculty', status:'read'})
-		const jsonFetch = JSON.stringify(fetchNotify)
 
 		yield response.sendView('dashboard', {group:group.toJSON(), projects:projects.toJSON(),
 				groupControl, endorse:endorse.toJSON(), requirements:requirements.toJSON(),
-				notifyGroupNotifyCounter,fetchNotify,works, uploads, user:true})
+				notifyGroupNotifyCounter,fetchNotify,counter,jsonObjWbs,works, uploads, user:true})
 		}
 		else
 		{
