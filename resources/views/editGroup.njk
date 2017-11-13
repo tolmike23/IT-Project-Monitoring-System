@@ -6,9 +6,15 @@
         <div class="container">
             <div class="content-center">
               <div class="card">
-                    <div class="card-header" data-background-color="orange">
-                        <h5 class="card-title">Edit member</h5>
-                    </div>
+                    <div class="card-header bg-primary">
+                            <ul class="nav nav-tabs nav-tabs-neutral">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" role="tab">
+                                        Edit member
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     <div class="card-body">
                         <form class="form-horizontal" role="form" method="POST" action="/updateMember">
 
@@ -31,7 +37,7 @@
                                 <div class="form-group">
                                     <label for="lastname" class="col-md-10 text-muted">Status</label>
                                     <div class="col-md-12">
-                                        <select id="status" name="status" class="form-control show-menu-arrow show-tick" data-width="fit" required>
+                                        <select id="status" name="status" class="selectpicker" data-style="btn btn-primary btn-round btn-md" data-width="fit" required>
                                             <option value="active">Active</option>
                                             <option value="inactive">Inactive</option>
                                             <option value="removed">Removed</option>
