@@ -68,4 +68,6 @@ Route.post('/addWork', 'DashboardController.mustHave')
 Route.get('/editWork', 'DashboardController.sendEditWbs')
 //Edit Work Break Down Structure post
 Route.post('/updateWbs', 'DashboardController.updateWbs')
+//Notifications Read
+Route.get('read/*', 'DashboardController.read')
 //------------------Jd End--------------------------------

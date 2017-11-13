@@ -41,17 +41,27 @@
                   <!-- Right Side Of Navbar -->
                       <ul class="nav navbar-nav">
                           <li class="nav-item  dropdown">
-                              <!--Start-->
+                              <!--Start Notifications-->
+                                  {%if notifyGroupNotifyCounter <= 0 %}
+                                  <a href="#" class="nav-link nav-pills nav-pills-primary alert" data-toggle="tooltip" data-placement="right"
+                                    title="No Notifications" aria-expanded="true">
+                                    <i class="now-ui-icons ui-1_bell-53"></i>
+                                  </a>
+                                  {%endif%}
+                                  {%if notifyGroupNotifyCounter > 0 %}
                                   <a href="#" class="nav-link nav-pills nav-pills-primary alert" data-toggle="dropdown" id="navbarDropdownMenuLink2" aria-expanded="true">
                                     <i class="now-ui-icons ui-1_bell-53"></i>
                                     <span>{{notifyGroupNotifyCounter}}</span>
                                   </a>
-                                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                                    {% for nC in fetchNotify %}
-                                    <a class="dropdown-item btn-primary btn-round" href="#">{{nC.category}}</a>
-                                    {% endfor %}
+                                  {%endif%}
+                                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2" data-toggle="popover">
+                                   {% for nC in fetchNotify %}
+                                   <a class="dropdown-item" href="read/{{nC.id}}" data-toggle="tooltip" data-placement="right"
+                                   title="{{nC.comment}}" id="read" name="read">{{nC.category}}</a>
+                                   <div class="dropdown-divider"></div>
+                                   {% endfor %}
                                   </div>
-                              <!--End-->
+                              <!--End Notifications-->
                           </li>
                           <li class="nav-item active dropdown">
                               <a class="nav-link nav-pills nav-pills-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="logoutDdLink" >{{ currentUser.email }}</a>
@@ -61,10 +71,11 @@
                           </li>
                       </ul>
                   {% endif %}
-              </div>
-        </div>
-    </nav>
+            </div>
+        </nav>
     <!-- End Navbar -->
+
+    </div>
 {% block content %}
 {% endblock %}
 </body>

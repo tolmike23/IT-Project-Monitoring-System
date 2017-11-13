@@ -10,6 +10,7 @@ const Upload = use('App/Model/Upload')
 const Helpers = use('Helpers')
 const Workbreakdown = use('App/Model/Workbreakdown')
 const Notification = use('App/Model/Notification')
+
 class DashboardController {
 
 	//Fruitjam Upload file
@@ -62,7 +63,7 @@ class DashboardController {
 
 	}
 
-	// //Fruitjam Work Break Down Structure Added
+	//Fruitjam Work Break Down Structure Added
 	* mustHave (request, response) {
 		const user = yield request.auth.getUser()
 		const wbsIn = new Workbreakdown()
@@ -76,13 +77,13 @@ class DashboardController {
 		return response.redirect('/dashboard')
 	}
 
-	// //Fruitjam Work Break Down Structure Edit Form
+	//Fruitjam Work Break Down Structure Edit Form
 	* sendEditWbs (request, response) {
 		const works = yield Database.select('*').from('workbreakdowns').where('workId', request.input('workId'))
 		yield response.sendView('editWbs', {works})
 	}
 
-	// //Fruitjam Work Break Down Structure Update
+	//Fruitjam Work Break Down Structure Update
 	* updateWbs (request, response) {
 		const workId = request.input('workId')
 		const desc = request.input('descWbs')
@@ -92,6 +93,14 @@ class DashboardController {
 		const affectedRows = yield Database.select('*').from('workbreakdowns')
 		.where('workId', request.input('workId')).update({ description: desc, status: status, startdate: start, enddate: end})
 		yield response.redirect('/dashboard')
+	}
+	//Fruitjam notifications
+	* read (request, response, next ){
+		const notifyId = request.param(0)
+		const affectedRows = yield Notification.query().where('id', notifyId)
+					.update({status: 'read'})
+		console.log("Notify category: " +notifyId)
+		yield response.redirect('back')
 	}
 
 	* showGroup (request, response) {
@@ -163,8 +172,6 @@ class DashboardController {
 		//Fetch notification data for All & Group
 		const fetchNotify = yield Database.select('*').from('notifications').whereNot({category: 'Faculty', status:'read'})
 		const jsonFetch = JSON.stringify(fetchNotify)
-		console.log("Notifications: "+ fetchNotify)
-
 
 		yield response.sendView('dashboard', {group:group.toJSON(), projects:projects.toJSON(),
 				groupControl, endorse:endorse.toJSON(), requirements:requirements.toJSON(),
