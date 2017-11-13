@@ -97,8 +97,7 @@ class DashboardController {
 	//Fruitjam notifications
 	* read (request, response, next ){
 		const notifyId = request.param(0)
-		const affectedRows = yield Notification.query().where('id', notifyId)
-					.update({status: 'read'})
+		yield Notification.query().where('id', notifyId).update({status: 'read'})
 		console.log("Notify category: " +notifyId)
 		yield response.redirect('back')
 	}

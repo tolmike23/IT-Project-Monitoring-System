@@ -40,10 +40,10 @@
                   {% if  currentUser %}
                   <!-- Right Side Of Navbar -->
                       <ul class="nav navbar-nav">
-                          <li class="nav-item  dropdown">
+                          <li class="nav-item active dropdown">
                               <!--Start Notifications-->
                                   {%if notifyGroupNotifyCounter <= 0 %}
-                                  <a href="#" class="nav-link nav-pills nav-pills-primary alert" data-toggle="tooltip" data-placement="right"
+                                  <a href="#" class="nav-link" data-toggle="tooltip" data-placement="right"
                                     title="No Notifications" aria-expanded="true">
                                     <i class="now-ui-icons ui-1_bell-53"></i>
                                   </a>
@@ -51,7 +51,7 @@
                                   {%if notifyGroupNotifyCounter > 0 %}
                                   <a href="#" class="nav-link nav-pills nav-pills-primary alert" data-toggle="dropdown" id="navbarDropdownMenuLink2" aria-expanded="true">
                                     <i class="now-ui-icons ui-1_bell-53"></i>
-                                    <span>{{notifyGroupNotifyCounter}}</span>
+                                    <span><p class="btn-round btn-danger btn-sm">{{notifyGroupNotifyCounter}}</p></span>
                                   </a>
                                   {%endif%}
                                   <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2" data-toggle="popover">
@@ -109,41 +109,38 @@
 		}).each(function(i) {
 			$(this).animsition('in');
 		});
-});
-</script>
-<script type="text/javascript">
-    $(function () {
-      //Date Picker And Time Picker
-      if($(".datetimepicker").length != 0){
-        $('.datetimepicker').datetimepicker({
-            icons: {
-                time: "now-ui-icons tech_watch-time",
-                date: "now-ui-icons ui-1_calendar-60",
-                up: "fa fa-chevron-up",
-                down: "fa fa-chevron-down",
-                previous: 'now-ui-icons arrows-1_minimal-left',
-                next: 'now-ui-icons arrows-1_minimal-right',
-                today: 'fa fa-screenshot',
-                clear: 'fa fa-trash',
-                close: 'fa fa-remove'
-            }
-        });
 
-        $('.datepicker').datetimepicker({
-            format: 'MM/DD/YYYY',
-            icons: {
-                time: "now-ui-icons tech_watch-time",
-                date: "now-ui-icons ui-1_calendar-60",
-                up: "fa fa-chevron-up",
-                down: "fa fa-chevron-down",
-                previous: 'now-ui-icons arrows-1_minimal-left',
-                next: 'now-ui-icons arrows-1_minimal-right',
-                today: 'fa fa-screenshot',
-                clear: 'fa fa-trash',
-                close: 'fa fa-remove'
-           }
-        });
-      };
-    });
+    //Date Picker And Time Picker
+    if($(".datetimepicker").length != 0){
+      $('.datetimepicker').datetimepicker({
+          icons: {
+              time: "now-ui-icons tech_watch-time",
+              date: "now-ui-icons ui-1_calendar-60",
+              up: "fa fa-chevron-up",
+              down: "fa fa-chevron-down",
+              previous: 'now-ui-icons arrows-1_minimal-left',
+              next: 'now-ui-icons arrows-1_minimal-right',
+              today: 'fa fa-screenshot',
+              clear: 'fa fa-trash',
+              close: 'fa fa-remove'
+          }
+      });
+
+      $('.datepicker').datetimepicker({
+          format: 'MM/DD/YYYY',
+          icons: {
+              time: "now-ui-icons tech_watch-time",
+              date: "now-ui-icons ui-1_calendar-60",
+              up: "fa fa-chevron-up",
+              down: "fa fa-chevron-down",
+              previous: 'now-ui-icons arrows-1_minimal-left',
+              next: 'now-ui-icons arrows-1_minimal-right',
+              today: 'fa fa-screenshot',
+              clear: 'fa fa-trash',
+              close: 'fa fa-remove'
+         }
+      });
+    };
+});
 </script>
 </html>
