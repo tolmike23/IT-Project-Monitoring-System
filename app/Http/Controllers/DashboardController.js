@@ -182,7 +182,7 @@ class DashboardController {
 			var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay))) // Date Difference
 			console.log("End Dates diff from Today Date: "+diffDays)
 			//Check wbs end date if its due within 7 days
-			if(diffDays <= 7){
+			if(diffDays <= 1){
 				 counter++
 				 console.log("Counter: "+counter)
 				 var tempData = endDate[i]
@@ -197,7 +197,10 @@ class DashboardController {
 		jsonObjWbs = JSON.parse(JSON.stringify(jsonObjWbs))
 
 		//Notification Total Counter
-		const notifyGroupNotifyCounter = notifyCounter[0].counter + notifyCounterAll[0].counter + counter
+		const notifyGroupNotifyCounter = notifyCounter[0].counter + notifyCounterAll[0].counter
+
+		console.log("Notification Total Counter FOR Coordinator: "+notifyGroupNotifyCounter)
+		console.log("Notification Total Counter FOR Wbs: "+counter)
 
 		//Fetch notification data for All & Group
 		const fetchNotify = yield Database.select('*').from('notifications').whereNot({category: 'Faculty', status:'read'})
