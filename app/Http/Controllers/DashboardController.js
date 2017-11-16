@@ -31,14 +31,13 @@ class DashboardController {
 
 		//store document in storage/upload file path.
 		yield file.move('storage', fileName)
-		//yield file.move(Helpers.storagePath(), fileName)
+
 
 		//Check if the move was being interrupt
 		if(!file.moved()){
-		response.badRequest({error: file.errors()})
-		return
+			return response.redirect('back')
 		}
-		//Uplaod path store to Upload Table(groupId and filepath)
+		//Upload path store to Upload Table(groupId and filepath)
 		const filePath = file.uploadPath()
 		console.log(filePath)
 		upload.document = filePath
@@ -56,9 +55,7 @@ class DashboardController {
 			yield response.attachment(Helpers.storagePath(media))
 			}
 			catch (e) {
-				yield response.sendView('dashboard', {
-				downloadMessage: e.message
-				})
+				yield response.sendView('dashboard', {downloadMessage: e.message})
 		}
 
 	}
@@ -113,11 +110,9 @@ class DashboardController {
 
 		if (prjGrp > 2) {  // no project available
 			prj = projects
-			//console.log('prj1 '+JSON.stringify(prj))
 		}
 		else {
 			prj = yield Projects.query().where('groupId', "").fetch()
-			//console.log('prj2 '+JSON.stringify(prj))
 		}
 		const group = yield Group.query().where('email', user.email).fetch()
 		const grpStr = JSON.stringify(group)
