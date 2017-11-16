@@ -3,17 +3,20 @@
 const Advisers = use('App/Model/Advisers')
 const Projects = use('App/Model/Projects')
 const Panelist = use('App/Model/Panelist')
+const Requirements = use('App/Model/Requirement')
 
 class AdviserController {
-
-  * show (request, response) {
-    const advisers = yield Advisers.all()
-    const projects = yield Projects.all()
-    const panelist = yield Panelist.all()
-    //yield advisers.query().where('status','active').fetch()
-    yield response.sendView('advisers', {advisers:advisers.toJSON(), projects:projects.toJSON(), panelist:panelist.toJSON()})
-
-  }
+  /*Adviser Show
+    -Show Group Project Under This Adviser
+    -Show Group Requirements Under This Adviser
+  */
+  // * show (request, response) {
+  //   const user = yield request.auth.getUser()
+  //   const project = yield Projects.query().where('adviser', user.email).fetch()
+  //   const requirements = yield Requirements.query().where('projectId', project.id).fetch()
+  //   console.log("Requirements")
+  //   yield response.sendView('advisers', {project:project.toJSON(), requirements:requirements.toJSON()})
+  // }
 
   * call (request, response) {
     yield response.sendView('addAdviser')
