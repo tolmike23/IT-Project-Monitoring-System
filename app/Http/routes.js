@@ -34,20 +34,13 @@ Route.post('/advisers', 'AdviserController.add')
 Route.post('/addAdviser', 'AdviserController.call')
 //Group Page
 Route.get('/dashboard', 'DashboardController.showGroup')
-<<<<<<< HEAD
-Route.post('/submitProposal', 'DashboardController.submitProposal')
-=======
 Route.get('/adviserDashboard', 'DashboardController.showAdviser')
 
->>>>>>> 96a1f480f9c1839c4c0d6763a3d850e7d3cc192c
 Route.post('/dashboard', 'GroupController.add')
 Route.post('/addGroup', 'GroupController.add')
 Route.post('/updateMember', 'GroupController.post')
 Route.get('/editGroup', 'GroupController.edit')
 Route.get('/joinGroup', 'GroupController.join')
-<<<<<<< HEAD
-Route.post('/updateMember', 'GroupController.post')
-=======
 
 Route.post('/submitProposal', 'EndorseController.submitProposal')
 Route.get('/editEndorse', 'EndorseController.edit')
@@ -67,7 +60,6 @@ Route.get('errors.passwordNotMatch','RegisterController.doRegister')
 //------------------Jd Start------------------------------
 //Notification
 
->>>>>>> 96a1f480f9c1839c4c0d6763a3d850e7d3cc192c
 //File Upload
 Route.post('/file', 'DashboardController.store')
 //Display File
