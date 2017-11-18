@@ -64,6 +64,15 @@ class DashboardController {
 	* mustHave (request, response) {
 		const user = yield request.auth.getUser()
 		const wbsIn = new Workbreakdown()
+<<<<<<< HEAD
+    	wbsIn.must_id = request.input('mustId')
+    	wbsIn.description = request.input('mustDesc')
+		wbsIn.status = request.input('status')
+		wbsIn.startdate = request.input('startDate')
+		wbsIn.enddate = request.input('endDate')
+	  	wbsIn.email = user.email
+    	yield wbsIn.save()
+=======
 		wbsIn.must_id = request.input('mustId')
 		wbsIn.description = request.input('mustDesc')
 		wbsIn.status = request.input('status')
@@ -71,6 +80,7 @@ class DashboardController {
 		wbsIn.enddate = request.input('endDate')
 		wbsIn.email = user.email
 		yield wbsIn.save()
+>>>>>>> 8bea4e63fb228269ebb7d9837e62d1c9da3230d4
 		return response.redirect('/dashboard')
 	}
 
@@ -216,6 +226,19 @@ class DashboardController {
 		}
 	}
 
+<<<<<<< HEAD
+=======
+	* showAdviser (request, response){
+		const user = yield request.auth.getUser()
+		const projects = yield Projects.query().where('adviser', user.email).fetch()
+
+		yield response.sendView('adviserDashboard', {projects:projects.toJSON(), user:false})
+	}
+
+<<<<<<< HEAD
+    
+=======
+>>>>>>> 96a1f480f9c1839c4c0d6763a3d850e7d3cc192c
 	* submitProposal (request, response){
 		const endorse = new Endorse()
 		const user = yield request.auth.getUser()
@@ -235,6 +258,7 @@ class DashboardController {
 
 		yield response.sendView('dashboard', {endorse:endo.toJSON(), group:group.toJSON(), projects:projects.toJSON(), groupControl:groupControl.toJSON(), user:true})
 	}
+>>>>>>> 8bea4e63fb228269ebb7d9837e62d1c9da3230d4
 
 }
 
