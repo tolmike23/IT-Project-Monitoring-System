@@ -3,6 +3,7 @@
 const Advisers = use('App/Model/Advisers')
 const Projects = use('App/Model/Projects')
 const Panelist = use('App/Model/Panelist')
+const Requirements = use('App/Model/Requirement')
 
 class AdviserController {
 
@@ -12,7 +13,6 @@ class AdviserController {
          'Jon Snow'           : 'Kit Harington',
          'Arya Stark'         : 'Maisie Williams',
          'Melisandre'         : 'Carice van Houten',
-         'Khal Drogo'         : 'Jason Momoa',
          'Tyrion Lannister'   : 'Peter Dinklage',
          'Ramsay Bolton'      : 'Iwan Rheon',
          'Petyr Baelish'      : 'Aidan Gillen',

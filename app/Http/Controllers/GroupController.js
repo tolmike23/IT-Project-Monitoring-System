@@ -16,15 +16,16 @@ class GroupController {
 	}
 
 	* join (request, response){
-        const user = yield request.auth.getUser()
-        const groupKey = request.input('groupKey')
-        const groupId = request.input('groupControl')
+    const user = yield request.auth.getUser()
+    const groupKey = request.input('groupKey')
+    const groupId = request.input('groupControl')
 		console.log("ID pick: "+ groupId)
 		console.log("ID pick: "+ groupKey)
-        const grpExist = yield GroupControl.query().where({groupKey: groupKey, groupId:groupId}).fetch()
-        const grpLen = JSON.stringify(grpExist)
-        const grp = JSON.parse(grpLen)
+    const grpExist = yield GroupControl.query().where({groupKey: groupKey, groupId:groupId}).fetch()
+    const grpLen = JSON.stringify(grpExist)
+    const grp = JSON.parse(grpLen)
 
+<<<<<<< HEAD
         if (grp.length <= 0){
             const groupControl = yield GroupControl.query().fetch()
             yield response.sendView('dashboard', {user:false, grpKeyError: 'Invalid group key', groupControl:groupControl.toJSON()})
@@ -40,6 +41,21 @@ class GroupController {
             grpMember.middlename = user.middlename
             grpMember.status = "active"
             yield grpMember.save()
+=======
+    if (grp.length <= 0){
+			const groupControl = yield GroupControl.query().fetch()
+      yield response.sendView('dashboard', {user:false, grpKeyError: 'Invalid group key', groupControl:groupControl.toJSON()})
+    }
+		else{
+		const grpMember = new Group()
+	  grpMember.groupId = groupId
+	  grpMember.email = user.email
+	  grpMember.firstname = user.firstname
+		grpMember.lastname = user.lastname
+	  grpMember.middlename = user.middlename
+	  grpMember.status = "active"
+		yield grpMember.save()
+>>>>>>> 8bea4e63fb228269ebb7d9837e62d1c9da3230d4
 
             /* Group data */
             const group = yield Group.query().where('groupId', request.input('groupControl')).fetch()

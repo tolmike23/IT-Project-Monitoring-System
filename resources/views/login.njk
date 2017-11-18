@@ -1,16 +1,16 @@
 {% extends 'master' %}
 
 {% block content %}
-<div class="login-page sidebar-collapse animsition">   
+<div class="login-page sidebar-collapse animsition">
 	 <div class="page-header" filter-color="orange">
         <div class="page-header-image" style="background-image:url(../assets/img/login.jpg)"></div>
         <div class="container">
             <div class="col-md-4 content-center">
                 <div class="card card-login card-plain">
                     <form class="form" method="post" action="/login">
-                        
+
                         {{ csrfField }}
-                        
+
                         <div class="header header-primary text-center">
                             <div class="logo-container">
                                 <img src="../assets/img/now-logo.png" alt="">
@@ -19,12 +19,12 @@
                         <div class="content">
                             <div class="input-group form-group-no-border input-lg">
                                 <label class="radio-inline form-control">
-								    <input name="userType" id="group" value="S" type="radio" checked>&nbsp; Student	
+								    								<input name="userType" id="group" value="S" type="radio" checked>&nbsp; Student	
                                 </label>
                                 <label class="radio-inline form-control">
                                     <input name="userType" id="adviser" value="F" type="radio">&nbsp; Faculty
                                 </label>
-                                
+
                             </div>
                             <div class="input-group form-group-no-border input-lg">
                                 <span class="input-group-addon">
@@ -38,7 +38,7 @@
                                 </span>
                                 <input type="password" placeholder="Password..." class="form-control" name="password" value="{{old('password')}}" required/>
                             </div>
-                           
+
                             <label class="text-danger">{{loginMessage}}</label>
 
                         </div>
@@ -75,7 +75,7 @@
                     <script>
                         document.write(new Date().getFullYear())
                     </script>, Designed by
-                    <a href="#" target="_blank">Jaboy</a>. 
+                    <a href="#" target="_blank">Jaboy</a>.
                 </div>
             </div>
         </footer>
