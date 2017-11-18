@@ -6,55 +6,39 @@ const Panelist = use('App/Model/Panelist')
 const Requirements = use('App/Model/Requirement')
 
 class AdviserController {
+  /*Adviser Show
+    -Show Group Project Under This Adviser
+    -Show Group Requirements Under This Adviser
+  */
+  // * show (request, response) {
+  //   const user = yield request.auth.getUser()
+  //   const project = yield Projects.query().where('adviser', user.email).fetch()
+  //   const requirements = yield Requirements.query().where('projectId', project.id).fetch()
+  //   console.log("Requirements")
+  //   yield response.sendView('advisers', {project:project.toJSON(), requirements:requirements.toJSON()})
+  // }
 
-    * list (request, response) {
-       const advisers = {
-         'Daenerys Targaryen' : 'Emilia Clarke',
-         'Jon Snow'           : 'Kit Harington',
-         'Arya Stark'         : 'Maisie Williams',
-         'Melisandre'         : 'Carice van Houten',
-         'Tyrion Lannister'   : 'Peter Dinklage',
-         'Ramsay Bolton'      : 'Iwan Rheon',
-         'Petyr Baelish'      : 'Aidan Gillen',
-         'Brienne of Tarth'   : 'Gwendoline Chri Adivser',
-         'Lord Varys'         : 'Conleth Hill'
-       }
+  * call (request, response) {
+    yield response.sendView('addAdviser')
+  }
 
-       yield response.sendView('advisers',  { advisers: advisers })
+  * add (request, response) {
+    const adviser = new Advisers()
+    adviser.email = request.input("email")
+    adviser.firstname = request.input("firstname")
+    adviser.lastname = request.input("lastname")
+    adviser.status = "active"
+    adviser.role = request.input("role")
+    yield adviser.save()
 
-    }
+    const advisers = yield Advisers.all()
+    yield response.sendView('advisers', {advisers:advisers.toJSON()} )
 
-    * show (request, response) {
-        const advisers = yield Advisers.all()
-        const projects = yield Projects.all()
-        const panelist = yield Panelist.all()
-        //yield advisers.query().where('status','active').fetch()
-		yield response.sendView('advisers', {advisers:advisers.toJSON(), projects:projects.toJSON(), panelist:panelist.toJSON()})
-        
-	}
+  }
 
-	* call (request, response) {
-		yield response.sendView('addAdviser')
-	}
+  * edit (request, response){
 
-	* add (request, response) {
-		const adviser = new Advisers()
-		adviser.email = request.input("email")
-		adviser.firstname = request.input("firstname")
-		adviser.lastname = request.input("lastname")
-        adviser.status = "active"
-		adviser.role = request.input("role")
-		yield adviser.save()
-
-        const advisers = yield Advisers.all()
-        yield response.sendView('advisers', {advisers:advisers.toJSON()} )
-
-	}
-
-
-    * edit (request, response){
-
-    }
+  }
 
 }
 
