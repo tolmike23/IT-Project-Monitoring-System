@@ -65,13 +65,13 @@ class DashboardController {
 	* mustHave (request, response) {
 		const user = yield request.auth.getUser()
 		const wbsIn = new Workbreakdown()
-    wbsIn.must_id = request.input('mustId')
-    wbsIn.description = request.input('mustDesc')
+    	wbsIn.must_id = request.input('mustId')
+    	wbsIn.description = request.input('mustDesc')
 		wbsIn.status = request.input('status')
 		wbsIn.startdate = request.input('startDate')
 		wbsIn.enddate = request.input('endDate')
-	  wbsIn.email = user.email
-    yield wbsIn.save()
+	  	wbsIn.email = user.email
+    	yield wbsIn.save()
 		return response.redirect('/dashboard')
 	}
 
@@ -172,25 +172,7 @@ class DashboardController {
 		yield response.sendView('adviserDashboard', {projects:projects.toJSON(), user:false})
 	}
 
-  * submitProposal (request, response){
-    const endorse = new Endorse()
-    const user = yield request.auth.getUser()
-    const groupId = request.input('groupId')
-    endorse.studentId = groupId
-    endorse.endorseBy = user.email
-    endorse.description = request.input('description')
-    endorse.endorseType = request.input('endorseType')
-    endorse.endorseTo = request.input('endorseTo')
-    endorse.notes = request.input('notes')
-    yield endorse.save()
-
-    const endo = yield Endorse.query().where('studentId', groupId).fetch()
-    const group = yield Group.query().where('groupId', groupId).fetch()
-    const projects = yield Projects.query().where('groupId',groupId).fetch()
-    const groupControl = yield GroupControl.query().where('groupId', groupId).fetch()
-
-    yield response.sendView('dashboard', {endorse:endo.toJSON(), group:group.toJSON(), projects:projects.toJSON(), groupControl:groupControl.toJSON(), user:true})
-  }
+    
 
 }
 
