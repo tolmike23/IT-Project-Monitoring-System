@@ -6,7 +6,8 @@ class EndorseTableSchema extends Schema {
 
   up () {
     this.create('endorses', (table) => {
-      table.increments('groupId')
+      table.increments()
+      table.integer('groupId')
       table.integer('studentId')
       table.string('description', 254)
       table.string('endorseType', 30)

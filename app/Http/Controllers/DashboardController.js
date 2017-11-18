@@ -185,6 +185,7 @@ class DashboardController {
 					 	"description" : tempData.description,
 						"id" : tempData.workId
 				 })
+
 			}
 		}
 
@@ -213,13 +214,6 @@ class DashboardController {
 		} catch (e) {
 			console.log('Exception thrown from DashboardController: '+e.stack)
 		}
-	}
-
-	* showAdviser (request, response){
-		const user = yield request.auth.getUser()
-		const projects = yield Projects.query().where('adviser', user.email).fetch()
-
-		yield response.sendView('adviserDashboard', {projects:projects.toJSON(), user:false})
 	}
 
 	* submitProposal (request, response){
