@@ -63,6 +63,7 @@ class AdviserController {
     const groupId = request.input('groupId')
     const endorseBy = request.input('endorseBy')
     const confirm = request.input('approved')
+    const desc = request.input('description')
     yield Endorse.query().where('id', proId).update({confirmed: confirm, confirmDate: dateConfirm})
     //Insert New Updated Proposal
     if(confirm == 0){
@@ -71,7 +72,8 @@ class AdviserController {
       const endorse = new Endorse()
       endorse.groupId = groupId
       endorse.studentId = studentId
-      endorse.description = "Endorse to Coordinator"
+      endorse.description = desc
+      endorse.endorseType = "Endorse to Coordinator"
       endorse.endorseBy = endorseBy
       const groupControl = yield Database.select('coordinator')
       .from('group_controls').where('groupId', groupId)
