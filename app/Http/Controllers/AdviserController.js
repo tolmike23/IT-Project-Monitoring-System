@@ -16,13 +16,13 @@ class AdviserController {
     const user = yield request.auth.getUser()
     //Proposal Null
     const proposals = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
-                                  .where({endorseTo: user.email, confirmed:null}).fetch()
+                                  .where({endorseTo: user.email, confirmed:null, endorseType: 'Proposal'}).fetch()
     //Proposal Disapproved
     const proposalsDis = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
-                                  .where({endorseTo: user.email, confirmed: 0}).fetch()
+                                  .where({endorseTo: user.email, confirmed: 0, endorseType: 'Proposal'}).fetch()
     //Proposal Approved
     const proposalsApp = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
-                                  .where({endorseTo: user.email, confirmed: 1}).fetch()
+                                  .where({endorseTo: user.email, confirmed: 1, endorseType: 'Proposal'}).fetch()
 
 
     //Project & Requirements
