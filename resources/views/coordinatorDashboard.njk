@@ -1,0 +1,124 @@
+{% extends 'master' %}
+
+{% block content %}
+	<div class="wrapper">
+		<div class="page-header clear-filter" filter-color="orange">
+		<div class="page-header-image" data-parallax="true"></div>
+			<div class="container">
+				<div class="row" style="padding-top:90px">
+					<div class="col-md-12 animsition" data-animsition-in-class="fade-in-down-sm" data-animsition-in-duration="500">
+						<div class="row">
+							<div class="col-lg-6 col-md-12">
+								<h4 class="category">Faculty Dashboard | Coordinator</h4>
+							</div>
+						</div>
+
+						<!--Adviser Projects Tables Start-->
+						<div class="card">
+							<div class="card-header bg-primary">
+								<ul class="nav nav-tabs nav-tabs-neutral">
+									<li class="nav-item">
+										<a class="nav-link active" data-toggle="tab" role="tab">
+										content_paste | Recent projects
+										</a>
+									</li>
+								</ul>
+							</div>
+						<div class="card-body">
+							<table class="table table-hover table-responsive">
+							{% if currentUser %}
+								<thead class="text-primary">
+									<th>&nbsp;</th>
+									<th><strong>ID</strong></th>
+									<th><strong>Project name</strong></th>
+									<th><strong>Group</strong></th>
+									<th><strong>Created</strong></th>
+									<th><strong>Status</strong></th>
+									<th><strong>Notes</strong></th>
+								</thead>
+								<tbody>
+									{% for project in projects %}
+									<tr class="text-black">
+										<td><a class="btn btn-white btn-round btn-just-icon"><i class="material-icons">account_circle</i></a></td>
+										<td>{{project.id}}</td>
+										<td>{{project.projectname}}</td>
+										<td>{{project.groupId}}</td>
+										<td>{{project.created_at}}</td>
+										<td>{{project.status}}</td>
+										<td>{{project.notes}}</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+								{% endif %}
+							</table>
+						</div>
+						{% if currentUser %}
+						<div class="footer">
+							<ul class="list-unstyled">
+								<li class="active">
+									<button type="button" class="btn btn-primary btn-round btn-md"  data-toggle="modal" data-target="#addGroup">
+										<i class="material-icons">wc</i>&nbsp; Add
+									</button>
+								</li>
+							</ul>
+						</div>
+						{%endif%}
+						</div>
+						<!--Adviser Projects Tables End-->
+
+						<!-- Project Requirements Tab Start-->
+						<div class="card">
+							<div class="card-header bg-primary">
+								<ul class="nav nav-tabs nav-tabs-neutral">
+									<li class="nav-item">
+										<a class="nav-link active" data-toggle="tab" role="tab">
+										content_paste | Project Requirements | List of milestones
+										</a>
+									</li>
+								</ul>
+							</div>
+						<div class="card-body">
+							<table class="table table-hover table-responsive">
+							{% if currentUser %}
+								<thead class="text-primary">
+									<th>&nbsp;</th>
+									<th><strong>Project #</strong></th>
+									<th><strong>Deadline</strong></th>
+									<th><strong>Must Have</strong></th>
+									<th><strong>Must Have</strong></th>
+									<th><strong>Progress (%)</strong></th>
+									<th>&nbsp;</th>
+								</thead>
+								<tbody>
+									{% for item in requirements %}
+									<tr>
+										<td>{{item.projectId}}</td>
+										<td>{{item.deadline}}</td>
+										<td>{{item.must_have}}</td>
+										<td>{{item.milestone}}</td>
+										<td><a href="/editRequirement">Edit</a>Edit</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+								{% endif %}
+							</table>
+						</div>
+						{% if currentUser %}
+						<div class="footer">
+							<ul class="list-unstyled">
+								<li class="active">
+									<button type="button" class="btn btn-primary btn-round btn-md"  data-toggle="modal" data-target="#addRequirements">
+										<i class="material-icons">list</i>&nbsp; Add
+									</button>
+								</li>
+							</ul>
+						</div>
+						{%endif%}
+						</div>
+						<!-- Project Requirements Tab End-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

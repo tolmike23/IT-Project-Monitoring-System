@@ -3,6 +3,7 @@
 const User = use('App/Model/User')
 const Hash = use('Hash')
 const Database = use('Database')
+const GroupControl = use('App/Model/GroupControl')
 
 class AuthController {
 
@@ -44,10 +45,14 @@ class AuthController {
                
             } else {
                 console.log('Faculty info '+logUser[0].length)
+                
                 if (logUser[0].length === 1){
                     const authCheckFlty = yield request.auth.attempt(email, password, userType)
                     if (authCheckFlty)
+                    {
+                        
                         return response.redirect('/adviserDashboard')
+                    }
                 }
                 else {
                     console.log('Non Faculty member')
