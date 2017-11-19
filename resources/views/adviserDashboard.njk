@@ -24,59 +24,101 @@
 									</li>
 								</ul>
 							</div>
-						<div class="card-body">
-							<table class="table table-hover table-responsive">
-							{% if currentUser %}
-								<thead class="text-primary">
-									<th><strong>Group Name</strong></th>
-									<th><strong>Description</strong></th>
-									<th><strong>Type</strong></th>
-									<th><strong>Notes</strong></th>
-									<th><strong>Created</strong></th>
-									<th><strong>Approved</strong></th>
-								</thead>
-								<tbody>
-									{% for p in proposals %}
-									<tr class="text-black">
-										<td>{{p.groupName}}</td>
-										<td>{{p.description}}</td>
-										<td>{{p.endorseType}}</td>
-										<td>{{p.notes}}</td>
-										<td>{{p.created_at}}</td>
-										<td>
-											<form method="GET" action="/confirm">
+							<div class="card-body">
+								<table class="table table-hover table-responsive">
+								{% if currentUser %}
+									<thead class="text-primary">
+										<th><strong>Group Name</strong></th>
+										<th><strong>Description</strong></th>
+										<th><strong>Type</strong></th>
+										<th><strong>Notes</strong></th>
+										<th><strong>Created</strong></th>
+										<th><strong>Approved</strong></th>
+									</thead>
+									<tbody>
+										<!--Null/Default-->
+										{% for p in proposals %}
+										<tr class="text-black">
+											<td>{{p.groupName}}</td>
+											<td>{{p.description}}</td>
+											<td>{{p.endorseType}}</td>
+											<td>{{p.notes}}</td>
+											<td>{{p.created_at}}</td>
+											<td>
+												<form method="GET" action="/confirm">
+													<input name="projectId" id="projectId" value="{{p.id}}" style='display:none'>
 
-												<label class="form-check-label">
-														<input class="form-check-input" type="radio" name="approved" id="approved" value="option1" checked="" required>
+													<label class="form-check-label">
+														<input class="form-check-input" type="radio" name="approved" id="approved" value=1>
 														<span class="form-check-sign"></span>
 														Approved
-												</label>
+													</label>
 
-												<label class="form-check-label">
-														<input class="form-check-input" type="radio" name="approved" id="disapproved" value="option2" required>
+													<label class="form-check-label">
+														<input class="form-check-input" type="radio" name="approved" id="disapproved" value=0 >
 														<span class="form-check-sign"></span>
 														Disapproved
-												</label>
+													</label>
+													<!--Separator-->
+													<label class="form-check-label">
+													</label>
+													<label class="form-check-label">
+													</label>
+													<!--Separator End-->
+													<button type="submit" class="btn btn-primary btn-icon  btn-icon-mini btn-round"  data-toggle="modal" data-target="#addGroup">
+														ok
+													</button>
+													{# {% endif %} #}
+												</form>
+										</td>
+										</tr>
+										{% endfor %}
+										<!--Approved-->
+										{% for p in proposalsApp %}
+										<tr class="text-black">
+											<td>{{p.groupName}}</td>
+											<td>{{p.description}}</td>
+											<td>{{p.endorseType}}</td>
+											<td>{{p.notes}}</td>
+											<td>{{p.created_at}}</td>
+											<td>
+												<form method="GET" action="/confirm">
+													<input name="projectId" id="projectId" value="{{p.id}}" style='display:none'>
 
-									</td>
-									</tr>
-									{% endfor %}
-								</tbody>
-								{% endif %}
-							</table>
-						</div>
-						{% if currentUser %}
-						<div class="footer">
-							<ul class="list-unstyled">
-								<li class="active">
-									<button type="submit" class="btn btn-primary btn-round btn-md"  data-toggle="modal" data-target="#addGroup">
-										Confirm
-									</button>
-									</form>
-								</li>
-							</ul>
-						</div>
-						{%endif%}
+													<label class="form-check-label">
+														<input class="form-check-input" type="checkbox" name="approved" id="approved" value=1 disabled="" checked="" >
+														<span class="form-check-sign"></span>
+														<span style="font-weight: bold; color:#00DB00">Approved</span>
+													</label>
+												</form>
+										</td>
+										</tr>
+										{% endfor %}
+										<!--Disapproved-->
+										{% for p in proposalsDis %}
+										<tr class="text-black">
+											<td>{{p.groupName}}</td>
+											<td>{{p.description}}</td>
+											<td>{{p.endorseType}}</td>
+											<td>{{p.notes}}</td>
+											<td>{{p.created_at}}</td>
+											<td>
+												<form method="GET" action="/confirm">
+													<input name="projectId" id="projectId" value="{{p.id}}" style='display:none'>
+
+													<label class="form-check-label">
+														<input class="form-check-input" type="checkbox" name="approved" id="approved" value=0 disabled="" checked="" >
+														<span class="form-check-sign"></span>
+														<span style="font-weight: bold; color:#FF0017">Disapproved</span>
+													</label>
+												</form>
+										</td>
+										</tr>
+										{% endfor %}
+									</tbody>
+									{% endif %}
+								</table>
+							</div>
 						</div>
 						<!--Adviser Proposal Tables End-->
 
@@ -102,7 +144,7 @@
 									<th><strong>Notes</strong></th>
 								</thead>
 								<tbody>
-									{% for project in projects %}
+									{% for project in projectParse %}
 									<tr class="text-black">
 										<td>{{project.groupName}}</td>
 										<td>{{project.projectname}}</td>
