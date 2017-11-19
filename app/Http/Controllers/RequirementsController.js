@@ -17,13 +17,13 @@ class RequirementsController {
 	req.projectId = request.input('project')
 	req.must_have = request.input('mustHave')
 	req.deadline = request.input('deadline')
-	req.notes = request.input('notes')	
+	req.notes = request.input('notes')
 	yield req.save()
-	
+
 	const projects = yield Projects.all()
-	const group = yield Group.query().where('email', user.email).fetch()	
+	const group = yield Group.query().where('email', user.email).fetch()
 	const requirements = yield Req.query().where('projectId', request.input('project')).fetch()
-	
+
 	yield response.sendView('dashboard', {group:group.toJSON(), requirements:requirements.toJSON(), projects:projects.toJSON()})
   }
 

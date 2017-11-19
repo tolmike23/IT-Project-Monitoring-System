@@ -72,12 +72,12 @@ class GroupController {
         status: request.input('status'),
         updated_at: Date.now()
     })
-    
+
     console.log('Updating member '+request.input('firstname'))
     const group = yield Group.query().where('groupId', request.input('groupId')).fetch()
     const endorse = yield Endorse.query().where('groupId', request.input('groupId')).fetch()
     const requirements = yield Requirements.query().where('projectId', request.input('projectId')).fetch()
-    
+
     yield response.sendView('dashboard', {group:group.toJSON(), endorse:endorse.toJSON(), requirements:requirements.toJSON(), user:true})
   }
 

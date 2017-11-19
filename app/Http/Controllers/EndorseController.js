@@ -6,8 +6,8 @@ const Projects = use('App/Model/Project')
 const Requirements = use('App/Model/Requirement')
 
 class EndorseController {
-    
-    
+
+
  * submitProposal (request, response){
         const endorse = new Endorse()
         const user = yield request.auth.getUser()
@@ -56,9 +56,9 @@ class EndorseController {
   		 })
     */
     yield response.redirect('/dashboard')
-  	
+
   }
-    
+
 }
 
 module.exports = EndorseController
