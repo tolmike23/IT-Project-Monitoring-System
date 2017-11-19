@@ -1,7 +1,7 @@
 'use strict'
-
+const Database = use('Database')
 const Advisers = use('App/Model/Advisers')
-const Projects = use('App/Model/Projects')
+const Projects = use('App/Model/Project')
 const Panelist = use('App/Model/Panelist')
 const Requirements = use('App/Model/Requirement')
 const Endorse = use('App/Model/Endorse')
@@ -14,12 +14,22 @@ class AdviserController {
   */
   * showAdviser (request, response){
     const user = yield request.auth.getUser()
-    //Proposal
-    const proposals = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId').fetch()
-    //Project & Requirements
-    const projects = yield Projects.query().innerJoin('group_controls', 'projects.groupId', 'group_controls.groupId').where('projects.adviser', user.email).fetch()
+    //Proposal Null
+    const proposals = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
+                                  .where({endorseTo: user.email, confirmed:null}).fetch()
+    //Proposal Disapproved
+    const proposalsDis = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
+                                  .where({endorseTo: user.email, confirmed: 0}).fetch()
+    //Proposal Approved
+    const proposalsApp = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
+                                  .where({endorseTo: user.email, confirmed: 1}).fetch()
 
-    const projectJson = JSON.stringify(projects)
+
+    //Project & Requirements
+    const projects = yield Database.schema.raw("select p.id,g.groupName,p.projectname,p.created_at,p.status,p.notes from projects as p inner join group_controls as g on p.groupId = g.groupId where p.adviser='"
+                      + user.email + "'")
+
+    const projectJson = JSON.stringify(projects[0])
     const projectParse = JSON.parse(projectJson)
     var projObjWbs = []
     for(var i=0; i<projectParse.length; i++){
@@ -39,13 +49,31 @@ class AdviserController {
       }
 		}
     projObjWbs = JSON.parse(JSON.stringify(projObjWbs))
-    console.log("Endorse Data: " + JSON.stringify(proposals))
-		yield response.sendView('adviserDashboard', {projects:projects.toJSON(), projObjWbs, proposals:proposals.toJSON(), user:false})
+		yield response.sendView('adviserDashboard', {projectParse, projObjWbs, proposals:proposals.toJSON(),
+          proposalsApp:proposalsApp.toJSON(), proposalsDis:proposalsDis.toJSON(),user:false})
 
 	}
 
-  * call (request, response) {
-    yield response.sendView('addAdviser')
+  * confirm (request, response) {
+    var todayDate = new Date()//Today date
+    const dateConfirm = todayDate
+    const proId = request.input('projectId')
+    const confirm = request.input('approved')
+    yield Endorse.query().where('id', proId).update({confirmed: confirm, confirmDate: dateConfirm})
+		return response.redirect('back')
+
+    //add new confirm record Approved
+    /*
+    -groupId
+    -id adviser
+    -description
+    -endorseType
+    -endorseByAdmin
+    -endorseToCoordinatorEmail
+    -confirmed 1
+    -confirmed Date
+    -notes
+    */
   }
 
   * add (request, response) {
