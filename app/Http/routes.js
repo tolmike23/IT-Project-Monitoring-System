@@ -22,6 +22,8 @@ Route.get('/', 'AuthController.index')
 //Login Page
 Route.get('/login', 'AuthController.index')
 Route.post('/login', 'AuthController.login')
+Route.get('/dashboardOptions','DashboardController.facultyOpt')
+Route.post('/viewAs','DashboardController.viewAs')
 //Register Page
 Route.get('/register', 'RegisterController.index')
 Route.post('/register', 'RegisterController.doRegister')
@@ -32,6 +34,8 @@ Route.get('/logout', 'AuthController.logout')
 Route.get('/adviserDashboard', 'AdviserController.showAdviser')
 Route.post('/advisers', 'AdviserController.add')
 Route.post('/addAdviser', 'AdviserController.call')
+//Coordinator View
+Route.get('/coordinatorDashboard','CoordinatorController.showCoordinator')
 //Group Page
 Route.get('/dashboard', 'DashboardController.showGroup')
 Route.get('/adviserDashboard', 'DashboardController.showAdviser')
@@ -44,7 +48,7 @@ Route.get('/joinGroup', 'GroupController.join')
 
 Route.post('/submitProposal', 'EndorseController.submitProposal')
 Route.get('/editEndorse', 'EndorseController.edit')
-Route.post('/updateProposal', 'EndorseController.updateProposal')
+Route.get('/updateProposal', 'EndorseController.updateProposal')
 
 Route.get('/projects', 'ProjectsController.show')
 Route.post('/addProject', 'ProjectsController.call')

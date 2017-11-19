@@ -159,8 +159,8 @@
                                                     <td>{{e.notes}}</td>
                                                     <td>
                                                         <form method="GET" action="/editEndorse">
-                                                            <input name="projectId" value="{{member.projectId}}" style='display:none'>
-                                                            <input name="id" value="{{member.id}}" style='display:none'>
+                                                            <input name="groupId" value="{{e.groupId}}" style='display:none'>
+                                                            <input name="id" value="{{e.id}}" style='display:none'>
                                                             <input name="lastname" value="{{member.lastname}}" style='display:none'>
                                                             <input name="firstname" value="{{member.firstname}}" style='display:none'>
                                                             <input name="status" value="{{member.status}}" style='display:none'>
@@ -333,8 +333,8 @@
                             <select class="selectpicker" id="endorseType" name="endorseType" data-style="btn btn-primary btn-round btn-md" required>
                                 <option disabled selected>Type</option>
                                 <option value='Submit Project Proposal'>Submit Project Proposal</option>
-                                <option value='Endorse to Coordinator'>Endorse to Coordinator</option>
-                                <option value='For Panel Meeting'>For Panel Meeting</option>
+                                <option disabled value='Endorse to Coordinator'>Endorse to Coordinator</option>
+                                <option disabled value='For Panel Meeting'>For Panel Meeting</option>
                             </select>
                         </div>
                     </div>

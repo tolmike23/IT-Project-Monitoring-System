@@ -30,19 +30,32 @@ class EndorseController {
     }
 
  * edit (request, response){
-    const endorse = yield Endorse.query().where('groupId', request.input('projectId')).fetch()
+    console.log('Editing proposal..ID :'+request.input('id')+' Group ID : '+request.input('groupId'))
+    const endorse = yield Endorse.query().where('id', request.input('id')).fetch()
 
     yield response.sendView('editEndorse', {proposal:endorse.toJSON()})
   }
 
 * updateProposal (request, response){
+    console.log('Updating proposal..ID : '+request.input('id')+' Group : '+request.input('groupId'))
+
+    const endorse = yield Endorse.query().where('id', request.input('id')).update({
+        description: request.input('description'),
+  		  endorseType: request.input('endorseType'),
+  		  notes: request.input('notes'),
+  		  updated_at: Date.now()
+    })
+
+    /*
   	const endorse = yield Endorse.findOrCreate(
-  		{ groupId: request.input('projectId')},
+  		{ id: request.input('id')},
   		{ description: request.input('description'),
   		  endorseType: request.input('endorseType'),
   		  notes: request.input('notes'),
   		  updated_at: Date.now()
   		 })
+    */
+    yield response.redirect('/dashboard')
   	
   }
     

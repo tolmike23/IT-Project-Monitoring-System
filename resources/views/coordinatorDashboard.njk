@@ -11,6 +11,14 @@
 							<div class="col-lg-6 col-md-12">
 								<h4 class="category">Faculty Dashboard | Coordinator</h4>
 							</div>
+                            <div class="col-lg-4 col-md-12">
+                                <select class="selectpicker" data-style="btn btn-warning btn-round btn-md">
+                                    <option disabled selected><strong>Switch View</strong> to </option>
+                                    <option value='/adviserDashboard'>Adviser</option>
+                                    <option value='/panelistDashboard'>Panelist</option>
+                                </select>
+
+                            </div>
 						</div>
 
 						<!--Adviser Projects Tables Start-->
@@ -19,7 +27,7 @@
 								<ul class="nav nav-tabs nav-tabs-neutral">
 									<li class="nav-item">
 										<a class="nav-link active" data-toggle="tab" role="tab">
-										content_paste | Recent projects
+										Recent endorsements from Adviser
 										</a>
 									</li>
 								</ul>
@@ -28,42 +36,29 @@
 							<table class="table table-hover table-responsive">
 							{% if currentUser %}
 								<thead class="text-primary">
-									<th>&nbsp;</th>
-									<th><strong>ID</strong></th>
-									<th><strong>Project name</strong></th>
 									<th><strong>Group</strong></th>
-									<th><strong>Created</strong></th>
+									<th><strong>Proposal</strong></th>
+									<th><strong>Endorsed By</strong></th>
+									<th><strong>Endorse Date</strong></th>
+                                    <th><strong>Remarks</strong></th>
 									<th><strong>Status</strong></th>
-									<th><strong>Notes</strong></th>
 								</thead>
 								<tbody>
-									{% for project in projects %}
+									{% for item in endorse %}
 									<tr class="text-black">
-										<td><a class="btn btn-white btn-round btn-just-icon"><i class="material-icons">account_circle</i></a></td>
-										<td>{{project.id}}</td>
-										<td>{{project.projectname}}</td>
-										<td>{{project.groupId}}</td>
-										<td>{{project.created_at}}</td>
-										<td>{{project.status}}</td>
-										<td>{{project.notes}}</td>
+										<td>{{item.groupId}}</td>
+										<td>{{item.description}}</td>
+										<td>{{item.endorseBy}}</td>
+										<td>{{item.created_at}}</td>
+										<td>{{item.notes}}</td>
+                                        <td>&nbsp;</td>
 									</tr>
 									{% endfor %}
 								</tbody>
 								{% endif %}
 							</table>
 						</div>
-						{% if currentUser %}
-						<div class="footer">
-							<ul class="list-unstyled">
-								<li class="active">
-									<button type="button" class="btn btn-primary btn-round btn-md"  data-toggle="modal" data-target="#addGroup">
-										<i class="material-icons">wc</i>&nbsp; Add
-									</button>
-								</li>
-							</ul>
-						</div>
-						{%endif%}
-						</div>
+
 						<!--Adviser Projects Tables End-->
 
 						<!-- Project Requirements Tab Start-->

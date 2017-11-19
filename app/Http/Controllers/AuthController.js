@@ -49,10 +49,9 @@ class AuthController {
                 if (logUser[0].length === 1){
                     const authCheckFlty = yield request.auth.attempt(email, password, userType)
                     if (authCheckFlty)
-                    {
-                        
-                        return response.redirect('/adviserDashboard')
-                    }
+                        //return response.redirect('/adviserDashboard')
+                        return response.redirect('/dashboardOptions')
+
                 }
                 else {
                     console.log('Non Faculty member')

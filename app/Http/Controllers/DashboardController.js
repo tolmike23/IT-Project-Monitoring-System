@@ -105,90 +105,93 @@ class DashboardController {
 		const user = yield request.auth.getUser()
 		try {
 
-		console.log('Current User : '+user.email)
-		var prj = null
-		const projects = yield Projects.query().where('groupId', user.email).fetch()
-		const prjGrp = Object.keys(JSON.stringify(projects)).length
+            console.log('Current User : '+user.email)
+            var prj = null
 
-		if (prjGrp > 2) {  // no project available
-			prj = projects
-		}
-		else {
-			prj = yield Projects.query().where('groupId', "").fetch()
-		}
-		const group = yield Group.query().where('email', user.email).fetch()
-		const grpStr = JSON.stringify(group)
-		const grpCtr = JSON.parse(grpStr)
+            const group = yield Group.query().where('email', user.email).fetch()
+            const grpStr = JSON.stringify(group)
+            const grpCtr = JSON.parse(grpStr)
 
-		console.log('Group ID : '+grpCtr[0].groupId)
-		var members = []
-		for (var i=0; i<grpCtr.length; i++){
-		var tempItem = grpCtr[i]
-		members.push({
-		"row" : i,
-		"id": tempItem.id,
-		"groupName": tempItem.groupName,
-		"email": tempItem.email,
-		"firstname": tempItem.firstname,
-		"lastname": tempItem.lastname,
-		"status": tempItem.status,
-		"projectId": tempItem.projectId,
-		"created_at": tempItem.created_at,
-		"updated_at": tempItem.updated_at
-		})
+            console.log('Group ID : '+grpCtr[0])
+
+            const projects = yield Projects.query().where('groupId', user.email).fetch()
+            const prjGrp = Object.keys(JSON.stringify(projects)).length
+
+            if (prjGrp > 2) {  // no project available
+                prj = projects
+            }
+            else {
+                prj = yield Projects.query().where('groupId', "").fetch()
+            }
+            var members = []
+            for (var i=0; i<grpCtr.length; i++){
+            var tempItem = grpCtr[i]
+            members.push({
+                "row" : i,
+                "id": tempItem.id,
+                "groupName": tempItem.groupName,
+                "email": tempItem.email,
+                "firstname": tempItem.firstname,
+                "lastname": tempItem.lastname,
+                "status": tempItem.status,
+                "projectId": tempItem.projectId,
+                "created_at": tempItem.created_at,
+                "updated_at": tempItem.updated_at
+            })
+
 		}
 
 		members = JSON.parse(JSON.stringify(members))
 		console.log("members data: "+ members)
 		if (grpCtr.length > 0){
 
-		const group = yield Group.query().where('groupId', grpCtr[0].groupId).fetch()
+            const group = yield Group.query().where('groupId', grpCtr[0].groupId).fetch()
 
-		const groupControl = yield GroupControl.query().where('groupId', grpCtr[0].groupId)
+            const groupControl = yield GroupControl.query().where('groupId', grpCtr[0].groupId)
 
-		const endorse = yield Endorse.query().where('studentId', grpCtr[0].groupId).fetch()
+            const endorse = yield Endorse.query().where('studentId', grpCtr[0].groupId).fetch()
 
-		const requirements =  yield Requirements.query().where('projectId', grpCtr[0].groupId).fetch()
+            const requirements =  yield Requirements.query().where('projectId', grpCtr[0].groupId).fetch()
 
-		// get Upload table data
-		const uploads = yield Database.select('*').from('uploads').where('groupId', grpCtr[0].groupId)
+            // get Upload table data
+            const uploads = yield Database.select('*').from('uploads').where('groupId', grpCtr[0].groupId)
 
-		//get Workbreakdowns data
-		const works = yield Database.select('*').from('workbreakdowns').where('email', user.email).orderBy('must_id', 'asc')
+            //get Workbreakdowns data
+            const works = yield Database.select('*').from('workbreakdowns').where('email', user.email).orderBy('must_id', 'asc')
 
-		//count notification data for group
-		const notifyGroup = yield Database.select('*').from('notifications').where({category: 'Group', status:'unread'}).count('* as counter')
-		const jsonNotify = JSON.stringify(notifyGroup)
-		const notifyCounter = JSON.parse(jsonNotify)
+            //count notification data for group
+            const notifyGroup = yield Database.select('*').from('notifications').where({category: 'Group', status:'unread'}).count('* as counter')
+            const jsonNotify = JSON.stringify(notifyGroup)
+            const notifyCounter = JSON.parse(jsonNotify)
 
-		//count notification data for All
-		const notifyAll = yield Database.select('*').from('notifications').where({category: 'All', status:'unread'}).count('* as counter')
-		const jsonNotifyAll = JSON.stringify(notifyAll)
-		const notifyCounterAll = JSON.parse(jsonNotifyAll)
+            //count notification data for All
+            const notifyAll = yield Database.select('*').from('notifications').where({category: 'All', status:'unread'}).count('* as counter')
+            const jsonNotifyAll = JSON.stringify(notifyAll)
+            const notifyCounterAll = JSON.parse(jsonNotifyAll)
 
-		// workbreakdowns end date
-		const jsonDate = JSON.stringify(works)
-		const endDate = JSON.parse(jsonDate)
-		var counter = 0 // How many due within 7 days
-		var jsonObjWbs = []
-		for(var i=0; i<endDate.length; i++){
-			var end =  endDate[i].enddate // end date data from wbs
-			var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
-			var firstDate = new Date()//Today date
-			var secondDate = new Date(end)//enddates
-			var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay))) // Date Difference
-			console.log("End Dates diff from Today Date: "+diffDays)
-			//Check wbs end date if its due within 7 days
-			if(diffDays <= 1){
-				 counter++
-				 console.log("Counter: "+counter)
-				 var tempData = endDate[i]
-				 jsonObjWbs.push({
-					 	"description" : tempData.description,
-						"id" : tempData.workId
-				 })
+            // workbreakdowns end date
+            const jsonDate = JSON.stringify(works)
+            const endDate = JSON.parse(jsonDate)
+            var counter = 0 // How many due within 7 days
+            var jsonObjWbs = []
+            for(var i=0; i<endDate.length; i++){
+                var end =  endDate[i].enddate // end date data from wbs
+                var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+                var firstDate = new Date()//Today date
+                var secondDate = new Date(end)//enddates
+                var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay))) // Date Difference
+                console.log("End Dates diff from Today Date: "+diffDays)
+                //Check wbs end date if its due within 7 days
+                if(diffDays <= 1){
+                     counter++
+                     console.log("Counter: "+counter)
+                     var tempData = endDate[i]
+                     jsonObjWbs.push({
+                            "description" : tempData.description,
+                            "id" : tempData.workId
+                     })
 
-			}
+                }
 		}
 
 		//Print the Necessary Values for WBS date comparison
@@ -217,6 +220,19 @@ class DashboardController {
 			console.log('Exception thrown from DashboardController: '+e.stack)
 		}
 	}
+
+
+    * facultyOpt (request, response){
+        yield response.sendView('dashboardOptions')
+
+    }
+
+    * viewAs (request, response){
+        const view = request.input('userType')
+        if (view === 'A') return response.redirect('adviserDashboard')
+        if (view === 'C') return response.redirect('coordinatorDashboard')
+        if (view === 'P') yield response.redirect('master')
+    }
 
 
 }
