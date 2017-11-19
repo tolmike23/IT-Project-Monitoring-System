@@ -4,7 +4,7 @@ const Database = use('Database')
 const Group = use('App/Model/Group')
 const GroupControl = use('App/Model/GroupControl')
 const Endorse = use('App/Model/Endorse')
-const Projects = use('App/Model/Projects')
+const Projects = use('App/Model/Project')
 const Requirements = use('App/Model/Requirement')
 
 class GroupController {
@@ -72,12 +72,12 @@ class GroupController {
         status: request.input('status'),
         updated_at: Date.now()
     })
-    
+
     console.log('Updating member '+request.input('firstname'))
     const group = yield Group.query().where('groupId', request.input('groupId')).fetch()
     const endorse = yield Endorse.query().where('groupId', request.input('groupId')).fetch()
     const requirements = yield Requirements.query().where('projectId', request.input('projectId')).fetch()
-    
+
     yield response.sendView('dashboard', {group:group.toJSON(), endorse:endorse.toJSON(), requirements:requirements.toJSON(), user:true})
   }
 

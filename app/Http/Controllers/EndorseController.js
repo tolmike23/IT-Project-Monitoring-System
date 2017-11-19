@@ -2,12 +2,12 @@
 const Endorse = use('App/Model/Endorse')
 const Group = use('App/Model/Group')
 const GroupControl = use('App/Model/GroupControl')
-const Projects = use('App/Model/Projects')
+const Projects = use('App/Model/Project')
 const Requirements = use('App/Model/Requirement')
 
 class EndorseController {
-    
-    
+
+
  * submitProposal (request, response){
         const endorse = new Endorse()
         const user = yield request.auth.getUser()
@@ -56,9 +56,9 @@ class EndorseController {
   		 })
     */
     yield response.redirect('/dashboard')
-  	
+
   }
-    
+
 }
 
 module.exports = EndorseController

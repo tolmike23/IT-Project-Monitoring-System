@@ -2,7 +2,7 @@
 
 const Panelist = use('App/Model/Panelist')
 const Advisers = use('App/Model/Advisers')
-const Projects = use('App/Model/Projects')
+const Projects = use('App/Model/Project')
 
 class PanelistController {
 

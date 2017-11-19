@@ -55,25 +55,36 @@ class AdviserController {
 	}
 
   * confirm (request, response) {
+    //Update Proposal
     var todayDate = new Date()//Today date
     const dateConfirm = todayDate
     const proId = request.input('projectId')
+    const studentId = request.input('studentId')
+    const groupId = request.input('groupId')
+    const endorseBy = request.input('endorseBy')
     const confirm = request.input('approved')
     yield Endorse.query().where('id', proId).update({confirmed: confirm, confirmDate: dateConfirm})
-		return response.redirect('back')
+    //Insert New Updated Proposal
+    if(confirm == 0){
+      return response.redirect('back')
+    }else{
+      const endorse = new Endorse()
+      endorse.groupId = groupId
+      endorse.studentId = studentId
+      endorse.description = "Endorse to Coordinator"
+      endorse.endorseBy = endorseBy
+      const groupControl = yield Database.select('coordinator')
+      .from('group_controls').where('groupId', groupId)
+      const gcJson = JSON.stringify(groupControl)
+      const gcParse = JSON.parse(gcJson)
+      endorse.endorseTo = gcParse[0].coordinator
+      endorse.confirmed = 1
+      endorse.confirmDate = dateConfirm
+      yield endorse.save()
 
-    //add new confirm record Approved
-    /*
-    -groupId
-    -id adviser
-    -description
-    -endorseType
-    -endorseByAdmin
-    -endorseToCoordinatorEmail
-    -confirmed 1
-    -confirmed Date
-    -notes
-    */
+      return response.redirect('back')
+    }
+
   }
 
   * add (request, response) {

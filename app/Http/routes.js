@@ -32,6 +32,7 @@ Route.get('errors.passwordNotMatch','RegisterController.doRegister')
 Route.get('/logout', 'AuthController.logout')
 //Adviser Page
 Route.get('/adviserDashboard', 'AdviserController.showAdviser')
+Route.get('/confirm', 'AdviserController.confirm')
 Route.post('/advisers', 'AdviserController.add')
 Route.post('/addAdviser', 'AdviserController.call')
 //Coordinator View
