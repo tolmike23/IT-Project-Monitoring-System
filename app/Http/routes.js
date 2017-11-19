@@ -17,23 +17,22 @@
 
 const Route = use('Route')
 
-// Route.on('/').render('welcome')
-// Route.get('/', 'ListController.show')
-
+//Home Page
 Route.get('/', 'AuthController.index')
-
+//Login Page
 Route.get('/login', 'AuthController.index')
 Route.post('/login', 'AuthController.login')
-
+//Register Page
 Route.get('/register', 'RegisterController.index')
 Route.post('/register', 'RegisterController.doRegister')
-
+Route.get('errors.passwordNotMatch','RegisterController.doRegister')
+//Logout
 Route.get('/logout', 'AuthController.logout')
-
-Route.get('/advisers', 'AdviserController.show')
+//Adviser Page
+Route.get('/adviserDashboard', 'AdviserController.showAdviser')
 Route.post('/advisers', 'AdviserController.add')
 Route.post('/addAdviser', 'AdviserController.call')
-
+//Group Page
 Route.get('/dashboard', 'DashboardController.showGroup')
 Route.get('/adviserDashboard', 'DashboardController.showAdviser')
 
@@ -73,4 +72,12 @@ Route.get('/editWork', 'DashboardController.sendEditWbs')
 Route.post('/updateWbs', 'DashboardController.updateWbs')
 //Notifications Read
 Route.get('read/*', 'DashboardController.read')
-//------------------Jd End--------------------------------
+
+//Project
+Route.get('/projects', 'ProjectsController.show')
+Route.post('/addProject', 'ProjectsController.call')
+Route.post('/Projects', 'ProjectsController.add')
+//Requirements
+Route.post('/addRequirements', 'RequirementsController.create')
+//Panelist
+Route.post('/addPanel','PanelistController.create')
