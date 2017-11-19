@@ -4,7 +4,7 @@ const Database = use('Database')
 const Group = use('App/Model/Group')
 const GroupControl = use('App/Model/GroupControl')
 const Endorse = use('App/Model/Endorse')
-const Projects = use('App/Model/Projects')
+const Projects = use('App/Model/Project')
 const Requirements = use('App/Model/Requirement')
 
 class GroupController {

@@ -2,7 +2,7 @@
 const Endorse = use('App/Model/Endorse')
 const Group = use('App/Model/Group')
 const GroupControl = use('App/Model/GroupControl')
-const Projects = use('App/Model/Projects')
+const Projects = use('App/Model/Project')
 const Requirements = use('App/Model/Requirement')
 
 class EndorseController {

@@ -32,10 +32,12 @@ Route.get('errors.passwordNotMatch','RegisterController.doRegister')
 Route.get('/logout', 'AuthController.logout')
 //Adviser Page
 Route.get('/adviserDashboard', 'AdviserController.showAdviser')
+Route.get('/confirm', 'AdviserController.confirm')
 Route.post('/advisers', 'AdviserController.add')
 Route.post('/addAdviser', 'AdviserController.call')
 //Coordinator View
 Route.get('/coordinatorDashboard','CoordinatorController.showCoordinator')
+
 //Group Page
 Route.get('/dashboard', 'DashboardController.showGroup')
 Route.get('/adviserDashboard', 'DashboardController.showAdviser')
@@ -76,7 +78,6 @@ Route.get('/editWork', 'DashboardController.sendEditWbs')
 Route.post('/updateWbs', 'DashboardController.updateWbs')
 //Notifications Read
 Route.get('read/*', 'DashboardController.read')
-
 //Project
 Route.get('/projects', 'ProjectsController.show')
 Route.post('/addProject', 'ProjectsController.call')

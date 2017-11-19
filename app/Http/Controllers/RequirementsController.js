@@ -3,7 +3,7 @@
 
 const Req = use('App/Model/Requirement')
 const Group = use('App/Model/Group')
-const Projects = use('App/Model/Projects')
+const Projects = use('App/Model/Project')
 class RequirementsController {
 
   * index(request, response) {
