@@ -1,14 +1,12 @@
 {% extends 'master' %}
 
 {% block content %}
-
 <div class="wrapper">
     <div class="page-header clear-filter" filter-color="orange">
         <div class="page-header-image" data-parallax="true"></div>
         <div class="container">
             <div class="row" style="padding-top:90px">
                 <div class="col-md-12 animsition" data-animsition-in-class="fade-in-down-sm" data-animsition-in-duration="500">
-
                     {% if currentUser %}
                         {% if user %}
                             {% for gc in groupControl %}
@@ -52,8 +50,6 @@
                                 </ul>
                             </form>
                         {% endif %}
-
-
                     {% endif %}
 
                     {% if currentUser %}

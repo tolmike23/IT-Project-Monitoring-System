@@ -40,44 +40,45 @@
                   {% if currentUser %}
                   <!-- Right Side Of Navbar -->
                       <ul class="nav navbar-nav">
+                        <!--Start Notifications Dashboard-->
                           <li class="nav-item active dropdown">
-                              <!--Start Notifications-->
+                            {% if (notifyGroupNotifyCounter <= 0 and counter <= 0) %}
+                              <a class="nav-link" data-toggle="tooltip" data-placement="right"
+                              title="No Notifications" aria-expanded="true">
+                              <i class="now-ui-icons ui-1_bell-53"></i>
+                              </a>
+                            {% endif %}
 
-                                  {% if notifyGroupNotifyCounter <= 0 and counter <= 0 %}
-                                      <a class="nav-link" data-toggle="tooltip" data-placement="right"
-                                        title="No Notifications" aria-expanded="true">
-                                        <i class="now-ui-icons ui-1_bell-53"></i>
-                                      </a>
-                                  {% endif %}
-                                  {% if (notifyGroupNotifyCounter < 1) and (counter > 0) %}
-                                      <a class="nav-link" data-toggle="tooltip" data-placement="right"
-                                        title="Just a reminder: {{counter}} WBS due within 7 days." aria-expanded="true">
-                                        <i class="now-ui-icons ui-1_bell-53"></i>
-                                        <span><p class="btn-round btn-danger btn-sm"><strong>{{counter}}</strong></p></span>
-                                      </a>
-                                  {% endif %}
-                                  {% if (notifyGroupNotifyCounter > 0) %}
-                                      <a href="#" class="nav-link nav-pills nav-pills-primary alert" data-toggle="dropdown" id="navbarDropdownMenuLink2" aria-expanded="true">
-                                        <i class="now-ui-icons ui-1_bell-53"></i>
-                                        <span><p class="btn-round btn-danger btn-sm"><strong>{{notifyGroupNotifyCounter + counter}}</strong></p></span>
-                                      </a>
-                                  {% endif %}
-                                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2" data-toggle="popover">
-                                        <!--Populate Unread Announcements-->
-                                       {% for nC in fetchNotify %}
-                                           <a class="dropdown-item" href="read/{{nC.id}}" data-toggle="tooltip" data-placement="right"
-                                           title="{{nC.comment}}" id="read" name="read">{{nC.category}}</a>
-                                           <div class="dropdown-divider"></div>
-                                       {% endfor %}
-                                       <!--Populate Unread Announcement FOR WBS-->
-                                       {% if (counter > 0) %}
-                                           <i class="dropdown-item" data-toggle="tooltip" data-placement="right"
-                                           title="Just a reminder: {{counter}} WBS due within 7 days." >WBS Announcement</i>
-                                       {% endif %}
-                                  </div>
+                            {% if (notifyGroupNotifyCounter < 1) and (counter > 0) %}
+                              <a class="nav-link" data-toggle="tooltip" data-placement="right"
+                              title="Just a reminder: {{counter}} WBS due within 7 days." aria-expanded="true">
+                              <i class="now-ui-icons ui-1_bell-53"></i>
+                              <span><p class="btn-round btn-danger btn-sm"><strong>{{counter}}</strong></p></span>
+                              </a>
+                            {% endif %}
 
-                              <!--End Notifications-->
+                            {% if (notifyGroupNotifyCounter > 0) %}
+                              <a href="#" class="nav-link nav-pills nav-pills-primary alert" data-toggle="dropdown" id="navbarDropdownMenuLink2" aria-expanded="true">
+                              <i class="now-ui-icons ui-1_bell-53"></i>
+                              <span><p class="btn-round btn-danger btn-sm"><strong>{{notifyGroupNotifyCounter + counter}}</strong></p></span>
+                              </a>
+                            {% endif %}
+
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2" data-toggle="popover">
+                            <!--Populate Unread Announcements-->
+                            {% for nC in fetchNotify %}
+                              <a class="dropdown-item" href="read/{{nC.id}}" data-toggle="tooltip" data-placement="right"
+                              title="{{nC.comment}}" id="read" name="read">{{nC.category}}</a>
+                              <div class="dropdown-divider"></div>
+                            {% endfor %}
+                            <!--Populate Unread Announcement FOR WBS-->
+                            {% if (counter > 0) %}
+                              <i class="dropdown-item" data-toggle="tooltip" data-placement="right"
+                              title="Just a reminder: {{counter}} WBS due within 7 days." >WBS Announcement</i>
+                            {% endif %}
+                            </div>
                           </li>
+                          <!--End Notifications Dashboard-->
                           <li class="nav-item active dropdown">
                               <a class="nav-link nav-pills nav-pills-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="logoutDdLink" >{{ currentUser.email }}</a>
                               <div class="dropdown-menu" aria-labelledby="logoutDdLink">
