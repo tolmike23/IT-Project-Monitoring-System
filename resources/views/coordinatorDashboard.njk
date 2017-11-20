@@ -20,7 +20,7 @@
                           <a class="dropdown-item" href="/adviserDashboard">Adviser page</a>
                           <a class="dropdown-item" href="#">Panelist page</a>
                           <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Create groups</a>
+                          <a class="dropdown-item" data-toggle="modal" data-target="#groupControl" href="#">Create groups</a>
                           <div class="dropdown-divider"></div>
                           <a class="dropdown-item" href="#">Create notification</a>
                           <div class="dropdown-divider"></div>
@@ -29,7 +29,6 @@
                   </div>
               </div>
 						</div>
-
 						<!--Recent endorsements from Adviser Tables Start-->
 						<div class="card">
 							<div class="card-header bg-primary">
@@ -113,5 +112,106 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	<!-- Fruit Jam Create Group Control -->
+	<div class="modal fade" id="groupControl" role="dialog">
+			<div class="modal-dialog">
+					<!-- Modal content -->
+					<div class="modal-content">
+							<div class="modal-header">
+									<h5 class="modal-title">Create Groups</h5>
+									<a class="nav nav-link nav-pills nav-pills-success"
+										 data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+									</a>
+							</div>
+							<div class="modal-body">
+									<form class="form-horizontal" role="form" method="POST" action="/createGroup" enctype="multipart/form-data">
+
+											{{ csrfField }}
+
+											<div class="col-lg-12">
+													<label for="endorsedBy" class="col-lg-12 control-label">Created by</label>
+													<div class="form-group">
+															<input id="endorsedBy" type="email" class="form-control" name="endorsedBy" value="{{currentUser.email}}" disabled>
+													</div>
+											</div>
+
+											<div class="col-lg-4">
+													<label for="groupId" class="col-lg-12 control-label">Group Id</label>
+													<div class="form-group">
+															<input id="groupId" type="number" class="form-control" name="groupId" min="0" max="100" placeholder="0" required>
+													</div>
+											</div>
+
+											<div class="col-lg-12">
+													<label for="groupName" class="col-lg-12 control-label">Group Name</label>
+													<div class="form-group">
+															<input id="groupName" type="text" class="form-control" name="groupName" required>
+													</div>
+											</div>
+
+											<div class="col-lg-12">
+	                        <label class="col-lg-12 control-label">Class Schedule</label>
+	                        <div class="form-group">
+	                          <select name="clSched" id="clSched" class="selectpicker " data-style="btn  btn-default btn-round"  required>
+	                                <option disabled selected> Schedule Options</option>
+	                                <option value = "MWF 10:00AM - 12:00PM" > MWF 10:00AM - 12:00PM </option>
+	                                <option value = "TTH 10:00AM - 12:00PM" > TTH 10:00AM - 12:00PM </option>
+	                                {# <option value = "Finished" > Finished </option> #}
+	                          </select>
+	                        </div>
+	                    </div>
+
+											<div class="col-lg-4">
+													<label for="groupKey" class="col-lg-12 control-label">Group Key</label>
+													<div class="form-group">
+															<input id="groupKey" type="number" class="form-control" name="groupKey" min="0" max="9999999999" placeholder="25462729" required>
+													</div>
+											</div>
+
+											<div class="col-lg-12">
+													<label for="adviser" class="col-lg-12 control-label">Adviser</label>
+													<div class="form-group">
+															<input id="adviser" type="email" class="form-control" name="adviser"  required>
+													</div>
+											</div>
+
+											<div class="col-lg-12">
+													<label for="chairman" class="col-lg-12 control-label">Chairman</label>
+													<div class="form-group">
+															<input id="chairman" type="email" class="form-control" name="chairman"  required>
+													</div>
+											</div>
+
+											<div class="footer text-center">
+												 <button type="submit" class="btn btn-primary btn-round btn-lg">Create</button>
+											</div>
+									</form>
+									<label class="text-danger">{{loginMessage}}</label>
+									<!--Display Created Groups-->
+									<div class="card-body">
+											{% if currentUser %}
+													<table class="table table-hover table-md table-striped table-responsive">
+															<thead class="text-warning">
+																	<th>Group Id</th>
+																	<th>Class Schedule</th>
+																	<th>Group Key</th>
+																	<th>Adviser</th>
+															</thead>
+															<tbody>
+																	{% for docx in uploads %}
+																			<tr class="text-black">
+																					<td></td>
+																					<td></td>
+																			</tr>
+																	{% endfor %}
+															</tbody>
+													</table>
+											{% endif %}
+									</div>
+							</div>
+							<div class="modal-footer"></div>
+					</div>
+			</div>
 	</div>
 {% endblock %}

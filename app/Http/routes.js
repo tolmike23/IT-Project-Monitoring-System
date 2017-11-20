@@ -37,6 +37,7 @@ Route.post('/advisers', 'AdviserController.add')
 Route.post('/addAdviser', 'AdviserController.call')
 //Coordinator View
 Route.get('/coordinatorDashboard','CoordinatorController.showCoordinator')
+Route.post('/createGroup', 'CoordinatorController.createGroup')
 
 //Group Page
 Route.get('/dashboard', 'DashboardController.showGroup')

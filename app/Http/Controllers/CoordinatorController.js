@@ -1,7 +1,7 @@
 'use strict'
 
 const Endorse = use('App/Model/Endorse')
-
+const GroupControl = use('App/Model/GroupControl')
 class CoordinatorController {
     * showCoordinator (request, response){
         const user = yield request.auth.getUser()
@@ -11,7 +11,30 @@ class CoordinatorController {
         yield response.sendView('coordinatorDashboard', {endorse:endorse.toJSON()})
     }
 
+    * createGroup(request,response){
+      const user = yield request.auth.getUser()
+      const gc = new GroupControl()
+      if(gc.groupId ==  request.input('groupId') || gc.groupKey == request.input('groupKey'))
+      {
+        yield response.sendView('/coordinatorDashboard',{
+        createMessage: createMessage.error})
+      }
+      else
+      {
+        gc.groupId = request.input('groupId')
+        gc.groupName = request.input('groupName')
+        gc.clSched = request.input('clSched')
+        gc.groupKey = request.input('groupKey')
+        gc.coordinator = user.email
+        gc.adviser = request.input('adviser')
+        gc.chairman = request.input('chairman')
+        yield gc.save()
+        yield response.sendView('/coordinatorDashboard',{
+        createMessage: createMessage.error})
+        // return response.redirect('back')
+      }
 
+    }
 
 }
 
