@@ -10,7 +10,7 @@ class RequirementsTableSchema extends Schema {
       table.integer('projectId').unsigned().notNullable()
       table.string('must_have',254).notNullable()
       table.integer('milestone')
-	  table.timestamp('deadline')
+	    table.string('deadline')
       table.string('notes',254)
       table.timestamps()
     })

@@ -69,6 +69,7 @@ class CoordinatorController {
         require.projectId = request.input('pid')
         require.must_have = request.input('must')
         require.deadline = request.input('deadline')
+        console.log("Deadline: "+request.input('deadline'))
         yield require.save()
         return response.redirect('/coordinatorDashboard')
 
