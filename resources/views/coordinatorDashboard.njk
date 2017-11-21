@@ -54,11 +54,11 @@
                       <tbody>
                           {% for item in endorse %}
                           <tr class="text-black">
-                              <td>{{old(item.groupId)}}</td>
-                              <td>{{old(item.description)}}</td>
-                              <td>{{old(item.endorseBy)}}</td>
-                              <td>{{old(item.created_at)}}</td>
-                              <td>{{old(item.notes)}}</td>
+                              <td>{{item.groupId}}</td>
+                              <td>{{item.description}}</td>
+                              <td>{{item.endorseBy}}</td>
+                              <td>{{item.created_at}}</td>
+                              <td>{{item.notes}}</td>
                               <td>&nbsp;</td>
                           </tr>
                           {% endfor %}
@@ -95,10 +95,10 @@
 									<tbody>
 										{% for item in requirements %}
 										<tr>
-											<td>{{old(item.projectId)}}</td>
-											<td>{{old(item.deadline)}}</td>
-											<td>{{old(item.must_have)}}</td>
-											<td>{{old(item.milestone)}}</td>
+											<td>{{item.projectId}}</td>
+											<td>{{item.deadline}}</td>
+											<td>{{item.must_have}}</td>
+											<td>{{item.milestone}}</td>
 											<td><a href="/editRequirement">Edit</a>Edit</td>
 										</tr>
 										{% endfor %}
@@ -125,6 +125,18 @@
 									</a>
 							</div>
 							<div class="modal-body">
+												<!--Error-->
+										{% if old('error') %}
+													<div class="text-danger">
+															{{ old('error') }}
+													</div>
+											{% endif %}
+												<!--Success-->
+										{% if old('success') %}
+													<div class="text-success">
+															{{ old('success') }}
+													</div>
+											{% endif %}
 									<form class="form-horizontal" role="form" method="POST" action="/createGroup" enctype="multipart/form-data">
 
 											{{ csrfField }}

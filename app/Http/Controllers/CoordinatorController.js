@@ -25,11 +25,12 @@ class CoordinatorController {
         gc.adviser = request.input('adviser')
         gc.chairman = request.input('chairman')
         yield gc.save()
+        yield request.with({ success: "Group Successfully Created" }).flash()
         return response.redirect('back')
 
       } catch (e) {
-        console.log("Error: " + e.message)
-        yield response.sendView('coordinatorDashboard', {createMessage: "Group Key Already Exist"})
+        yield request.with({ error: "Group Key Already Exists" }).flash()
+  			return response.redirect('back')
       }
 
     }
