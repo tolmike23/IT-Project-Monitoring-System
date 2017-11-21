@@ -40,13 +40,14 @@ class GroupController {
             grpMember.status = "active"
             yield grpMember.save()
 
-            /* Group data */
-            const group = yield Group.query().where('groupId', request.input('groupControl')).fetch()
-
-            /* Endorse data*/
-            const endorse = yield Endorse.query().where('groupId', request.input('groupId')).fetch()
-
-            yield response.sendView('dashboard', {group:group.toJSON(), endorse:endorse.toJSON(), user:true})
+            // /* Group data */
+            // const group = yield Group.query().where('groupId', request.input('groupControl')).fetch()
+            //
+            // /* Endorse data*/
+            // const endorse = yield Endorse.query().where('groupId', request.input('groupId')).fetch()
+            //
+            // yield response.sendView('dashboard', {group:group.toJSON(), endorse:endorse.toJSON(), user:true})
+						return response.redirect('/dashboard')
         }
     }
 
