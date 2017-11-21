@@ -16,15 +16,15 @@ class AdviserController {
     const user = yield request.auth.getUser()
     //Proposal Null
     const proposals = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
-                                 .where({endorseTo: user.email, confirmed:null, endorseType: 'Proposal'}).fetch()
+                                 .where({endorseTo: user.email, confirmed:null, endorseType: 'Submit Project Proposal'}).fetch()
     console.log('Proposal '+proposals)
 
     //Proposal Disapproved
     const proposalsDis = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
-                                  .where({endorseTo: user.email, confirmed: 0, endorseType: 'Proposal'}).fetch()
+                                  .where({endorseTo: user.email, confirmed: 0, endorseType: 'Submit Project Proposal'}).fetch()
     //Proposal Approved
     const proposalsApp = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
-                                  .where({endorseTo: user.email, confirmed: 1, endorseType: 'Proposal'}).fetch()
+                                  .where({endorseTo: user.email, confirmed: 1, endorseType: 'Submit Project Proposal'}).fetch()
 
 
     //Project & Requirements
@@ -66,9 +66,14 @@ class AdviserController {
     const endorseBy = request.input('endorseBy')
     const confirm = request.input('approved')
     const desc = request.input('description')
-    yield Endorse.query().where('id', proId).update({confirmed: confirm, confirmDate: dateConfirm})
+    const groupControl = yield Database.select('coordinator')
+    .from('group_controls').where('groupId', groupId)
+    const gcJson = JSON.stringify(groupControl)
+    const gcParse = JSON.parse(gcJson)
     //Insert New Updated Proposal
-    if(confirm == 0){
+    yield Endorse.query().where('id', proId).update({confirmed: confirm, confirmDate: dateConfirm})
+    if(confirm <= 0 )
+    {
       return response.redirect('back')
     }else{
       const endorse = new Endorse()
@@ -77,15 +82,10 @@ class AdviserController {
       endorse.description = desc
       endorse.endorseType = "Endorse to Coordinator"
       endorse.endorseBy = endorseBy
-      const groupControl = yield Database.select('coordinator')
-      .from('group_controls').where('groupId', groupId)
-      const gcJson = JSON.stringify(groupControl)
-      const gcParse = JSON.parse(gcJson)
       endorse.endorseTo = gcParse[0].coordinator
       endorse.confirmed = 1
       endorse.confirmDate = dateConfirm
       yield endorse.save()
-
       return response.redirect('back')
     }
 
