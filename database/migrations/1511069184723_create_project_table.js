@@ -8,7 +8,7 @@ class ProjectsTableSchema extends Schema {
     this.create('projects', (table) => {
       table.increments()
       table.string('projectname',120).notNullable()
-      table.string('adviser',254)
+      table.string('coordinator',254).notNullable()
       table.integer('groupId').unsigned()
       table.string('notes',254).notNullable()
       table.string('status',20)

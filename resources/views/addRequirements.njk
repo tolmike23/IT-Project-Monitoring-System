@@ -1,0 +1,87 @@
+{% extends 'master' %}
+
+{% block content %}
+<div class="login-page sidebar-collapse animsition">
+    <div class="page-header" filter-color="orange">
+        <div class="container">
+            <div class="content-center">
+              <div class="card">
+                    <div class="card-header" data-background-color="orange">
+                        <h5 class="card-title">Edit Work Break Down Structure</h5>
+                    </div>
+                    <div class="card-body">
+                      <!--Error-->
+                  {% if old('error') %}
+                        <div class="text-danger">
+                            {{ old('error') }}
+                        </div>
+                    {% endif %}
+                      <!--Success-->
+                  {% if old('success') %}
+                        <div class="text-success">
+                            {{ old('success') }}
+                        </div>
+                    {% endif %}
+                      <form class="form-horizontal" role="form" method="POST" action="/inserMustHave">
+
+                      {{ csrfField }}
+                      <input type="text" name="workId" id ="workId" value="{{w.workId}}" style='display:none'>
+                        <div class="form-group">
+                          <div class="col-md-2">
+                            <label for="groupname" class="text-muted">Project ID</label>
+                            <input type="text" class="form-control"  value="{{pid}}" disabled>
+                            <input id="pid" name="pid" type="text" class="form-control"  value="{{pid}}" style='display:none' >
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-md-12">
+                            <label for="groupname" class="text-muted">Must Have</label>
+                            <input id="must" name="must" type="text" class="form-control"  required>
+                          </div>
+                        </div>
+                      <div class="form-group">
+                        <label for="lastname" class="col-md-10 text-muted">Estimated Deadline</label>
+                          <div class="col-md-12">
+                            <input id="deadline" type="text" class="form-control datetimepicker" placeholder="Start Date" name="deadline" required>
+                          </div>
+                        </div>
+
+                      <div class="form-group">
+                        <div class="col-md-12">
+                          <button type="submit" class="btn btn-primary btn-round btn-md">
+                            <i class="fa fa-btn fa-sign-in">&nbsp;</i> Save
+                          </button>
+                          <a href="coordinatorDashboard" class="btn btn-primary btn-round btn-md">
+                            <i class="fa fa-btn fa-sign-out">&nbsp;</i> Cancel
+                          </a>
+                        </div>
+                      </div>
+                      </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="container">
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="#">
+                                Disclaimer
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="copyright">
+                    &copy;
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script>, Designed by
+                    <a href="#" target="_blank">Jaboy</a>.
+                </div>
+            </div>
+        </footer>
+
+    </div>
+</div>
+{% endblock %}

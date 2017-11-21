@@ -21,11 +21,9 @@
                           <a class="dropdown-item" href="#">Panelist page</a>
                           <div class="dropdown-divider"></div>
                           <a class="dropdown-item" data-toggle="modal" data-target="#groupControl" href="#">Create groups</a>
-                          <a class="dropdown-item" data-toggle="modal" data-target="#groupControl" href="#">Add panelist</a>
+                          <a class="dropdown-item" data-toggle="modal" data-target="" href="#">Add panelist</a>
                           <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Create notification</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Create Must Have (Project Requirements)</a>
+                          <a class="dropdown-item" data-toggle="modal" data-target="#projectControl">Create Project</a>
                       </ul>
                   </div>
               </div>
@@ -76,7 +74,7 @@
 								<ul class="nav nav-tabs nav-tabs-neutral">
 									<li class="nav-item">
 										<a class="nav-link active" data-toggle="tab" role="tab">
-										content_paste | Project Requirements | List of milestones
+										Projects
 										</a>
 									</li>
 								</ul>
@@ -85,22 +83,24 @@
 								<table class="table table-hover table-responsive">
 								{% if currentUser %}
 									<thead class="text-primary">
-										<th>&nbsp;</th>
-										<th><strong>Project #</strong></th>
-										<th><strong>Deadline</strong></th>
-										<th><strong>Must Have</strong></th>
-										<th><strong>Must Have</strong></th>
-										<th><strong>Progress (%)</strong></th>
-										<th>&nbsp;</th>
+										<th><strong>Group Id</strong></th>
+										<th><strong>Group Name</strong></th>
+										<th><strong>Project Name</strong></th>
 									</thead>
 									<tbody>
-										{% for item in requirements %}
-										<tr>
-											<td>{{item.projectId}}</td>
-											<td>{{item.deadline}}</td>
-											<td>{{item.must_have}}</td>
-											<td>{{item.milestone}}</td>
-											<td><a href="/editRequirement">Edit</a>Edit</td>
+										{% for p in projects %}
+										<tr class="text-black">
+											<td>{{p.groupId}}</td>
+											<td>{{p.groupName}}</td>
+											<td>{{p.projectname}}</td>
+											<td>
+												<form method="GET" action="/addRequirements">
+													<!--Requirements-->
+													<input name="pId" id="pId" value="{{p.id}}" style='display:none'>
+													<button class="btn btn-primary btn-round">ADD Requirements</button>
+												</form>
+											</td>
+											<td>&nbsp;</td>
 										</tr>
 										{% endfor %}
 									</tbody>
@@ -229,6 +229,68 @@
 									</div>
 							</div>
 							<div class="modal-footer"></div>
+					</div>
+			</div>
+	</div>
+	<!-- Fruit Jam Project Control -->
+	<div class="modal fade" id="projectControl" role="dialog">
+			<div class="modal-dialog">
+					<!-- Modal content -->
+					<div class="modal-content">
+							<div class="modal-header">
+									<h5 class="modal-title">Create Project</h5>
+									<a class="nav nav-link nav-pills nav-pills-success"
+										 data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+									</a>
+							</div>
+							<div class="modal-body">
+												<!--Error-->
+										{% if old('error') %}
+													<div class="text-danger">
+															{{ old('error') }}
+													</div>
+											{% endif %}
+												<!--Success-->
+										{% if old('success') %}
+													<div class="text-success">
+															{{ old('success') }}
+													</div>
+											{% endif %}
+									<form class="form-horizontal" role="form" method="POST" action="/createProject" enctype="multipart/form-data">
+
+											{{ csrfField }}
+
+											<div class="col-lg-8">
+													<label for="endorsedBy" class="col-lg-12 control-label">Created by</label>
+													<div class="form-group">
+															<input id="endorsedBy" type="email" class="form-control" name="endorsedBy" value="{{currentUser.email}}" disabled>
+													</div>
+											</div>
+
+											<div class="col-lg-8">
+													<label for="groupId" class="col-lg-12 control-label">Group Id</label>
+													<div class="form-group">
+														<select class="selectpicker" data-size="7" data-style="btn btn-primary btn-round" name="groupId" id="groupId" required>
+																<option disabled selected>Group Id | Group Name</option>
+																{% for groups in gc%}
+																<option value="{{groups.groupId}}">{{groups.groupId}} | {{groups.groupName}}</option>
+																{% endfor %}
+														</select>
+													</div>
+											</div>
+
+											<div class="col-lg-8">
+													<label for="projectName" class="col-lg-12 control-label">Project Name</label>
+													<div class="form-group">
+															<input id="projectName" type="text" class="form-control" name="projectName" placeholder="Example: Machine Learning"  required>
+													</div>
+											</div>
+
+											<div class="footer text-center">
+												 <button type="submit" class="btn btn-primary btn-round btn-lg">Create</button>
+											</div>
+									</form>
+								</div	>
 					</div>
 			</div>
 	</div>
