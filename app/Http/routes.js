@@ -38,8 +38,13 @@ Route.post('/addAdviser', 'AdviserController.call')
 //Coordinator View
 Route.get('/coordinatorDashboard','CoordinatorController.showCoordinator')
 Route.post('/createGroup', 'CoordinatorController.createGroup')
+<<<<<<< HEAD
 Route.post('/submitEndorsement', 'EndorseController.submitEndorse')
 Route.get('/addEndorse','CoordinatorController.
+=======
+Route.post('/createProject', 'CoordinatorController.createProject')
+Route.post('/inserMustHave', 'CoordinatorController.insertReq')
+>>>>>>> origin/ITPMS-Dev
 
 //Group Page
 Route.get('/dashboard', 'DashboardController.showGroup')
