@@ -39,7 +39,6 @@ Route.post('/addAdviser', 'AdviserController.call')
 Route.get('/coordinatorDashboard','CoordinatorController.showCoordinator')
 Route.post('/createGroup', 'CoordinatorController.createGroup')
 Route.post('/createProject', 'CoordinatorController.createProject')
-Route.get('/addRequirements', 'CoordinatorController.editReq')
 Route.post('/inserMustHave', 'CoordinatorController.insertReq')
 
 //Group Page

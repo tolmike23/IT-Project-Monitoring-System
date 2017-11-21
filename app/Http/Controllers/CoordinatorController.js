@@ -57,12 +57,6 @@ class CoordinatorController {
       }
     }
 
-    * editReq(request,response){
-      const pid = request.input('pId')
-      console.log("Project Id: "+ pid)
-      yield response.sendView('addRequirements', {pid:pid})
-    }
-
     * insertReq(request,response){
       try {
         const require = new Requirements()
