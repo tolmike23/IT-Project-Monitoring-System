@@ -119,8 +119,6 @@ class DashboardController {
             const grpStr = JSON.stringify(group)
             const grpCtr = JSON.parse(grpStr)
 
-            console.log('Group ID : '+grpCtr[0])
-
             const projects = yield Projects.query().where('groupId', user.email).fetch()
             const prjGrp = Object.keys(JSON.stringify(projects)).length
 
@@ -149,8 +147,9 @@ class DashboardController {
 		}
 
 		members = JSON.parse(JSON.stringify(members))
-		console.log("members data: "+ members)
+
 		if (grpCtr.length > 0){
+					  console.log('Group ID : '+grpCtr[0].groupId)
 
             const group = yield Group.query().where('groupId', grpCtr[0].groupId).fetch()
 
@@ -166,13 +165,11 @@ class DashboardController {
             //get Workbreakdowns data
             const works = yield Database.select('*').from('workbreakdowns').where('email', user.email).orderBy('must_id', 'asc')
 
-            //count notification data for group
-            const notifyGroup = yield Database.select('*').from('notifications').where({category: 'Group', status:'unread'}).count('* as counter')
-            const jsonNotify = JSON.stringify(notifyGroup)
-            const notifyCounter = JSON.parse(jsonNotify)
+						//Fetch notification data for Group
+						const fetchNotify = yield Database.select('*').from('notifications').where({groupId: grpCtr[0].groupId, status:'unread'})
 
             //count notification data for All
-            const notifyAll = yield Database.select('*').from('notifications').where({category: 'All', status:'unread'}).count('* as counter')
+            const notifyAll = yield Database.select('*').from('notifications').where({groupId: grpCtr[0].groupId, status:'unread'}).count('* as counter')
             const jsonNotifyAll = JSON.stringify(notifyAll)
             const notifyCounterAll = JSON.parse(jsonNotifyAll)
 
@@ -199,23 +196,21 @@ class DashboardController {
                      })
 
                 }
-		}
+							}
 
 		//Print the Necessary Values for WBS date comparison
 		jsonObjWbs = JSON.parse(JSON.stringify(jsonObjWbs))
 
 		//Notification Total Counter
-		const notifyGroupNotifyCounter = notifyCounter[0].counter + notifyCounterAll[0].counter
+		const notifyGroupNotifyCounter = notifyCounterAll[0].counter
 
 		console.log("Notification Total Counter FOR Coordinator: "+notifyGroupNotifyCounter)
 		console.log("Notification Total Counter FOR Wbs: "+counter)
 
-		//Fetch notification data for All & Group
-		const fetchNotify = yield Database.select('*').from('notifications').whereNot({category: 'Faculty', status:'read'})
-
 		yield response.sendView('dashboard', {group:group.toJSON(), projects:projects.toJSON(),
 				groupControl, endorse:endorse.toJSON(), requirements:requirements.toJSON(),
 				notifyGroupNotifyCounter,fetchNotify,counter,jsonObjWbs,works, uploads, user:true})
+
 		}
 		else
 		{
@@ -228,7 +223,6 @@ class DashboardController {
 		}
 	}
 
-
     * facultyOpt (request, response){
         yield response.sendView('dashboardOptions')
 
@@ -240,7 +234,6 @@ class DashboardController {
         if (view === 'C') return response.redirect('coordinatorDashboard')
         if (view === 'P') yield response.redirect('master')
     }
-
 
 }
 

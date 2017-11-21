@@ -7,6 +7,7 @@ class NotificationsTableSchema extends Schema {
   up () {
     this.create('notifications', (table) => {
       table.increments()
+      table.integer('groupId').notNullable()
       table.string('comment').notNullable()
       table.string('category').notNullable()
       table.string('email').notNullable()
