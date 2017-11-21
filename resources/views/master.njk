@@ -88,7 +88,7 @@
 
                           <!--Start Notifications Panelist-->
                           <!--End Notifications Panelist-->
-                          
+
                           <!--Start Notifications Chairman-->
                           <!--End Notifications Chairman-->
                           <li class="nav-item active dropdown">
@@ -152,9 +152,11 @@
               close: 'fa fa-remove'
           }
       });
-
-      $('.datepicker').datetimepicker({
-          format: 'MM/DD/YYYY',
+    };
+    if($(".timepicker").length != 0){
+      $('.timepicker').datetimepicker({
+          format: 'H:mm',    // use this format if you want the 24hours timepicker
+          format: 'h:mm A',    //use this format if you want the 12hours timpiecker with AM/PM toggle
           icons: {
               time: "now-ui-icons tech_watch-time",
               date: "now-ui-icons ui-1_calendar-60",
@@ -165,14 +167,10 @@
               today: 'fa fa-screenshot',
               clear: 'fa fa-trash',
               close: 'fa fa-remove'
-         }
+          }
       });
     };
-    //Modal Notifications
-    // var counter = $("#notifyCounter").html()
-    // if(counter > 0){
-    //   $('#myModal').modal('show');
-    // };
+
 });
 </script>
 </html>
