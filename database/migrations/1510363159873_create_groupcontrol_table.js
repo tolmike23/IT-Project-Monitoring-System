@@ -7,7 +7,7 @@ class GroupControlsTableSchema extends Schema {
   up () {
     this.create('group_controls', (table) => {
       table.increments()
-      table.integer('groupId').notNullable()
+      table.integer('groupId').notNullable().unique()
       table.string('groupName', 254).notNullable()
       table.string('clSched', 100).notNullable()
       table.string('groupKey', 10).notNullable().unique()
