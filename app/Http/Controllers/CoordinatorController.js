@@ -23,7 +23,7 @@ class CoordinatorController {
         gc.adviser = request.input('adviser')
         gc.chairman = request.input('chairman')
         yield gc.save()
-        yield response.sendView('back')
+        return response.redirect('back')
 
       } catch (e) {
         console.log("Error: " + e.message)
