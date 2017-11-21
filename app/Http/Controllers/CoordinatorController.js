@@ -6,9 +6,11 @@ class CoordinatorController {
     * showCoordinator (request, response){
         const user = yield request.auth.getUser()
 
-        const endorse = yield Endorse.query()
-                            .where({endorseTo : user.email, endorseType: 'Endorse to Coordinator'}).fetch()
-        yield response.sendView('coordinatorDashboard', {endorse:endorse.toJSON()})
+        const endorse = yield Endorse.query().where({endorseTo : user.email, endorseType: 'Endorse to Coordinator'}).fetch()
+
+        const gc = yield GroupControl.query().where({coordinator: user.email}).fetch()
+
+        yield response.sendView('coordinatorDashboard', {endorse:endorse.toJSON(), gc:gc.toJSON()})
     }
 
     * createGroup(request,response){

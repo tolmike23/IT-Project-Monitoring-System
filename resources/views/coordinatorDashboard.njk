@@ -192,18 +192,18 @@
 									<!--Display Created Groups-->
 									<div class="card-body">
 											{% if currentUser %}
-													<table class="table table-hover table-md table-striped table-responsive">
+													<table class="table table-hover table-md table-responsive">
 															<thead class="text-warning">
-																	<th>Group Id</th>
-																	<th>Class Schedule</th>
-																	<th>Group Key</th>
-																	<th>Adviser</th>
+																	<th><strong>Group Id</strong></th>
+																	<th><strong>Class Schedule</strong></th>
+																	<th><strong>Group Key</strong></th>
 															</thead>
 															<tbody>
-																	{% for docx in uploads %}
+																	{% for g in gc %}
 																			<tr class="text-black">
-																					<td></td>
-																					<td></td>
+																					<td>{{g.groupId}}</td>
+																					<td>{{g.clSched}}</td>
+																					<td>{{g.groupKey}}</td>
 																			</tr>
 																	{% endfor %}
 															</tbody>
