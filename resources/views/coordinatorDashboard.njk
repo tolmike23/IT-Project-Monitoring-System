@@ -54,11 +54,11 @@
                       <tbody>
                           {% for item in endorse %}
                           <tr class="text-black">
-                              <td>{{item.groupId}}</td>
-                              <td>{{item.description}}</td>
-                              <td>{{item.endorseBy}}</td>
-                              <td>{{item.created_at}}</td>
-                              <td>{{item.notes}}</td>
+                              <td>{{old(item.groupId)}}</td>
+                              <td>{{old(item.description)}}</td>
+                              <td>{{old(item.endorseBy)}}</td>
+                              <td>{{old(item.created_at)}}</td>
+                              <td>{{old(item.notes)}}</td>
                               <td>&nbsp;</td>
                           </tr>
                           {% endfor %}
@@ -95,10 +95,10 @@
 									<tbody>
 										{% for item in requirements %}
 										<tr>
-											<td>{{item.projectId}}</td>
-											<td>{{item.deadline}}</td>
-											<td>{{item.must_have}}</td>
-											<td>{{item.milestone}}</td>
+											<td>{{old(item.projectId)}}</td>
+											<td>{{old(item.deadline)}}</td>
+											<td>{{old(item.must_have)}}</td>
+											<td>{{old(item.milestone)}}</td>
 											<td><a href="/editRequirement">Edit</a>Edit</td>
 										</tr>
 										{% endfor %}
@@ -132,7 +132,7 @@
 											<div class="col-lg-12">
 													<label for="endorsedBy" class="col-lg-12 control-label">Created by</label>
 													<div class="form-group">
-															<input id="endorsedBy" type="email" class="form-control" name="endorsedBy" value="{{currentUser.email}}" disabled>
+															<input id="endorsedBy" type="email" class="form-control" name="endorsedBy" value="{{(currentUser.email)}}" disabled>
 													</div>
 											</div>
 
@@ -167,8 +167,9 @@
 													<div class="form-group">
 															<input id="groupKey" type="number" class="form-control" name="groupKey" min="0" max="9999999999" placeholder="25462729" required>
 													</div>
-											</div>
 
+											</div>
+											<label class="text-danger col-lg-12 control-label">{{createMessage}}</label>
 											<div class="col-lg-12">
 													<label for="adviser" class="col-lg-12 control-label">Adviser</label>
 													<div class="form-group">
@@ -187,7 +188,7 @@
 												 <button type="submit" class="btn btn-primary btn-round btn-lg">Create</button>
 											</div>
 									</form>
-									<label class="text-danger">{{createMessage}}</label>
+
 									<!--Display Created Groups-->
 									<div class="card-body">
 											{% if currentUser %}

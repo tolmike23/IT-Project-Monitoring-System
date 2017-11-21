@@ -12,15 +12,9 @@ class CoordinatorController {
     }
 
     * createGroup(request,response){
-      const user = yield request.auth.getUser()
-      const gc = new GroupControl()
-      if(gc.groupId ==  request.input('groupId') || gc.groupKey == request.input('groupKey'))
-      {
-        yield response.sendView('/coordinatorDashboard',{
-        createMessage: createMessage.error})
-      }
-      else
-      {
+      try {
+        const user = yield request.auth.getUser()
+        const gc = new GroupControl()
         gc.groupId = request.input('groupId')
         gc.groupName = request.input('groupName')
         gc.clSched = request.input('clSched')
@@ -29,9 +23,11 @@ class CoordinatorController {
         gc.adviser = request.input('adviser')
         gc.chairman = request.input('chairman')
         yield gc.save()
-        yield response.sendView('/coordinatorDashboard',{
-        createMessage: createMessage.error})
-        // return response.redirect('back')
+        yield response.sendView('back')
+
+      } catch (e) {
+        console.log("Error: " + e.message)
+        yield response.sendView('coordinatorDashboard', {createMessage: "Group Key Already Exist"})
       }
 
     }
