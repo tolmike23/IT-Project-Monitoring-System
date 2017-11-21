@@ -21,11 +21,9 @@
                           <a class="dropdown-item" href="#">Panelist page</a>
                           <div class="dropdown-divider"></div>
                           <a class="dropdown-item" data-toggle="modal" data-target="#groupControl" href="#">Create groups</a>
-                          <a class="dropdown-item" data-toggle="modal" data-target="#groupControl" href="#">Add panelist</a>
+                          <a class="dropdown-item" data-toggle="modal" data-target="#" href="#">Add panelist</a>
                           <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Create notification</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Create Must Have (Project Requirements)</a>
+                          <a class="dropdown-item" href="#">Create Project</a>
                       </ul>
                   </div>
               </div>
@@ -36,7 +34,7 @@
 								<ul class="nav nav-tabs nav-tabs-neutral">
 									<li class="nav-item">
 										<a class="nav-link active" data-toggle="tab" role="tab">
-										Recent endorsements from Adviser
+										Recent endorsements
 										</a>
 									</li>
 								</ul>
@@ -46,73 +44,79 @@
                   {% if currentUser %}
                       <thead class="text-primary">
                           <th><strong>Group</strong></th>
-                          <th><strong>Proposal</strong></th>
+                          <th><strong>Proposal | Endorse</strong></th>
                           <th><strong>Endorsed By</strong></th>
                           <th><strong>Endorse Date</strong></th>
                           <th><strong>Remarks</strong></th>
-                          <th><strong>Status</strong></th>
+                          <th><strong>&nbsp;</strong></th>
                       </thead>
                       <tbody>
                           {% for item in endorse %}
-                          <tr class="text-black">
-                              <td>{{item.groupId}}</td>
-                              <td>{{item.description}}</td>
-                              <td>{{item.endorseBy}}</td>
-                              <td>{{item.created_at}}</td>
-                              <td>{{item.notes}}</td>
-                              <td>&nbsp;</td>
-                          </tr>
+                              <tr class="text-black">
+                                  <td>{{item.groupId}}</td>
+                                  <td>{{item.description}}</td>
+                                  <td>{{item.endorseBy}}</td>
+                                  <td>{{item.created_at}}</td>
+                                  <td>{{item.notes}}</td>
+                                  <td>
+                                      <div class="dropdown">
+                                          <a href="/addEndorse" class="btn btn-primary btn-round">
+                                            <strong>Endorse for </strong>
+                                            </a>
+                                      </div>
+                                  </td>
+                              </tr>
                           {% endfor %}
                       </tbody>
                       {% endif %}
                   </table>
               </div>
-						</div>
-						<!--Recent endorsements from Adviser Tables End-->
+    </div>
+            <!--Recent endorsements from Adviser Tables End-->
 
-						<!-- Project Requirements Tab Start-->
-						<div class="card">
-							<div class="card-header bg-primary">
-								<ul class="nav nav-tabs nav-tabs-neutral">
-									<li class="nav-item">
-										<a class="nav-link active" data-toggle="tab" role="tab">
-										content_paste | Project Requirements | List of milestones
-										</a>
-									</li>
-								</ul>
-							</div>
-							<div class="card-body">
-								<table class="table table-hover table-responsive">
-								{% if currentUser %}
-									<thead class="text-primary">
-										<th>&nbsp;</th>
-										<th><strong>Project #</strong></th>
-										<th><strong>Deadline</strong></th>
-										<th><strong>Must Have</strong></th>
-										<th><strong>Must Have</strong></th>
-										<th><strong>Progress (%)</strong></th>
-										<th>&nbsp;</th>
-									</thead>
-									<tbody>
-										{% for item in requirements %}
-										<tr>
-											<td>{{item.projectId}}</td>
-											<td>{{item.deadline}}</td>
-											<td>{{item.must_have}}</td>
-											<td>{{item.milestone}}</td>
-											<td><a href="/editRequirement">Edit</a>Edit</td>
-										</tr>
-										{% endfor %}
-									</tbody>
-									{% endif %}
-								</table>
-							</div>
-						</div>
-						<!-- Project Requirements Tab End-->
-					</div>
-				</div>
-			</div>
-		</div>
+            <!-- Project Requirements Tab Start-->
+            <div class="card">
+                <div class="card-header bg-primary">
+                    <ul class="nav nav-tabs nav-tabs-neutral">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" role="tab">
+                            Project Requirements | Must have
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover table-responsive">
+                    {% if currentUser %}
+                        <thead class="text-primary">
+                            <th>&nbsp;</th>
+                            <th><strong>Project #</strong></th>
+                            <th><strong>Deadline</strong></th>
+                            <th><strong>Must Have</strong></th>
+                            <th><strong>Must Have</strong></th>
+                            <th><strong>Progress (%)</strong></th>
+                            <th>&nbsp;</th>
+                        </thead>
+                        <tbody>
+                            {% for item in requirements %}
+                            <tr>
+                                <td>{{item.projectId}}</td>
+                                <td>{{item.deadline}}</td>
+                                <td>{{item.must_have}}</td>
+                                <td>{{item.milestone}}</td>
+                                <td><a href="/editRequirement">Edit</a>Edit</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+            <!-- Project Requirements Tab End-->
+        </div>
+    </div>
+    </div>
+    </div>
 	</div>
 	<!-- Fruit Jam Create Group Control -->
 	<div class="modal fade" id="groupControl" role="dialog">
@@ -228,4 +232,81 @@
 					</div>
 			</div>
 	</div>
+
+{#
+<div class="modal fade" id="createEndorse" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Endorsement</h5>
+                <a class="nav nav-link nav-pills nav-pills-success"
+                   data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+                </a>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" method="POST" action="/submitEndorsement">
+
+                    {{ csrfField }}
+
+                    {% for gc in groupControl %}
+                        <input id="endorseTo" name="endorseTo" value={{gc.chairman}} style="display:none;" />
+                    {% endfor %}
+
+                    <input id="studentId" name="studentId" value={{currentUser.personal_code}} style="display:none;"/>
+
+                    <div class="col-lg-12">
+                        <label for="endorsedBy" class="col-lg-12 control-label">Created by</label>
+                        <div class="form-group">
+                            <input id="endorsedBy" type="email" class="form-control" name="endorsedBy" value={{currentUser.email}} disabled>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <label for="endorsedBy" class="col-lg-12 control-label">For Group</label>
+                        <div class="form-group">
+                            {% for gc in groupControl %}
+                            <input id="groupId" type="email" class="form-control" name="groupId" value={{gc.groupId}} disabled>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <label for="project" class="col-lg-12 control-label">Description</label>
+                        <div class="form-group">
+                            <input id="description" type="text" class="form-control" name="description" placeholder="Describe here..." required/>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <select class="selectpicker" id="endorseType" name="endorseType" data-style="btn btn-primary btn-round btn-md" required>
+                                <option disabled selected>Endorse for</option>
+                                <option value='Panel meeting'>Panel meeting</option>
+                                <option value='Milestone checking'>Milestone checking</option>
+                                <option value='Proposal defense'>Proposal defense</option>
+                                <option value='Final defense'>Final defense</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="project" class="col-lg-12 control-label">Deadline / Meeting</label>
+                            <input type="text" class="form-control datetimepicker" name="deadline" required/>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <textarea id="notes" type="text" class="form-control" name="notes" placeholder="Additional remarks..." rows="3" required></textarea>
+                    </div>
+
+                    <div class="footer text-center">
+                       <button type="submit" class="btn btn-primary btn-round btn-md">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> #}
 {% endblock %}

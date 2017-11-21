@@ -2,11 +2,13 @@
 
 const Endorse = use('App/Model/Endorse')
 const GroupControl = use('App/Model/GroupControl')
+const Notification = use('App/Model/Notification')
+
 class CoordinatorController {
     * showCoordinator (request, response){
         const user = yield request.auth.getUser()
 
-        const endorse = yield Endorse.query().where({endorseTo : user.email, endorseType: 'Endorse to Coordinator'}).fetch()
+        const endorse = yield Endorse.query().where({endorseTo : user.email}).fetch()
 
         const gc = yield GroupControl.query().where({coordinator: user.email}).fetch()
 
@@ -34,6 +36,35 @@ class CoordinatorController {
       }
 
     }
+
+
+
+
+/*
+ * edit (request, response){
+    console.log('Editing proposal..ID :'+request.input('id')+' Group ID : '+request.input('groupId'))
+    const endorse = yield Endorse.query().where('id', request.input('id')).fetch()
+
+    yield response.sendView('editEndorse', {proposal:endorse.toJSON()})
+  }
+
+* updateProposal (request, response){
+    console.log('Updating proposal..ID : '+request.input('id')+' Group : '+request.input('groupId'))
+
+    const endorse = yield Endorse.query().where('id', request.input('id')).update({
+        description: request.input('description'),
+  		  endorseType: request.input('endorseType'),
+  		  notes: request.input('notes'),
+  		  updated_at: Date.now()
+    })
+
+
+    yield response.redirect('/dashboard')
+
+  }
+ */
+
+
 
 }
 

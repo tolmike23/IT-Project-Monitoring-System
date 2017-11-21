@@ -38,6 +38,8 @@ Route.post('/addAdviser', 'AdviserController.call')
 //Coordinator View
 Route.get('/coordinatorDashboard','CoordinatorController.showCoordinator')
 Route.post('/createGroup', 'CoordinatorController.createGroup')
+Route.post('/submitEndorsement', 'EndorseController.submitEndorse')
+Route.get('/addEndorse','CoordinatorController.
 
 //Group Page
 Route.get('/dashboard', 'DashboardController.showGroup')

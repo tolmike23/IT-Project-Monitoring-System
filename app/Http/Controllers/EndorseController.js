@@ -46,6 +46,10 @@ class EndorseController {
   		  updated_at: Date.now()
     })
 
+
+
+
+
     /*
   	const endorse = yield Endorse.findOrCreate(
   		{ id: request.input('id')},
@@ -58,6 +62,40 @@ class EndorseController {
     yield response.redirect('/dashboard')
 
   }
+
+// newly added
+    * submitEndorse (request, response){
+        const user = yield request.auth.getUser()
+        const endorse = new Endorse()
+        const groupId = request.input('groupId')
+        const desc = request.input('description')
+        const endorseType = request.input('endorseType')
+        const endorseBy = user.email
+        const endorseTo = request.input('endorseTo')
+        endorse.groupId = groupId
+        endorse.studentId = user.id
+        endorse.endorseBy = endorseBy
+        endorse.description = desc
+        endorse.endorseType = endorseType
+        endorse.endorseTo = endorseBy    // previous variable: endorseTo
+        endorse.notes = request.input('notes')
+        endorse.confirmed = 1
+        endorse.confirmDate = request.input('deadline')
+        yield endorse.save()
+
+        const notify = new Notification()
+        notify.groupId = groupId
+        notify.comment = desc
+        notify.category = endorseType
+        notify.email = endorseBy
+        yield notify.save()
+
+        const projects = yield Projects.query().where('adviser', endorseBy).fetch()
+        const gc = yield GroupControl.query().where('coordinator', endorseBy).fetch()
+        const endorses = yield Endorse.query().where({endorseBy: endorseBy, endorseTo:endorseTo}).fetch()
+
+        yield response.sendView('oordinatorDashboard', {endorse:endorses.toJSON(), projects:projects.toJSON(), gc:gc.toJSON(), user:true})
+    }
 
 }
 
