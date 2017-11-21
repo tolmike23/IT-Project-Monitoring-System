@@ -11,7 +11,10 @@ class NotificationsTableSchema extends Schema {
       table.string('comment').notNullable()
       table.string('category').notNullable()
       table.string('email').notNullable()
-      table.string('status').notNullable()
+      table.boolean('statusGroup').notNullable()
+      table.boolean('statusAdviser').notNullable()
+      table.boolean('statusChairman').notNullable()
+      table.boolean('statusPanelist').notNullable()
       table.timestamps()
     })
   }

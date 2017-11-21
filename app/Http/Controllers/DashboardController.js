@@ -103,7 +103,7 @@ class DashboardController {
 	//Fruitjam notifications
 	* read (request, response, next ){
 		const notifyId = request.param(0)
-		yield Notification.query().where('id', notifyId).update({status: 'read'})
+		yield Notification.query().where('id', notifyId).update({statusGroup: 1})
 		console.log("Notify category: " +notifyId)
 		yield response.redirect('back')
 	}
@@ -166,10 +166,10 @@ class DashboardController {
             const works = yield Database.select('*').from('workbreakdowns').where('email', user.email).orderBy('must_id', 'asc')
 
 						//Fetch notification data for Group
-						const fetchNotify = yield Database.select('*').from('notifications').where({groupId: grpCtr[0].groupId, status:'unread'})
+						const fetchNotify = yield Database.select('*').from('notifications').where({groupId: grpCtr[0].groupId, statusGroup:0})
 
             //count notification data for All
-            const notifyAll = yield Database.select('*').from('notifications').where({groupId: grpCtr[0].groupId, status:'unread'}).count('* as counter')
+            const notifyAll = yield Database.select('*').from('notifications').where({groupId: grpCtr[0].groupId, statusGroup:0}).count('* as counter')
             const jsonNotifyAll = JSON.stringify(notifyAll)
             const notifyCounterAll = JSON.parse(jsonNotifyAll)
 
