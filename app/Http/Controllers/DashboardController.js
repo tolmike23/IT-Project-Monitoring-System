@@ -25,9 +25,12 @@ class DashboardController {
 		maxSize: '3mb',
 		allowedExtensions: ['png', 'jpg', 'docx', 'pdf', 'xlsx']
 		})
-
+		//today date JS
+		const date = Date.now()
+		const fileClientName = file.clientName()
+		console.log("Client Name Now: "+ fileClientName)
 		//Make User upload unique name
-		const fileName = `${new Date().getTime()}.${file.extension()}`
+		const fileName = `${fileClientName}.${date}`
 
 		//store document in storage/upload file path.
 		yield file.move('storage', fileName)
@@ -35,6 +38,10 @@ class DashboardController {
 
 		//Check if the move was being interrupt
 		if(!file.moved()){
+			// yield response.sendView('dashboard', {fileError : file.errors()})
+			const errorMsg = file.errors()
+			console.log(errorMsg)
+			yield request.with({ error: errorMsg }).flash()
 			return response.redirect('back')
 		}
 		//Upload path store to Upload Table(groupId and filepath)
@@ -43,7 +50,7 @@ class DashboardController {
 		upload.document = filePath
 		upload.groupId = Database.select('groupId').from('groups').where('email', user.email)
 		yield upload.save()
-
+		yield request.with({ success: "Successfull Uploaded" }).flash()
 		return response.redirect('/dashboard')
 	}
 

@@ -360,8 +360,19 @@
                 </a>
             </div>
             <div class="modal-body">
+                        <!--Error-->
+                    {% if old('error') %}
+                          <div class="text-danger">
+                              {{ old('error') }}
+                          </div>
+                      {% endif %}
+                        <!--Success-->
+                    {% if old('success') %}
+                          <div class="text-success">
+                              {{ old('success') }}
+                          </div>
+                      {% endif %}
                 <form class="form-horizontal" role="form" method="POST" action="/file" enctype="multipart/form-data">
-
                     {{ csrfField }}
 
                     <div class="col-lg-12">
