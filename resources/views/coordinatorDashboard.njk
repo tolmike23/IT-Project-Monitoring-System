@@ -44,6 +44,7 @@
                                 <thead class="text-primary">
                                     <th><strong>Group</strong></th>
                                     <th><strong>Proposal | Endorse</strong></th>
+                                    <th><strong>Activity</strong></th>
                                     <th><strong>Endorsed By</strong></th>
                                     <th><strong>Endorse Date</strong></th>
                                     <th><strong>Remarks</strong></th>
@@ -54,15 +55,92 @@
                                     <tr class="text-black">
                                         <td>{{item.groupId}}</td>
                                         <td>{{item.description}}</td>
+                                        <td>{{item.endorseType}}</td>
                                         <td>{{item.endorseBy}}</td>
                                         <td>{{item.created_at}}</td>
                                         <td>{{item.notes}}</td>
                                         <td>
                                             <div class="dropdown">
-                                                <a href="/addEndorse" class="btn btn-primary btn-round">
+                                                <a href="#" data-toggle="modal" data-target="#{{item.groupId}}"  class="btn btn-primary btn-round">
                                                     <strong>Endorse for </strong>
                                                 </a>
                                             </div>
+
+                                            <div class="modal fade" id="{{item.groupId}}" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content -->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Create Endorsement</h5>
+                                                            <a class="nav nav-link nav-pills nav-pills-success"
+                                                               data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+                                                            </a>
+                                                        </div>
+
+                                                        <div class="modal-body">
+                                                            <form class="form-horizontal" role="form" method="POST" action="/submitEndorsement">
+
+                                                                {{ csrfField }}
+
+                                                                {% for gc in groupControl %}
+                                                                    <input id="endorseTo" name="endorseTo" value={{gc.chairman}} style="display:none;" />
+                                                                {% endfor %}
+
+                                                                <input id="studentId" name="studentId" value="{{currentUser.personal_code}}" style="display:none"/>
+                                                                <input id="groupId" type="number" class="form-control" name="groupId" value={{item.groupId}} style="display:none;">
+
+                                                                <div class="col-lg-12">
+                                                                    <label for="endorsedBy" class="col-lg-12 control-label">Created by</label>
+                                                                    <div class="form-group">
+                                                                        <input id="endorsedBy" type="email" class="form-control" name="endorsedBy" value="{{currentUser.email}}" disabled>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-12">
+                                                                    <label for="endorsedBy" class="col-lg-12 control-label">For Group</label>
+                                                                    <div class="form-group">
+                                                                        <input type="number" class="form-control" value={{item.groupId}} disabled>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-12">
+                                                                    <label for="project" class="col-lg-12 control-label">Description</label>
+                                                                    <div class="form-group">
+                                                                        <input id="description" type="text" class="form-control" name="description" placeholder="Describe here..." required/>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-12">
+                                                                    <div class="form-group">
+                                                                        <select class="selectpicker" id="endorseType" name="endorseType" data-style="btn btn-primary btn-round btn-md" required>
+                                                                            <option disabled selected>Endorse for</option>
+                                                                            <option value='Panel meeting'>Panel meeting</option>
+                                                                            <option value='Milestone checking'>Milestone checking</option>
+                                                                            <option value='Proposal defense'>Proposal defense</option>
+                                                                            <option value='Final defense'>Final defense</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-12">
+                                                                    <div class="form-group">
+                                                                        <label for="project" class="col-lg-12 control-label">Deadline / Meeting</label>
+                                                                        <input type="text" class="form-control datetimepicker" name="deadline" required/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-12">
+                                                                    <textarea id="notes" type="text" class="form-control" name="notes" placeholder="Additional remarks..." rows="3" required></textarea>
+                                                                </div>
+
+                                                                <div class="footer text-center">
+                                                                   <button type="submit" class="btn btn-primary btn-round btn-md">Save</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </td>
                                     </tr>
                                     {% endfor %}

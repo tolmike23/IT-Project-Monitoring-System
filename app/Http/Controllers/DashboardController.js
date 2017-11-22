@@ -224,9 +224,9 @@ class DashboardController {
 
     * viewAs (request, response){
         const view = request.input('userType')
-        if (view === 'A') return response.redirect('adviserDashboard')
-        if (view === 'C') return response.redirect('coordinatorDashboard')
-        if (view === 'P') yield response.redirect('master')
+        if (view === 'A') return response.redirect('/adviserDashboard')
+        if (view === 'C') return response.redirect('/coordinatorDashboard')
+        if (view === 'P') return response.redirect('/master')
     }
 
 }

@@ -5,6 +5,7 @@ const GroupControl = use('App/Model/GroupControl')
 const Notification = use('App/Model/Notification')
 const Project = use('App/Model/Project')
 const Requirement = use('App/Model/Requirement')
+
 class CoordinatorController {
     * showCoordinator (request, response){
         const user = yield request.auth.getUser()
@@ -12,7 +13,10 @@ class CoordinatorController {
         .innerJoin('group_controls as g','p.groupId', 'g.groupId').where('p.coordinator',user.email)
         const requirements = yield Requirement.query().innerJoin('projects','requirements.projectId', 'projects.id').where('projects.coordinator', user.email).fetch()
 
-        const endorse = yield Endorse.query().where({endorseTo : user.email, endorseType: 'Endorse to Coordinator'}).fetch()
+        //const endorse = yield Endorse.query().where({endorseTo : user.email, //endorseType: 'Endorse to Coordinator'}).fetch()
+
+        const endorse = yield Database.from('endorses').whereRaw('endorseType != ?', ['Proposal']).whereRaw('endorseTo = ?', [user.email])
+
         const gc = yield GroupControl.query().where({coordinator: user.email}).fetch()
         const gcMax = yield GroupControl.query().max('groupId as maxId')
         const gcMaxStringfy = JSON.stringify(gcMax)
@@ -20,7 +24,7 @@ class CoordinatorController {
         const maxId = gcMaxParse[0].maxId + 1
 
 
-        yield response.sendView('coordinatorDashboard', {endorse:endorse.toJSON(), gc:gc.toJSON(), maxId, projects, requirements:requirements.toJSON()})
+        yield response.sendView('coordinatorDashboard', {endorse:endorse, gc:gc.toJSON(), maxId, projects, requirements:requirements.toJSON()})
     }
 
     * createGroup(request,response){

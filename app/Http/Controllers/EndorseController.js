@@ -4,7 +4,7 @@ const Group = use('App/Model/Group')
 const GroupControl = use('App/Model/GroupControl')
 const Projects = use('App/Model/Project')
 const Requirements = use('App/Model/Requirement')
-
+const Notification = use('App/Model/Notification')
 class EndorseController {
 
 
@@ -65,6 +65,7 @@ class EndorseController {
 
 // newly added
     * submitEndorse (request, response){
+        console.log('deadline '+request.input('deadline'))
         const user = yield request.auth.getUser()
         const endorse = new Endorse()
         const groupId = request.input('groupId')
@@ -90,11 +91,16 @@ class EndorseController {
         notify.email = endorseBy
         yield notify.save()
 
-        const projects = yield Projects.query().where('adviser', endorseBy).fetch()
+        /*
+        const projects = yield Projects.query().where('coordinator', endorseBy).fetch()
         const gc = yield GroupControl.query().where('coordinator', endorseBy).fetch()
-        const endorses = yield Endorse.query().where({endorseBy: endorseBy, endorseTo:endorseTo}).fetch()
+        const endorses = yield Endorse.query().where('endorseTo', endorseTo).fetch()
 
-        yield response.sendView('oordinatorDashboard', {endorse:endorses.toJSON(), projects:projects.toJSON(), gc:gc.toJSON(), user:true})
+        yield response.sendView('coordinatorDashboard', {endorse:endorses.toJSON(), projects:projects.toJSON(), gc:gc.toJSON(), user:true})
+        */
+
+        return response.redirect('/coordinatorDashboard')
+
     }
 
 }

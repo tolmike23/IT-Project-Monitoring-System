@@ -16,16 +16,18 @@ class AdviserController {
     const user = yield request.auth.getUser()
     //Proposal Null
     const proposals = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
-                                 .where({endorseTo: user.email, confirmed:null, endorseType: 'Submit Project Proposal'}).fetch()
+                                 .where({endorseTo: user.email, confirmed:null, endorseType: 'Proposal'}).fetch()
     console.log('Proposal '+proposals)
 
     //Proposal Disapproved
     const proposalsDis = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
-                                  .where({endorseTo: user.email, confirmed: 0, endorseType: 'Submit Project Proposal'}).fetch()
+                                  .where({endorseTo: user.email, confirmed: 0, endorseType: 'Proposal'}).fetch()
+
     //Proposal Approved
     const proposalsApp = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
-                                  .where({endorseTo: user.email, confirmed: 1, endorseType: 'Submit Project Proposal'}).fetch()
+                                  .where({endorseTo: user.email, confirmed: 1, endorseType: 'Proposal'}).fetch()
 
+    console.log('Approved '+JSON.stringify(proposalsApp))
 
     // Project & Requirements For Adviser
     const projects = yield Database.select('g.groupName', 'p.projectname', 'p.created_at','p.status','p.notes').from('projects as p')
