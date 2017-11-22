@@ -1,228 +1,227 @@
 {% extends 'master' %}
 
 {% block content %}
-	<div class="wrapper">
-		<div class="page-header clear-filter" filter-color="orange">
-		<div class="page-header-image" data-parallax="true"></div>
+<div class="wrapper">
+	<div class="page-header clear-filter" filter-color="orange">
+			<div class="page-header-image" data-parallax="true"></div>
 			<div class="container">
-				<div class="row" style="padding-top:90px">
-					<div class="col-md-12 animsition" data-animsition-in-class="fade-in-down-sm" data-animsition-in-duration="500">
-						<div class="row">
-							<div class="col-lg-6 col-md-12">
-								<h4 class="category">Faculty Dashboard | Adviser</h4>
-							</div>
+					<div class="row" style="padding-top:90px">
+							<div class="col-md-12 animsition" data-animsition-in-class="fade-in-down-sm" data-animsition-in-duration="500">
+									<div class="row">
+											<div class="col-lg-6 col-md-12">
+													<h4 class="category">Faculty Dashboard | Adviser</h4>
+											</div>
 
-							<div class="col-lg-2">
-                  <div class="dropdown">
-                      <a href="#pablo" class="btn btn-primary btn-round dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink1">
-                          <strong> More options</strong>
-                      </a>
-                      <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-                          <a class="dropdown-item" href="/coordinatorDashboard">Coordinator page</a>
-                          <a class="dropdown-item" href="#">Panelist page</a>
-                      </ul>
-                  </div>
-              </div>
-						</div>
+											<div class="col-lg-2">
+													<div class="dropdown">
+															<a href="#pablo" class="btn btn-primary btn-round dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink1">
+																	<strong> More options</strong>
+															</a>
+															<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+																	<a class="dropdown-item" href="/coordinatorDashboard">Coordinator page</a>
+																	<a class="dropdown-item" href="#">Panelist page</a>
+															</ul>
+													</div>
+											</div>
+									</div>
 
-						<!--Adviser Proposal Tables Start-->
-						<div class="card">
-							<div class="card-header bg-primary">
-								<ul class="nav nav-tabs nav-tabs-neutral">
-									<li class="nav-item">
-										<a class="nav-link active" data-toggle="tab" role="tab">
-											Proposal
+									<!--Adviser Proposal Tables Start-->
+									<div class="card">
+											<div class="card-header bg-primary">
+													<ul class="nav nav-tabs nav-tabs-neutral">
+															<li class="nav-item">
+																	<a class="nav-link active" data-toggle="tab" role="tab">
+										Proposal
+									</a>
+															</li>
+													</ul>
+											</div>
+											<div class="card-body">
+													<table class="table table-hover table-responsive">
+															{% if currentUser %}
+															<thead class="text-primary">
+																	<th><strong>Group Name</strong></th>
+																	<th><strong>Description</strong></th>
+																	<th><strong>Type</strong></th>
+																	<th><strong>Notes</strong></th>
+																	<th><strong>Created</strong></th>
+																	<th><strong>Approved</strong></th>
+															</thead>
+															<tbody>
+																	<!--Null/Default-->
+																	{% for p in proposals %}
+																	<tr class="text-black">
+																			<td>{{p.groupName}}</td>
+																			<td>{{p.description}}</td>
+																			<td>{{p.endorseType}}</td>
+																			<td>{{p.notes}}</td>
+																			<td>{{p.created_at}}</td>
+																			<td>
+																					<form method="GET" action="/confirm">
+																							<input name="projectId" id="projectId" value="{{p.id}}" style='display:none'>
+																							<!-- Description -->
+																							<input name="description" id="description" value="{{p.description}}" style="display:none" />
+																							<!--Student Id-->
+																							<input name="studentId" id="studentId" value="{{p.studentId}}" style='display:none'>
+																							<!--Proposal Group Id-->
+																							<input name="groupId" id="groupId" value="{{p.groupId}}" style='display:none'>
+																							<!--Endorse To-->
+																							<input name="endorseBy" id="endorseBy" value="{{p.endorseTo}}" style='display:none'>
+
+																							<label class="form-check-label">
+																									<input class="form-check-input" type="radio" name="approved" id="approved" value=1>
+																									<span class="form-check-sign"></span> Approved
+																							</label>
+
+																							<label class="form-check-label">
+																									<input class="form-check-input" type="radio" name="approved" id="disapproved" value=0>
+																									<span class="form-check-sign"></span> Disapproved
+																							</label>
+																							<!--Separator-->
+																							<label class="form-check-label">
+																							</label>
+																							<label class="form-check-label">
+																							</label>
+																							<!--Separator End-->
+																							<button type="submit" class="btn btn-primary btn-icon  btn-icon-mini btn-round" data-toggle="modal" data-target="#addGroup">
+																									ok
+																							</button>
+																							{# {% endif %} #}
+																					</form>
+																			</td>
+																	</tr>
+																	{% endfor %}
+																	<!--Approved-->
+																	{% for p in proposalsApp %}
+																	<tr class="text-black">
+																			<td>{{p.groupName}}</td>
+																			<td>{{p.description}}</td>
+																			<td>{{p.endorseType}}</td>
+																			<td>{{p.notes}}</td>
+																			<td>{{p.created_at}}</td>
+																			<td>
+																					<form method="GET" action="/confirm">
+																							<!--Proposal Id-->
+																							<input name="projectId" id="projectId" value="{{p.id}}" style='display:none'>
+
+																							<label class="form-check-label">
+																									<input class="form-check-input" type="checkbox" name="approved" id="approved" value=1 disabled="" checked="">
+																									<span class="form-check-sign"></span>
+																									<span style="font-weight: bold; color:#00DB00">Approved</span>
+																							</label>
+																					</form>
+																			</td>
+																	</tr>
+																	{% endfor %}
+																	<!--Disapproved-->
+																	{% for p in proposalsDis %}
+																	<tr class="text-black">
+																			<td>{{p.groupName}}</td>
+																			<td>{{p.description}}</td>
+																			<td>{{p.endorseType}}</td>
+																			<td>{{p.notes}}</td>
+																			<td>{{p.created_at}}</td>
+																			<td>
+																					<form method="GET" action="/confirm">
+																							<input name="projectId" id="projectId" value="{{p.id}}" style='display:none'>
+
+																							<label class="form-check-label">
+																									<input class="form-check-input" type="checkbox" name="approved" id="approved" value=0 disabled="" checked="">
+																									<span class="form-check-sign"></span>
+																									<span style="font-weight: bold; color:#FF0017">Disapproved</span>
+																							</label>
+																					</form>
+																			</td>
+																	</tr>
+																	{% endfor %}
+															</tbody>
+															{% endif %}
+													</table>
+											</div>
+									</div>
+									<!--Adviser Proposal Tables End-->
+
+									<!--Adviser Projects Tables Start-->
+									<div class="card">
+											<div class="card-header bg-primary">
+													<ul class="nav nav-tabs nav-tabs-neutral">
+															<li class="nav-item">
+																	<a class="nav-link active" data-toggle="tab" role="tab">
+											Projects
 										</a>
-									</li>
-								</ul>
+															</li>
+													</ul>
+											</div>
+											<div class="card-body">
+													<table class="table table-hover table-responsive">
+															{% if currentUser %}
+															<thead class="text-primary">
+																	<th><strong>Group Name</strong></th>
+																	<th><strong>Project name</strong></th>
+																	<th><strong>Created</strong></th>
+																	<th><strong>Status</strong></th>
+																	<th><strong>Notes</strong></th>
+															</thead>
+															<tbody>
+																	{% for project in projectParse %}
+																	<tr class="text-black">
+																			<td>{{project.groupName}}</td>
+																			<td>{{project.projectname}}</td>
+																			<td>{{project.created_at }}</td>
+																			<td>{{project.status}}</td>
+																			<td>{{project.notes}}</td>
+																	</tr>
+																	{% endfor %}
+															</tbody>
+															{% endif %}
+													</table>
+											</div>
+									</div>
+									<!--Adviser Projects Tables End-->
+
+									<!-- Project Requirements Tab Start-->
+									<div class="card">
+											<div class="card-header bg-primary">
+													<ul class="nav nav-tabs nav-tabs-neutral">
+															<li class="nav-item">
+																	<a class="nav-link active" data-toggle="tab" role="tab">
+									Project Requirements | List of milestones
+									</a>
+															</li>
+													</ul>
+											</div>
+											<div class="card-body">
+													<table class="table table-hover table-responsive">
+															{% if currentUser %}
+															<thead class="text-primary">
+																	{#
+																	<th>&nbsp;</th> #}
+																	<th><strong>Project Name</strong></th>
+																	<th><strong>Deadline</strong></th>
+																	<th><strong>Must Have</strong></th>
+																	<th><strong>Progress (%)</strong></th>
+																	<th>&nbsp;</th>
+															</thead>
+															<tbody>
+																	{% for item in projObjWbs %}
+																	<tr class="text-black">
+																			<td>{{item.projectName}}</td>
+																			<td>{{item.deadline}}</td>
+																			<td>{{item.must}}</td>
+																			<td>{{item.milestone}}</td>
+																			{#
+																			<td><a href="/editRequirement">Edit</a>Edit</td> #}
+																	</tr>
+																	{% endfor %}
+															</tbody>
+															{% endif %}
+													</table>
+											</div>
+									</div>
+									<!-- Project Requirements Tab End-->
 							</div>
-							<div class="card-body">
-								<table class="table table-hover table-responsive">
-								{% if currentUser %}
-									<thead class="text-primary">
-										<th><strong>Group Name</strong></th>
-										<th><strong>Description</strong></th>
-										<th><strong>Type</strong></th>
-										<th><strong>Notes</strong></th>
-										<th><strong>Created</strong></th>
-										<th><strong>Approved</strong></th>
-									</thead>
-									<tbody>
-										<!--Null/Default-->
-										{% for p in proposals %}
-										<tr class="text-black">
-											<td>{{p.groupName}}</td>
-											<td>{{p.description}}</td>
-											<td>{{p.endorseType}}</td>
-											<td>{{p.notes}}</td>
-											<td>{{p.created_at}}</td>
-											<td>
-												<form method="GET" action="/confirm">
-													<input name="projectId" id="projectId" value="{{p.id}}" style='display:none'>
-                                                    <!-- Description -->
-                                                    <input name="description" id="description" value="{{p.description}}" style="display:none"/>
-													<!--Student Id-->
-													<input name="studentId" id="studentId" value="{{p.studentId}}" style='display:none'>
-													<!--Proposal Group Id-->
-													<input name="groupId" id="groupId" value="{{p.groupId}}" style='display:none'>
-													<!--Endorse To-->
-													<input name="endorseBy" id="endorseBy" value="{{p.endorseTo}}" style='display:none'>
-
-													<label class="form-check-label">
-														<input class="form-check-input" type="radio" name="approved" id="approved" value=1>
-														<span class="form-check-sign"></span>
-														Approved
-													</label>
-
-													<label class="form-check-label">
-														<input class="form-check-input" type="radio" name="approved" id="disapproved" value=0 >
-														<span class="form-check-sign"></span>
-														Disapproved
-													</label>
-													<!--Separator-->
-													<label class="form-check-label">
-													</label>
-													<label class="form-check-label">
-													</label>
-													<!--Separator End-->
-													<button type="submit" class="btn btn-primary btn-icon  btn-icon-mini btn-round"  data-toggle="modal" data-target="#addGroup">
-														ok
-													</button>
-													{# {% endif %} #}
-												</form>
-										</td>
-										</tr>
-										{% endfor %}
-										<!--Approved-->
-										{% for p in proposalsApp %}
-										<tr class="text-black">
-											<td>{{p.groupName}}</td>
-											<td>{{p.description}}</td>
-											<td>{{p.endorseType}}</td>
-											<td>{{p.notes}}</td>
-											<td>{{p.created_at}}</td>
-											<td>
-												<form method="GET" action="/confirm">
-													<!--Proposal Id-->
-													<input name="projectId" id="projectId" value="{{p.id}}" style='display:none'>
-
-
-													<label class="form-check-label">
-														<input class="form-check-input" type="checkbox" name="approved" id="approved" value=1 disabled="" checked="" >
-														<span class="form-check-sign"></span>
-														<span style="font-weight: bold; color:#00DB00">Approved</span>
-													</label>
-												</form>
-										</td>
-										</tr>
-										{% endfor %}
-										<!--Disapproved-->
-										{% for p in proposalsDis %}
-										<tr class="text-black">
-											<td>{{p.groupName}}</td>
-											<td>{{p.description}}</td>
-											<td>{{p.endorseType}}</td>
-											<td>{{p.notes}}</td>
-											<td>{{p.created_at}}</td>
-											<td>
-												<form method="GET" action="/confirm">
-													<input name="projectId" id="projectId" value="{{p.id}}" style='display:none'>
-
-													<label class="form-check-label">
-														<input class="form-check-input" type="checkbox" name="approved" id="approved" value=0 disabled="" checked="" >
-														<span class="form-check-sign"></span>
-														<span style="font-weight: bold; color:#FF0017">Disapproved</span>
-													</label>
-												</form>
-										</td>
-										</tr>
-										{% endfor %}
-									</tbody>
-									{% endif %}
-								</table>
-							</div>
-						</div>
-						<!--Adviser Proposal Tables End-->
-
-						<!--Adviser Projects Tables Start-->
-						<div class="card">
-								<div class="card-header bg-primary">
-									<ul class="nav nav-tabs nav-tabs-neutral">
-										<li class="nav-item">
-											<a class="nav-link active" data-toggle="tab" role="tab">
-												Projects
-											</a>
-										</li>
-									</ul>
-								</div>
-								<div class="card-body">
-								<table class="table table-hover table-responsive">
-								{% if currentUser %}
-									<thead class="text-primary">
-										<th><strong>Group Name</strong></th>
-										<th><strong>Project name</strong></th>
-										<th><strong>Created</strong></th>
-										<th><strong>Status</strong></th>
-										<th><strong>Notes</strong></th>
-									</thead>
-									<tbody>
-										{% for project in projectParse %}
-										<tr class="text-black">
-											<td>{{project.groupName}}</td>
-											<td>{{project.projectname}}</td>
-											<td>{{project.created_at }}</td>
-											<td>{{project.status}}</td>
-											<td>{{project.notes}}</td>
-										</tr>
-										{% endfor %}
-									</tbody>
-									{% endif %}
-								</table>
-							</div>
-						</div>
-						<!--Adviser Projects Tables End-->
-
-						<!-- Project Requirements Tab Start-->
-						<div class="card">
-							<div class="card-header bg-primary">
-								<ul class="nav nav-tabs nav-tabs-neutral">
-									<li class="nav-item">
-										<a class="nav-link active" data-toggle="tab" role="tab">
-										Project Requirements | List of milestones
-										</a>
-									</li>
-								</ul>
-							</div>
-							<div class="card-body">
-								<table class="table table-hover table-responsive">
-									{% if currentUser %}
-										<thead class="text-primary">
-											{# <th>&nbsp;</th> #}
-											<th><strong>Project Name</strong></th>
-											<th><strong>Deadline</strong></th>
-											<th><strong>Must Have</strong></th>
-											<th><strong>Progress (%)</strong></th>
-											<th>&nbsp;</th>
-										</thead>
-									<tbody>
-										{% for item in projObjWbs %}
-											<tr class="text-black">
-												<td>{{item.projectName}}</td>
-												<td>{{item.deadline}}</td>
-												<td>{{item.must}}</td>
-												<td>{{item.milestone}}</td>
-											{# <td><a href="/editRequirement">Edit</a>Edit</td> #}
-											</tr>
-										{% endfor %}
-									</tbody>
-									{% endif %}
-								</table>
-							</div>
-						</div>
-						<!-- Project Requirements Tab End-->
 					</div>
-				</div>
 			</div>
-		</div>
 	</div>
+</div>
 {% endblock %}

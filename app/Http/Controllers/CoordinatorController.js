@@ -1,19 +1,26 @@
 'use strict'
+const Database = use('Database')
 const Endorse = use('App/Model/Endorse')
 const GroupControl = use('App/Model/GroupControl')
 const Notification = use('App/Model/Notification')
 const Project = use('App/Model/Project')
+const Requirement = use('App/Model/Requirement')
 class CoordinatorController {
     * showCoordinator (request, response){
         const user = yield request.auth.getUser()
-        const projects  = yield Project.query().innerJoin('group_controls','projects.groupId', 'group_controls.groupId').where('projects.coordinator',user.email).fetch()
+        const projects = yield Database.select('g.groupName', 'p.id', 'p.projectname','p.groupId').from('projects as p')
+        .innerJoin('group_controls as g','p.groupId', 'g.groupId').where('p.coordinator',user.email)
+        const requirements = yield Requirement.query().innerJoin('projects','requirements.projectId', 'projects.id').where('projects.coordinator', user.email).fetch()
+
         const endorse = yield Endorse.query().where({endorseTo : user.email, endorseType: 'Endorse to Coordinator'}).fetch()
         const gc = yield GroupControl.query().where({coordinator: user.email}).fetch()
         const gcMax = yield GroupControl.query().max('groupId as maxId')
         const gcMaxStringfy = JSON.stringify(gcMax)
         const gcMaxParse = JSON.parse(gcMaxStringfy)
         const maxId = gcMaxParse[0].maxId + 1
-        yield response.sendView('coordinatorDashboard', {endorse:endorse.toJSON(), gc:gc.toJSON(), maxId, projects:projects.toJSON()})
+
+
+        yield response.sendView('coordinatorDashboard', {endorse:endorse.toJSON(), gc:gc.toJSON(), maxId, projects, requirements:requirements.toJSON()})
     }
 
     * createGroup(request,response){
@@ -86,7 +93,7 @@ class CoordinatorController {
 
     * insertReq(request,response){
       try {
-        const require = new Requirements()
+        const require = new Requirement()
         require.projectId = request.input('pid')
         require.must_have = request.input('must')
         require.deadline = request.input('deadline')

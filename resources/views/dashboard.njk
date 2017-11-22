@@ -7,313 +7,296 @@
         <div class="container">
             <div class="row" style="padding-top:90px">
                 <div class="col-md-12 animsition" data-animsition-in-class="fade-in-down-sm" data-animsition-in-duration="500">
-                    {% if currentUser %}
-                        {% if user %}
-                            {% for gc in groupControl %}
-                                <ul class="nav nav-tabs nav-tabs-neutral">
-                                    <li class="nav-item ">
-                                        <a class="nav-link active" data-toggle="tab" role="tab">
+                    {% if currentUser %} {% if user %} {% for gc in groupControl %}
+                    <ul class="nav nav-tabs nav-tabs-neutral">
+                        <li class="nav-item ">
+                            <a class="nav-link active" data-toggle="tab" role="tab">
                                             {{gc.groupName}}&nbsp;|&nbsp;{{gc.clSched}}&nbsp;|&nbsp;Coordinator: {{gc.coordinator}}&nbsp;|&nbsp;Adviser:&nbsp;{{gc.adviser}}
                                         </a>
-                                    </li>
-                                </ul>
-                            {% endfor %}
-                        {% else %}
-                            <form method="GET" action="joinGroup">
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item">
-                                        <div class="form-group">
-                                            <select id="groupControl" name="groupControl" class="selectpicker" data-size="10" data-style="btn btn-info btn-round btn-md" required>
-                                                <option disabled selected><strong>Select schedule</strong> &nbsp;</option>
-                                                {% for gc in groupControl %}
-                                                    <option value={{gc.groupId}}>{{gc.groupName}}&nbsp;/&nbsp;{{gc.clSched}}&nbsp;/&nbsp;Coordinator: {{gc.coordinator}} &nbsp;</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                    </li>
-                                    <li class="nav-item">&nbsp;&nbsp;</li>
-                                    <li class="nav-item">
-                                        <div class="form-group" style="padding-top:10px;">
-                                            <input class="form-control" name="groupKey" id="groupKey" placeholder="Valid Group Key..." value="{{old('groupKey')}}" required/>
-                                        </div>
-                                        <div class="form-group">&nbsp;&nbsp;&nbsp;&nbsp;{{grpKeyError}}</div>
-                                    </li>
-                                    <li class="nav-item">&nbsp;&nbsp;</li>
-                                    <li class="nav-item">
-                                        <div class="form-group form-group-no-border input-md">
-                                            <button type="submit" class="btn btn-success btn-round btn-md" data-toggle="modal">
-                                                <strong>Join group</strong>
-                                                <div class="ripple-container"></div>
-                                            </button>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </form>
-                        {% endif %}
-                    {% endif %}
-
-                    {% if currentUser %}
-                        {% if user %}
-                            <p class="category">Group Dashboard</p>
-                            <div class="card">
-                                <div class="card-header bg-primary">
-                                    <ul class="nav nav-tabs nav-tabs-neutral">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" data-toggle="tab" role="tab">
+                        </li>
+                    </ul>
+                    {% endfor %} {% else %}
+                    <form method="GET" action="joinGroup">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <div class="form-group">
+                                    <select id="groupControl" name="groupControl" class="selectpicker" data-size="10" data-style="btn btn-info btn-round btn-md" required>
+                                        <option disabled selected><strong>Select schedule</strong> &nbsp;</option>
+                                        {% for gc in groupControl %}
+                                        <option value={{gc.groupId}}>{{gc.groupName}}&nbsp;/&nbsp;{{gc.clSched}}&nbsp;/&nbsp;Coordinator: {{gc.coordinator}} &nbsp;</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </li>
+                            <li class="nav-item">&nbsp;&nbsp;</li>
+                            <li class="nav-item">
+                                <div class="form-group" style="padding-top:10px;">
+                                    <input class="form-control" name="groupKey" id="groupKey" placeholder="Valid Group Key..." value="{{old('groupKey')}}" required/>
+                                </div>
+                                <div class="form-group">&nbsp;&nbsp;&nbsp;&nbsp;{{grpKeyError}}</div>
+                            </li>
+                            <li class="nav-item">&nbsp;&nbsp;</li>
+                            <li class="nav-item">
+                                <div class="form-group form-group-no-border input-md">
+                                    <button type="submit" class="btn btn-success btn-round btn-md" data-toggle="modal">
+                                        <strong>Join group</strong>
+                                        <div class="ripple-container"></div>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </form>
+                    {% endif %} {% endif %} {% if currentUser %} {% if user %}
+                    <p class="category">Group Dashboard</p>
+                    <div class="card">
+                        <div class="card-header bg-primary">
+                            <ul class="nav nav-tabs nav-tabs-neutral">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" role="tab">
                                                 Group Info | members list
                                             </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="card-body">
-                                    <table class="table table-hover table-responsive">
-                                        <thead class="text-primary">
-                                            <th><strong>Member ID</strong></th>
-                                            <th><strong>Project ID</strong></th>
-                                            <th><strong>Lastname</strong></th>
-                                            <th><strong>Firstname</strong></th>
-                                            <th><strong>Status</strong></th>
-                                            <th>&nbsp;</th>
-                                        </thead>
-                                        {% for member in group %}
-                                        <tbody>
-                                            <tr class="text-black">
-                                                <td>{{member.id}}</td>
-                                                <td>{{member.projectId}}</td>
-                                                <td>{{member.lastname}}</td>
-                                                <td>{{member.firstname}}</td>
-                                                <td>{{member.status}}</td>
-                                                <td>
-                                                    <form method="GET" action="/editGroup">
-                                                        <input name="projectId" value="{{member.projectId}}" style='display:none'>
-                                                        <input name="id" value="{{member.id}}" style='display:none'>
-                                                        <input name="lastname" value="{{member.lastname}}" style='display:none'>
-                                                        <input name="firstname" value="{{member.firstname}}" style='display:none'>
-                                                        <input name="status" value="{{member.status}}" style='display:none'>
-                                                        <button type="submit" class="btn btn-xs btn-round" data-toggle="tooltip" data-placement="right" title="Edit" data-animation="true" data-delay="100">
-                                                            <i class="fa fa-pencil-square-o"></i>
-                                                            <div class="ripple-container"></div>
-                                                        </button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                        {% endfor %}
-                                    </table>
-                                </div>
-                                <div class="footer">
-                                    <ul class="list-unstyled">
-                                        <li class="active">
-                                            <button type="button" class="btn btn-primary btn-round btn-md" data-toggle="modal" data-target="#createProposal">
-                                                <i class="fa fa-address-book-o"></i>&nbsp; Create Proposal
-                                                <div class="ripple-container"></div>
-                                            </button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-hover table-responsive">
+                                <thead class="text-primary">
+                                    <th><strong>Member ID</strong></th>
+                                    <th><strong>Project ID</strong></th>
+                                    <th><strong>Lastname</strong></th>
+                                    <th><strong>Firstname</strong></th>
+                                    <th><strong>Status</strong></th>
+                                    <th>&nbsp;</th>
+                                </thead>
+                                {% for member in group %}
+                                <tbody>
+                                    <tr class="text-black">
+                                        <td>{{member.id}}</td>
+                                        <td>{{member.projectId}}</td>
+                                        <td>{{member.lastname}}</td>
+                                        <td>{{member.firstname}}</td>
+                                        <td>{{member.status}}</td>
+                                        <td>
+                                            <form method="GET" action="/editGroup">
+                                                <input name="projectId" value="{{member.projectId}}" style='display:none'>
+                                                <input name="id" value="{{member.id}}" style='display:none'>
+                                                <input name="lastname" value="{{member.lastname}}" style='display:none'>
+                                                <input name="firstname" value="{{member.firstname}}" style='display:none'>
+                                                <input name="status" value="{{member.status}}" style='display:none'>
+                                                <button type="submit" class="btn btn-xs btn-round" data-toggle="tooltip" data-placement="right" title="Edit" data-animation="true" data-delay="100">
+                                                    <i class="fa fa-pencil-square-o"></i>
+                                                    <div class="ripple-container"></div>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                {% endfor %}
+                            </table>
+                        </div>
+                        <div class="footer">
+                            <ul class="list-unstyled">
+                                <li class="active">
+                                    <button type="button" class="btn btn-primary btn-round btn-md" data-toggle="modal" data-target="#createProposal">
+                                        <i class="fa fa-address-book-o"></i>&nbsp; Create Proposal
+                                        <div class="ripple-container"></div>
+                                    </button>
 
-                                            <!--Fruit Jam ADD (Attached/Upload)-->
-                                            <button type="button" class="btn btn-primary btn-round btn-md" data-toggle="modal" data-target="#upload">
-                                                <i class="fa fa-file"></i>&nbsp; File Upload
-                                                <div class="ripple-container"></div>
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                                    <!--Fruit Jam ADD (Attached/Upload)-->
+                                    <button type="button" class="btn btn-primary btn-round btn-md" data-toggle="modal" data-target="#upload">
+                                        <i class="fa fa-file"></i>&nbsp; File Upload
+                                        <div class="ripple-container"></div>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
 
-                            <!-- Project Proposal -->
-                            <div class="card">
-                                <div class="card-header bg-primary">
-                                    <ul class="nav nav-tabs nav-tabs-neutral">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" data-toggle="tab" role="tab">
+                    <!-- Project Proposal -->
+                    <div class="card">
+                        <div class="card-header bg-primary">
+                            <ul class="nav nav-tabs nav-tabs-neutral">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" role="tab">
                                                Project Proposal
                                             </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="card-body">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
 
-                                    <table class="table table-hover table-md table-responsive">
-                                        <thead class="text-primary">
-                                            <th><strong>Proposal</strong></th>
-                                            <th><strong>Type</strong></th>
-                                            <th><strong>Endorse by</strong></th>
-                                            <th><strong>Endorse to</strong></th>
-                                            <th><strong>Created</strong></th>
-                                            <th><strong>Approved?</strong></th>
-                                            <th><strong>Remarks</strong></th>
-                                            <th>&nbsp;</th>
-                                        </thead>
-                                        {% for e in endorse %}
-                                            <tbody>
-                                                <tr class="text-black">
-                                                    <td>{{e.description}}</td>
-                                                    <td>{{e.endorseType}}</td>
-                                                    <td>{{e.endorseBy}}</td>
-                                                    <td>{{e.endorseTo}}</td>
-                                                    <td>{{e.created_at}}</td>
-                                                    <td>{{e.Confirmed}}</td>
-                                                    <td>{{e.notes}}</td>
-                                                    <td>
-                                                        <form method="GET" action="/editEndorse">
-                                                            <input name="groupId" value="{{e.groupId}}" style='display:none'>
-                                                            <input name="id" value="{{e.id}}" style='display:none'>
-                                                            <input name="lastname" value="{{member.lastname}}" style='display:none'>
-                                                            <input name="firstname" value="{{member.firstname}}" style='display:none'>
-                                                            <input name="status" value="{{member.status}}" style='display:none'>
-                                                            <button type="submit" class="btn btn-xs btn-white btn-round" data-toggle="tooltip" data-placement="right" title="Edit" data-container="body" data-animation="true" data-delay="100">
-                                                                <i class="fa fa-pencil-square-o"></i>
-                                                                <div class="ripple-container"></div>
-                                                            </button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
+                            <table class="table table-hover table-md table-responsive">
+                                <thead class="text-primary">
+                                    <th><strong>Proposal</strong></th>
+                                    <th><strong>Type</strong></th>
+                                    <th><strong>Endorse by</strong></th>
+                                    <th><strong>Endorse to</strong></th>
+                                    <th><strong>Created</strong></th>
+                                    <th><strong>Approved?</strong></th>
+                                    <th><strong>Remarks</strong></th>
+                                    <th>&nbsp;</th>
+                                </thead>
+                                {% for e in endorse %}
+                                <tbody>
+                                    <tr class="text-black">
+                                        <td>{{e.description}}</td>
+                                        <td>{{e.endorseType}}</td>
+                                        <td>{{e.endorseBy}}</td>
+                                        <td>{{e.endorseTo}}</td>
+                                        <td>{{e.created_at}}</td>
+                                        <td>{{e.Confirmed}}</td>
+                                        <td>{{e.notes}}</td>
+                                        <td>
+                                            <form method="GET" action="/editEndorse">
+                                                <input name="groupId" value="{{e.groupId}}" style='display:none'>
+                                                <input name="id" value="{{e.id}}" style='display:none'>
+                                                <input name="lastname" value="{{member.lastname}}" style='display:none'>
+                                                <input name="firstname" value="{{member.firstname}}" style='display:none'>
+                                                <input name="status" value="{{member.status}}" style='display:none'>
+                                                <button type="submit" class="btn btn-xs btn-white btn-round" data-toggle="tooltip" data-placement="right" title="Edit" data-container="body" data-animation="true" data-delay="100">
+                                                    <i class="fa fa-pencil-square-o"></i>
+                                                    <div class="ripple-container"></div>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
 
-                                            </tbody>
-                                        {% endfor %}
-                                    </table>
+                                </tbody>
+                                {% endfor %}
+                            </table>
 
-                                </div>
+                        </div>
 
-                            </div>
+                    </div>
 
-                            <!--Work Break Down Structure-->
-                            <div class="card">
-                                <div class="card-header bg-primary">
-                                    <ul class="nav nav-tabs nav-tabs-neutral">
-                                        <li class="nav-item">
-                                          <button type="button" class="btn btn-round nav-link active" data-toggle="modal" data-target="#wbs">
-                                              <i class="fa fa-pencil-square-o"></i>&nbsp; Work Break Down Structure
-                                              <div class="ripple-container"></div>
-                                          </button>
-                                        </li>
-                                    </ul>
-                                </div>
+                    <!--Work Break Down Structure-->
+                    <div class="card">
+                        <div class="card-header bg-primary">
+                            <ul class="nav nav-tabs nav-tabs-neutral">
+                                <li class="nav-item">
+                                    <button type="button" class="btn btn-round nav-link active" data-toggle="modal" data-target="#wbs">
+                                        <i class="fa fa-pencil-square-o"></i>&nbsp; Work Break Down Structure
+                                        <div class="ripple-container"></div>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
 
+                        <!--Display Work Break Down Structure-->
+                        <div class="card-body table-fixed">
+                            {% if currentUser %}
+                            <table class="table table-responsive">
+                                <thead class="text-primary">
+                                    <th><strong>Must ID</strong></th>
+                                    <th><strong>WBS Description</strong></th>
+                                    <th><strong>Email</strong></th>
+                                    <th><strong>Status</strong></th>
+                                    <th><strong>Start Date</strong></th>
+                                    <th><strong>End Date</strong></th>
+                                    <th>&nbsp;</th>
+                                </thead>
+                                <tbody>
+                                    {% for w in works %}
+                                    <tr class="text-black">
+                                        <td>{{w.must_id}}</td>
+                                        <td>{{w.description}}</td>
+                                        <td>{{w.email}}</td>
+                                        <td>{{w.status}}</td>
+                                        <td>{{w.startdate}}</td>
+                                        <td>{{w.enddate}}</td>
+                                        <td>
+                                            <button class="btn btn-xs btn-white btn-round" data-toggle="modal" data-target="#{{w.workId}}">
+                                                <i class="fa fa-pencil-square-o"></i>
+                                                <div class="ripple-container"></div>
+                                            </button>
+                                            <!--Add Must Have Requirements-->
+                                            <div class="modal fade" id="{{w.workId}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content -->
+                                                    <div class="modal-content">
 
-                                <!--Display Work Break Down Structure-->
-                                <div class="card-body table-fixed">
-                                    {% if currentUser %}
-                                        <table class="table table-responsive">
-                                            <thead class="text-primary">
-                                                <th><strong>Must ID</strong></th>
-                                                <th><strong>WBS Description</strong></th>
-                                                <th><strong>Email</strong></th>
-                                                <th><strong>Status</strong></th>
-                                                <th><strong>Start Date</strong></th>
-                                                <th><strong>End Date</strong></th>
-                                                <th>&nbsp;</th>
-                                            </thead>
-                                            <tbody>
-                                                  {% for w in works %}
-                                                    <tr class="text-black">
-                                                        <td>{{w.must_id}}</td>
-                                                        <td>{{w.description}}</td>
-                                                        <td>{{w.email}}</td>
-                                                        <td>{{w.status}}</td>
-                                                        <td>{{w.startdate}}</td>
-                                                        <td>{{w.enddate}}</td>
-                                                        <td>
-                                                          <button class="btn btn-xs btn-white btn-round"data-toggle="modal" data-target="#{{w.workId}}" >
-                                                              <i class="fa fa-pencil-square-o"></i>
-                                                              <div class="ripple-container"></div>
-                                                          </button>
-                                                          <!--Add Must Have Requirements-->
-                                                          <div class="modal fade" id="{{w.workId}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                                              <div class="modal-dialog">
-                                                                  <!-- Modal content -->
-                                                                  <div class="modal-content">
-
-                                                                      <div class="modal-header">
-                                                                          <h5 class="modal-title">Edit WBS</h5>
-                                                                          <a class="nav nav-link nav-pills nav-pills-success"
-                                                                             data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Edit WBS</h5>
+                                                            <a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
                                                                           </a>
-                                                                      </div>
+                                                        </div>
 
-                                                                    <div class="modal-body">
-                                                                            <!--Error-->
-                                                                        {% if old('error') %}
-                                                                              <div class="text-danger">
-                                                                                  {{ old('error') }}
-                                                                              </div>
-                                                                        {% endif %}
-                                                                            <!--Success-->
-                                                                        {% if old('success') %}
-                                                                              <div class="text-success">
-                                                                                  {{ old('success') }}
-                                                                              </div>
-                                                                        {% endif %}
-                                                                      <form class="form-horizontal" role="form" method="POST" action="/updateWbs">
-                                                                        {{ csrfField }}
-                                                                          <input id="workId" name="workId" type="text" class="form-control"  value="{{w.workId}}" style="display:none">
-                                                                            <div class="form-group">
-                                                                              <label for="groupname" class="text-muted">WBS Description</label>
-                                                                              <div class="col-md-12">
-                                                                                <input id="descWbs" name="descWbs" type="text" class="form-control"  value="{{w.description}}" required>
-                                                                              </div>
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                              <label for="groupname" class="text-muted">Status:</label>
-                                                                              <div class="col-md-12">
-                                                                                <select name="status" id="status" class="selectpicker " data-style="btn btn-primary btn-default btn-round" >
-                                                                                <option value ="{{w.status}}" disabled>{{w.status}}</option>
-                                                                                <option value ="{{w.status}}" style="display:none" selected>{{w.status}}</option>
-                                                                                {% if w.status == 'Not Started' %}
-                                                                                <option value ="{{w.status}}" style="display:none">{{w.status}}</option>
-                                                                                <option value = "On-going" > On-going </option>
-                                                                                <option value = "Finished" > Finished </option>
-                                                                                {% endif %}
-
-                                                                                {% if w.status == 'Finished' %}
-                                                                                <option value ="{{w.status}}" style="display:none">{{w.status}}</option>
-                                                                                <option value = "Not Started" > Not Started </option>
-                                                                                <option value = "On-going" > On-going </option>
-                                                                                {% endif %}
-
-                                                                                {% if w.status == 'On-going' %}
-                                                                                <option value ="{{w.status}}" style="display:none">{{w.status}}</option>
-                                                                                <option value = "Not Started" > Not Started </option>
-                                                                                <option value = "Finished" > Finished </option>
-                                                                                {% endif %}
-                                                                                </select>
-                                                                              </div>
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                              <label for="lastname" class="col-md-10 text-muted">Start Date</label>
-                                                                              <div class="col-md-12">
-                                                                                <input id="startDate" type="text" class="form-control datetimepicker" placeholder="Start Date" name="startDate" value="{{w.startdate}}" required>
-                                                                              </div>
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                              <label for="lastname" class="col-md-10 text-muted">End Date</label>
-                                                                              <div class="col-md-12">
-                                                                                <input id="endDate" type="text" class="form-control datetimepicker" placeholder="End Date" name="endDate" value="{{w.enddate}}" required>
-                                                                              </div>
-                                                                            </div>
-                                                                            <div class="footer text-center">
-                                                                              <button class="btn btn-primary btn-round btn-md">
-                                                                              <i class="fa fa-btn fa-sign-in">&nbsp;</i> Save
-                                                                              </button>
-                                                                              <a href="dashboard" class="btn btn-primary btn-round btn-md">
-                                                                              <i class="fa fa-btn fa-sign-out">&nbsp;</i> Cancel
-                                                                              </a>
-                                                                            </div>
-                                                                        </form>
+                                                        <div class="modal-body">
+                                                            <!--Error-->
+                                                            {% if old('error') %}
+                                                            <div class="text-danger">
+                                                                {{ old('error') }}
+                                                            </div>
+                                                            {% endif %}
+                                                            <!--Success-->
+                                                            {% if old('success') %}
+                                                            <div class="text-success">
+                                                                {{ old('success') }}
+                                                            </div>
+                                                            {% endif %}
+                                                            <form class="form-horizontal" role="form" method="POST" action="/updateWbs">
+                                                                {{ csrfField }}
+                                                                <input id="workId" name="workId" type="text" class="form-control" value="{{w.workId}}" style="display:none">
+                                                                <div class="form-group">
+                                                                    <label for="groupname" class="text-muted">WBS Description</label>
+                                                                    <div class="col-md-12">
+                                                                        <input id="descWbs" name="descWbs" type="text" class="form-control" value="{{w.description}}" required>
                                                                     </div>
                                                                 </div>
-                                                             </div>
-                                                          </div>
-                                                          <!--Add Must Have Requirements End-->
-                                                        </td>
-                                                    </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endif %}
+                                                                <div class="form-group">
+                                                                    <label for="groupname" class="text-muted">Status:</label>
+                                                                    <div class="col-md-12">
+                                                                        <select name="status" id="status" class="selectpicker " data-style="btn btn-primary btn-default btn-round">
+                                                                            <option value="{{w.status}}" disabled>{{w.status}}</option>
+                                                                            <option value="{{w.status}}" style="display:none" selected>{{w.status}}</option>
+                                                                            {% if w.status == 'Not Started' %}
+                                                                            <option value="{{w.status}}" style="display:none">{{w.status}}</option>
+                                                                            <option value="On-going"> On-going </option>
+                                                                            <option value="Finished"> Finished </option>
+                                                                            {% endif %} {% if w.status == 'Finished' %}
+                                                                            <option value="{{w.status}}" style="display:none">{{w.status}}</option>
+                                                                            <option value="Not Started"> Not Started </option>
+                                                                            <option value="On-going"> On-going </option>
+                                                                            {% endif %} {% if w.status == 'On-going' %}
+                                                                            <option value="{{w.status}}" style="display:none">{{w.status}}</option>
+                                                                            <option value="Not Started"> Not Started </option>
+                                                                            <option value="Finished"> Finished </option>
+                                                                            {% endif %}
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="lastname" class="col-md-10 text-muted">Start Date</label>
+                                                                    <div class="col-md-12">
+                                                                        <input id="startDate" type="text" class="form-control datetimepicker" placeholder="Start Date" name="startDate" value="{{w.startdate}}" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="lastname" class="col-md-10 text-muted">End Date</label>
+                                                                    <div class="col-md-12">
+                                                                        <input id="endDate" type="text" class="form-control datetimepicker" placeholder="End Date" name="endDate" value="{{w.enddate}}" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="footer text-center">
+                                                                    <button class="btn btn-primary btn-round btn-md">
+                                                                        <i class="fa fa-btn fa-sign-in">&nbsp;</i> Save
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--Add Must Have Requirements End-->
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %} {% endif %}
                 </div>
             </div>
 
@@ -335,30 +318,30 @@
                         </div>
                         <div class="card-body">
                             {% if currentUser %}
-                                <table class="table table-hover table-md table-striped table-responsive">
-                                    <thead class="text-warning">
-                                        <th>Project ID</th>
-                                        <th>Due date</th>
-                                        <th>Must Have</th>
-                                        <th>Percentage</th>
-                                        <th>Remarks</th>
-                                        <th>Created</th>
-                                    </thead>
-                                    <tbody>
+                            <table class="table table-hover table-md table-striped table-responsive">
+                                <thead class="text-warning">
+                                    <th>Project ID</th>
+                                    <th>Due date</th>
+                                    <th>Must Have</th>
+                                    <th>Percentage</th>
+                                    <th>Remarks</th>
+                                    <th>Created</th>
+                                </thead>
+                                <tbody>
 
-                                        {% for item in requirements %}
-                                            <tr class="text-black">
-                                                <td>{{item.projectId}}</td>
-                                                <td>{{item.deadline}}</td>
-                                                <td>{{item.must_have}}</td>
-                                                <td>{{item.milestone}}</td>
-                                                <td>{{item.notes}}</td>
-                                                <td>{{item.created_at}}</td>
-                                            </tr>
-                                        {% endfor %}
+                                    {% for item in requirements %}
+                                    <tr class="text-black">
+                                        <td>{{item.projectId}}</td>
+                                        <td>{{item.deadline}}</td>
+                                        <td>{{item.must_have}}</td>
+                                        <td>{{item.milestone}}</td>
+                                        <td>{{item.notes}}</td>
+                                        <td>{{item.created_at}}</td>
+                                    </tr>
+                                    {% endfor %}
 
-                                    </tbody>
-                                </table>
+                                </tbody>
+                            </table>
                             {% endif %}
                         </div>
                     </div>
@@ -376,22 +359,18 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Create Proposal</h5>
-                <a class="nav nav-link nav-pills nav-pills-success"
-                   data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+                <a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
                 </a>
             </div>
 
             <div class="modal-body">
                 <form class="form-horizontal" role="form" method="POST" action="/submitProposal">
 
-                    {{ csrfField }}
+                    {{ csrfField }} {% for gc in groupControl %}
+                    <input id="endorseTo" name="endorseTo" value={{gc.adviser}} style="display:none;" />
+                    <input id="groupId" name="groupId" value={{gc.groupId}} style="display:none;" /> {% endfor %}
 
-                    {% for gc in groupControl %}
-                        <input id="endorseTo" name="endorseTo" value={{gc.adviser}} style="display:none;" />
-                        <input id="groupId" name="groupId" value={{gc.groupId}} style="display:none;" />
-                    {% endfor %}
-
-                    <input id="studentId" name="studentId" value={{currentUser.personal_code}} style="display:none;"/>
+                    <input id="studentId" name="studentId" value={{currentUser.personal_code}} style="display:none;" />
 
                     <div class="col-lg-12">
                         <label for="endorsedBy" class="col-lg-12 control-label">Created by</label>
@@ -423,7 +402,7 @@
                     </div>
 
                     <div class="footer text-center">
-                       <button type="submit" class="btn btn-primary btn-round btn-md">Save</button>
+                        <button type="submit" class="btn btn-primary btn-round btn-md">Save</button>
                     </div>
                 </form>
             </div>
@@ -438,23 +417,22 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Upload Document</h5>
-                <a class="nav nav-link nav-pills nav-pills-success"
-                   data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+                <a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
                 </a>
             </div>
             <div class="modal-body">
-                        <!--Error-->
-                    {% if old('error') %}
-                          <div class="text-danger">
-                              {{ old('error') }}
-                          </div>
-                      {% endif %}
-                        <!--Success-->
-                    {% if old('success') %}
-                          <div class="text-success">
-                              {{ old('success') }}
-                          </div>
-                      {% endif %}
+                <!--Error-->
+                {% if old('error') %}
+                <div class="text-danger">
+                    {{ old('error') }}
+                </div>
+                {% endif %}
+                <!--Success-->
+                {% if old('success') %}
+                <div class="text-success">
+                    {{ old('success') }}
+                </div>
+                {% endif %}
                 <form class="form-horizontal" role="form" method="POST" action="/file" enctype="multipart/form-data">
                     {{ csrfField }}
 
@@ -474,27 +452,27 @@
                     </div>
 
                     <div class="footer text-center">
-                       <button type="submit" class="btn btn-primary btn-round btn-lg">Upload</button>
+                        <button type="submit" class="btn btn-primary btn-round btn-lg">Upload</button>
                     </div>
                 </form>
 
                 <!--Display Documents-->
                 <div class="card-body">
                     {% if currentUser %}
-                        <table class="table table-hover table-md table-striped table-responsive">
-                            <thead class="text-warning">
-                                <th>Document</th>
-                                <th>Date Uploaded</th>
-                            </thead>
-                            <tbody>
-                                {% for docx in uploads %}
-                                    <tr class="text-black">
-                                        <td><a href = "users/{{ docx.document | replace(r/^.*[\\\/]/, '')}}" >{{ docx.document | replace(r/^.*[\\\/]/, '')}}</a></td>
-                                        <td>{{docx.updated_at}}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                    <table class="table table-hover table-md table-striped table-responsive">
+                        <thead class="text-warning">
+                            <th><strong>Document</strong></th>
+                            <th><strong>Date Uploaded</strong></th>
+                        </thead>
+                        <tbody>
+                            {% for docx in uploads %}
+                            <tr class="text-black">
+                                <td><a href="users/{{ docx.document | replace(r/^.*[\\\/]/, '')}}">{{ docx.document | replace(r/^.*[\\\/]/, '')}}</a></td>
+                                <td>{{docx.updated_at}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                     {% endif %}
                 </div>
 
@@ -511,8 +489,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Add Work Breakdown Structure</h5>
-                <a class="nav nav-link nav-pills nav-pills-success"
-                   data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+                <a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
                 </a>
             </div>
 
@@ -524,56 +501,56 @@
                     <div class="col-lg-12">
                         <label for="endorsedBy" class="col-lg-12 control-label">Created by</label>
                         <div class="form-group">
-                            <input id="endorsedBy" name="endorsedBy" type="email" class="form-control" value = {{currentUser.email}} disabled>
+                            <input id="endorsedBy" name="endorsedBy" type="email" class="form-control" value={{currentUser.email}} disabled>
                         </div>
                     </div>
 
                     <div class="col-lg-6">
                         <div class="form-group">
-                          <select name="mustId" id="mustId" class="selectpicker " data-style="btn  btn-default btn-round"  required>
+                            <select name="mustId" id="mustId" class="selectpicker " data-style="btn  btn-primary btn-default btn-round" required>
                                 <option disabled selected> ID | Must Have</option>
                                 {% for r in requirements %}
-                                <option value = {{ r.id }} > {{ r.id }} | {{ r.must_have }} </option>
+                                <option value={ { r.id }}> {{ r.id }} | {{ r.must_have }} </option>
                                 {% endfor %}
-                          </select>
-                      </div>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="col-lg-12">
                         <label class="col-lg-12 control-label">Work Breakdown Description</label>
                         <div class="form-group">
-                          <input id="mustDesc" name="mustDesc" type="text" class="form-control"  required>
+                            <input id="mustDesc" name="mustDesc" type="text" class="form-control" required>
                         </div>
                     </div>
 
                     <div class="col-lg-12">
                         <label class="col-lg-12 control-label">Start Date</label>
                         <div class="form-group">
-                          <input id="startDate" name="startDate" type="text" class="form-control datetimepicker" placeholder="Start Date" required >
+                            <input id="startDate" name="startDate" type="text" class="form-control datetimepicker" placeholder="Start Date" required>
                         </div>
                     </div>
 
                     <div class="col-lg-12">
                         <label class="col-lg-12 control-label">End Date</label>
-                          <div class="form-group">
-                          <input id="endDate" name="endDate" type="text" class="form-control datetimepicker" placeholder="End Date"required>
+                        <div class="form-group">
+                            <input id="endDate" name="endDate" type="text" class="form-control datetimepicker" placeholder="End Date" required>
                         </div>
                     </div>
 
                     <div class="col-lg-12">
                         <label class="col-lg-12 control-label">Status</label>
                         <div class="form-group">
-                          <select name="status" id="status" class="selectpicker " data-style="btn  btn-default btn-round"  required>
+                            <select name="status" id="status" class="selectpicker " data-style="btn btn-primary btn-default btn-round" required>
                                 <option disabled selected> Status</option>
-                                <option value = "Not Started" > Not Started </option>
-                                <option value = "On-going" > On-going </option>
-                                <option value = "Finished" > Finished </option>
-                          </select>
+                                <option value="Not Started"> Not Started </option>
+                                <option value="On-going"> On-going </option>
+                                <option value="Finished"> Finished </option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="footer text-center">
-                       <button type="submit" class="btn btn-primary btn-round btn-lg">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-round btn-lg">Submit</button>
                     </div>
                 </form>
 

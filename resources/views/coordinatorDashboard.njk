@@ -1,216 +1,215 @@
 {% extends 'master' %}
 
 {% block content %}
-	<div class="wrapper">
-		<div class="page-header clear-filter" filter-color="orange">
-		<div class="page-header-image" data-parallax="true"></div>
-			<div class="container">
-				<div class="row" style="padding-top:90px">
-					<div class="col-md-12 animsition" data-animsition-in-class="fade-in-down-sm" data-animsition-in-duration="500">
-						<div class="row">
-							<div class="col-lg-6 col-md-12">
-								<h4 class="category">Faculty Dashboard | Coordinator</h4>
-							</div>
-              <div class="col-lg-2">
-                  <div class="dropdown">
-                      <a href="#pablo" class="btn btn-primary btn-round dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink1">
-                          <strong> More options</strong>
-                      </a>
-                      <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-                          <a class="dropdown-item" href="/adviserDashboard">Adviser page</a>
-                          <a class="dropdown-item" href="#">Panelist page</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" data-toggle="modal" data-target="#groupControl" href="#">Create groups</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" data-toggle="modal" data-target="#projectControl">Create Project</a>
-                      </ul>
-                  </div>
-              </div>
-						</div>
-						<!--Recent endorsements from Adviser Tables Start-->
-						<div class="card">
-							<div class="card-header bg-primary">
-								<ul class="nav nav-tabs nav-tabs-neutral">
-									<li class="nav-item">
-										<a class="nav-link active" data-toggle="tab" role="tab">
-										Recent endorsements
-										</a>
-									</li>
-								</ul>
-							</div>
-              <div class="card-body">
-                  <table class="table table-hover table-responsive">
-                  {% if currentUser %}
-                      <thead class="text-primary">
-                          <th><strong>Group</strong></th>
-                          <th><strong>Proposal | Endorse</strong></th>
-                          <th><strong>Endorsed By</strong></th>
-                          <th><strong>Endorse Date</strong></th>
-                          <th><strong>Remarks</strong></th>
-                          <th><strong>&nbsp;</strong></th>
-                      </thead>
-                      <tbody>
-                          {% for item in endorse %}
-                              <tr class="text-black">
-                                  <td>{{item.groupId}}</td>
-                                  <td>{{item.description}}</td>
-                                  <td>{{item.endorseBy}}</td>
-                                  <td>{{item.created_at}}</td>
-                                  <td>{{item.notes}}</td>
-                                  <td>
-                                      <div class="dropdown">
-                                          <a href="/addEndorse" class="btn btn-primary btn-round">
-                                            <strong>Endorse for </strong>
-                                            </a>
-                                      </div>
-                                  </td>
-                              </tr>
-                          {% endfor %}
-                      </tbody>
-                      {% endif %}
-                  </table>
-              </div>
-    			</div>
-            <!--Recent endorsements from Adviser Tables End-->
+<div class="wrapper">
+    <div class="page-header clear-filter" filter-color="orange">
+        <div class="page-header-image" data-parallax="true"></div>
+        <div class="container">
+            <div class="row" style="padding-top:90px">
+                <div class="col-md-12 animsition" data-animsition-in-class="fade-in-down-sm" data-animsition-in-duration="500">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                            <h4 class="category">Faculty Dashboard | Coordinator</h4>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="dropdown">
+                                <a href="#pablo" class="btn btn-primary btn-round dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink1">
+                                    <strong> More options</strong>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+                                    <a class="dropdown-item" href="/adviserDashboard">Adviser page</a>
+                                    <a class="dropdown-item" href="#">Panelist page</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" data-toggle="modal" data-target="#groupControl" href="#">Create groups</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" data-toggle="modal" data-target="#projectControl">Create Project</a>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Recent endorsements from Adviser Tables Start-->
+                    <div class="card">
+                        <div class="card-header bg-primary">
+                            <ul class="nav nav-tabs nav-tabs-neutral">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" role="tab">
+																		Recent endorsements
+																		</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-hover table-responsive">
+                                {% if currentUser %}
+                                <thead class="text-primary">
+                                    <th><strong>Group</strong></th>
+                                    <th><strong>Proposal | Endorse</strong></th>
+                                    <th><strong>Endorsed By</strong></th>
+                                    <th><strong>Endorse Date</strong></th>
+                                    <th><strong>Remarks</strong></th>
+                                    <th><strong>&nbsp;</strong></th>
+                                </thead>
+                                <tbody>
+                                    {% for item in endorse %}
+                                    <tr class="text-black">
+                                        <td>{{item.groupId}}</td>
+                                        <td>{{item.description}}</td>
+                                        <td>{{item.endorseBy}}</td>
+                                        <td>{{item.created_at}}</td>
+                                        <td>{{item.notes}}</td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <a href="/addEndorse" class="btn btn-primary btn-round">
+                                                    <strong>Endorse for </strong>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                {% endif %}
+                            </table>
+                        </div>
+                    </div>
+                    <!--Recent endorsements from Adviser Tables End-->
 
-            <!-- Project Requirements Tab Start-->
-            <div class="card">
-                <div class="card-header bg-primary">
-                    <ul class="nav nav-tabs nav-tabs-neutral">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" role="tab">
-                            Project Requirements | Must have
-                            </a>
-                        </li>
-                    </ul>
+
+
+                    <!-- Project Requirements Tab Start-->
+                    <div class="card">
+                        <div class="card-header bg-primary">
+                            <ul class="nav nav-tabs nav-tabs-neutral">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" role="tab">
+																		Projects
+																		</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body">
+                            <table class="table table-hover table-responsive">
+                                {% if currentUser %}
+                                <thead class="text-primary">
+                                    <th><strong>Group Id</strong></th>
+                                    <th><strong>Group Name</strong></th>
+                                    <th><strong>Project ID</strong></th>
+                                    <th><strong>Project Name</strong></th>
+                                </thead>
+                                <tbody>
+                                    {% for p in projects %}
+                                    <tr class="text-black">
+                                        <td>{{p.groupId}}</td>
+                                        <td>{{p.groupName}}</td>
+                                        <td>{{p.id}}</td>
+                                        <td>{{p.projectname}}</td>
+                                        <td>
+                                            <button class="btn btn-primary btn-round" data-toggle="modal" data-target="#{{p.id}}">ADD Requirements</button>
+                                            <!--Add Must Have Requirements-->
+                                            <div class="modal fade" id="{{p.id}}" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content -->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Create Must Have Requirements</h5>
+                                                            <a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+																														</a>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <!--Error-->
+                                                            {% if old('error') %}
+                                                            <div class="text-danger">
+                                                                {{ old('error') }}
+                                                            </div>
+                                                            {% endif %}
+                                                            <!--Success-->
+                                                            {% if old('success') %}
+                                                            <div class="text-success">
+                                                                {{ old('success') }}
+                                                            </div>
+                                                            {% endif %}
+                                                            <form class="form-horizontal" role="form" method="POST" action="/insertMustHave">
+
+                                                                {{ csrfField }}
+                                                                <!--Requirements-->
+                                                                <div class="form-group">
+                                                                    <div class="col-md-4">
+                                                                        <label for="groupname" class="text-muted">Project Id</label>
+                                                                        <input type="text" class="form-control" value="{{p.id}}" disabled>
+                                                                        <input id="pid" name="pid" type="text" class="form-control" value="{{p.id}}" style='display:none'>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <div class="col-md-12">
+                                                                        <label for="groupname" class="text-muted">Must Have</label>
+                                                                        <input id="must" name="must" type="text" class="form-control" required>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label for="lastname" class="col-md-10 text-muted">Estimated Deadline</label>
+                                                                    <div class="col-md-12">
+                                                                        <input id="deadline" type="text" class="form-control datetimepicker" placeholder="Start Date" name="deadline" required>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="footer text-center">
+                                                                    <button type="submit" class="btn btn-primary btn-round btn-lg">Create</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                {% endif %}
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Project Requirements Tab End-->
+
+										<!-- Project Requirements Tab Start-->
+                    <div class="card">
+                        <div class="card-header bg-primary">
+                            <ul class="nav nav-tabs nav-tabs-neutral">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" role="tab">
+																		Project Requirements | Must have
+																		</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-hover table-responsive">
+                                {% if currentUser %}
+                                <thead class="text-primary">
+                                    <th><strong>Project #</strong></th>
+																		<th><strong>Must Have</strong></th>
+                                    <th><strong>Deadline</strong></th>
+
+                                    {# <th><strong>Progress (%)</strong></th> #}
+                                </thead>
+                                <tbody>
+                                    {% for item in requirements %}
+                                    <tr class="text-black">
+                                        <td>{{item.projectId}}</td>
+                                        <td>{{item.must_have}}</td>
+                                        <td>{{item.deadline}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                {% endif %}
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Project Requirements Tab End-->
                 </div>
-                <div class="card-body">
-                    <table class="table table-hover table-responsive">
-                    {% if currentUser %}
-                        <thead class="text-primary">
-                            <th>&nbsp;</th>
-                            <th><strong>Project #</strong></th>
-                            <th><strong>Deadline</strong></th>
-                            <th><strong>Must Have</strong></th>
-                            <th><strong>Must Have</strong></th>
-                            <th><strong>Progress (%)</strong></th>
-                        </thead>
-                        <tbody>
-                            {% for item in requirements %}
-                            <tr>
-                                <td>{{item.projectId}}</td>
-                                <td>{{item.deadline}}</td>
-                                <td>{{item.must_have}}</td>
-                                <td>{{item.milestone}}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                        {% endif %}
-                    </table>
-                </div>
-            	</div>
-            <!-- Project Requirements Tab End-->
-
-						<!-- Project Requirements Tab Start-->
-						<div class="card">
-							<div class="card-header bg-primary">
-								<ul class="nav nav-tabs nav-tabs-neutral">
-									<li class="nav-item">
-										<a class="nav-link active" data-toggle="tab" role="tab">
-										Projects
-										</a>
-									</li>
-								</ul>
-							</div>
-
-							<div class="card-body">
-								<table class="table table-hover table-responsive">
-								{% if currentUser %}
-									<thead class="text-primary">
-										<th><strong>Group Id</strong></th>
-										<th><strong>Group Name</strong></th>
-										<th><strong>Project ID</strong></th>
-										<th><strong>Project Name</strong></th>
-									</thead>
-									<tbody>
-										{% for p in projects %}
-										<tr class="text-black">
-											<td>{{p.groupId}}</td>
-											<td>{{p.groupName}}</td>
-											<td>{{p.id}}</td>
-											<td>{{p.projectname}}</td>
-											<td>
-												<button class="btn btn-primary btn-round" data-toggle="modal" data-target="#{{p.id}}">ADD Requirements</button>
-												<!--Add Must Have Requirements-->
-												<div class="modal fade" id="{{p.id}}" role="dialog">
-														<div class="modal-dialog">
-																<!-- Modal content -->
-																<div class="modal-content">
-																		<div class="modal-header">
-																				<h5 class="modal-title">Create Must Have Requirements</h5>
-																				<a class="nav nav-link nav-pills nav-pills-success"
-																					 data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
-																				</a>
-																		</div>
-																		<div class="modal-body">
-																				<!--Error-->
-																		{% if old('error') %}
-																					<div class="text-danger">
-																							{{ old('error') }}
-																					</div>
-																		{% endif %}
-																				<!--Success-->
-																		{% if old('success') %}
-																					<div class="text-success">
-																							{{ old('success') }}
-																					</div>
-																		{% endif %}
-																			<form class="form-horizontal" role="form" method="POST" action="/insertMustHave">
-
-																				{{ csrfField }}
-																					<!--Requirements-->
-																				<div class="form-group">
-																					<div class="col-md-4">
-																						<label for="groupname" class="text-muted">Project Id</label>
-																						<input type="text" class="form-control"  value="{{p.id}}" disabled>
-																						<input id="pid" name="pid" type="text" class="form-control"  value="{{p.id}}" style='display:none' >
-																					</div>
-																				</div>
-
-																				<div class="form-group">
-																					<div class="col-md-12">
-																						<label for="groupname" class="text-muted">Must Have</label>
-																						<input id="must" name="must" type="text" class="form-control" required>
-																					</div>
-																				</div>
-
-																				<div class="form-group">
-																					<label for="lastname" class="col-md-10 text-muted">Estimated Deadline</label>
-																					<div class="col-md-12">
-																						<input id="deadline" type="text" class="form-control datetimepicker" placeholder="Start Date" name="deadline" required>
-																					</div>
-																				</div>
-
-																				<div class="footer text-center">
-																					 <button type="submit" class="btn btn-primary btn-round btn-lg">Create</button>
-																				</div>
-																		</form>
-																</div>
-														</div>
-													</div>
-												</div>
-											</td>
-										</tr>
-										{% endfor %}
-									</tbody>
-									{% endif %}
-								</table>
-							</div>
-						</div>
-						<!-- Project Requirements Tab End-->
-        	</div>
-	    	</div>
-	    </div>
+            </div>
+        </div>
     </div>
 </div>
 	<!-- Fruit Jam Create Group Control -->
@@ -408,66 +407,65 @@
         </div>
     </div>
 </div> #}
-	<!-- Fruit Jam Project Control -->
-	<div class="modal fade" id="projectControl" role="dialog">
-			<div class="modal-dialog">
-					<!-- Modal content -->
-					<div class="modal-content">
-							<div class="modal-header">
-									<h5 class="modal-title">Create Project</h5>
-									<a class="nav nav-link nav-pills nav-pills-success"
-										 data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
-									</a>
+<!-- Fruit Jam Project Control -->
+<div class="modal fade" id="projectControl" role="dialog">
+	<div class="modal-dialog">
+			<!-- Modal content -->
+			<div class="modal-content">
+					<div class="modal-header">
+							<h5 class="modal-title">Create Project</h5>
+							<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+								</a>
+					</div>
+					<div class="modal-body">
+							<!--Error-->
+							{% if old('error') %}
+							<div class="text-danger">
+									{{ old('error') }}
 							</div>
-							<div class="modal-body">
-												<!--Error-->
-										{% if old('error') %}
-													<div class="text-danger">
-															{{ old('error') }}
-													</div>
-											{% endif %}
-												<!--Success-->
-										{% if old('success') %}
-													<div class="text-success">
-															{{ old('success') }}
-													</div>
-											{% endif %}
-									<form class="form-horizontal" role="form" method="POST" action="/createProject" enctype="multipart/form-data">
+							{% endif %}
+							<!--Success-->
+							{% if old('success') %}
+							<div class="text-success">
+									{{ old('success') }}
+							</div>
+							{% endif %}
+							<form class="form-horizontal" role="form" method="POST" action="/createProject" enctype="multipart/form-data">
 
-											{{ csrfField }}
+									{{ csrfField }}
 
-											<div class="col-lg-8">
-													<label for="endorsedBy" class="col-lg-12 control-label">Created by</label>
-													<div class="form-group">
-															<input id="endorsedBy" type="email" class="form-control" name="endorsedBy" value="{{currentUser.email}}" disabled>
-													</div>
+									<div class="col-lg-8">
+											<label for="endorsedBy" class="col-lg-12 control-label">Created by</label>
+											<div class="form-group">
+													<input id="endorsedBy" type="email" class="form-control" name="endorsedBy" value="{{currentUser.email}}" disabled>
 											</div>
+									</div>
 
-											<div class="col-lg-8">
-													<label for="groupId" class="col-lg-12 control-label">Group Id</label>
-													<div class="form-group">
-														<select class="selectpicker" data-size="7" data-style="btn btn-primary btn-round" name="groupId" id="groupId" required>
-																<option disabled selected>Group Id | Group Name</option>
-																{% for groups in gc%}
-																<option value="{{groups.groupId}}">{{groups.groupId}} | {{groups.groupName}}</option>
-																{% endfor %}
-														</select>
-													</div>
+									<div class="col-lg-8">
+											<label for="groupId" class="col-lg-12 control-label">Group Id</label>
+											<div class="form-group">
+													<select class="selectpicker" data-size="7" data-style="btn btn-primary btn-round" name="groupId" id="groupId" required>
+															<option disabled selected>Group Id | Group Name</option>
+															{% for groups in gc%}
+															<option value="{{groups.groupId}}">{{groups.groupId}} | {{groups.groupName}}</option>
+															{% endfor %}
+													</select>
 											</div>
+									</div>
 
-											<div class="col-lg-8">
-													<label for="projectName" class="col-lg-12 control-label">Project Name</label>
-													<div class="form-group">
-															<input id="projectName" type="text" class="form-control" name="projectName" placeholder="Example: Machine Learning"  required>
-													</div>
+									<div class="col-lg-8">
+											<label for="projectName" class="col-lg-12 control-label">Project Name</label>
+											<div class="form-group">
+													<input id="projectName" type="text" class="form-control" name="projectName" placeholder="Example: Machine Learning" required>
 											</div>
+									</div>
 
-											<div class="footer text-center">
-												 <button type="submit" class="btn btn-primary btn-round btn-lg">Create</button>
-											</div>
-									</form>
-								</div	>
+									<div class="footer text-center">
+											<button type="submit" class="btn btn-primary btn-round btn-lg">Create</button>
+									</div>
+							</form>
 					</div>
 			</div>
 	</div>
+</div>
 {% endblock %}
