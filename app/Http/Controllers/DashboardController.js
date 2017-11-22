@@ -30,7 +30,7 @@ class DashboardController {
 		const fileClientName = file.clientName()
 		console.log("Client Name Now: "+ fileClientName)
 		//Make User upload unique name
-		const fileName = `${fileClientName}.${date}`
+		const fileName = `${date}.${fileClientName}`
 
 		//store document in storage/upload file path.
 		yield file.move('storage', fileName)
@@ -81,12 +81,6 @@ class DashboardController {
 		yield wbsIn.save()
 
 		return response.redirect('/dashboard')
-	}
-
-	//Fruitjam Work Break Down Structure Edit Form
-	* sendEditWbs (request, response) {
-		const works = yield Database.select('*').from('workbreakdowns').where('workId', request.input('workId'))
-		yield response.sendView('editWbs', {works})
 	}
 
 	//Fruitjam Work Break Down Structure Update

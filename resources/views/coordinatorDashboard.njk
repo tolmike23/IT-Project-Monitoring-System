@@ -85,6 +85,7 @@
 									<thead class="text-primary">
 										<th><strong>Group Id</strong></th>
 										<th><strong>Group Name</strong></th>
+										<th><strong>Project ID</strong></th>
 										<th><strong>Project Name</strong></th>
 									</thead>
 									<tbody>
@@ -92,11 +93,12 @@
 										<tr class="text-black">
 											<td>{{p.groupId}}</td>
 											<td>{{p.groupName}}</td>
+											<td>{{p.id}}</td>
 											<td>{{p.projectname}}</td>
 											<td>
-												<button class="btn btn-primary btn-round" data-toggle="modal" data-target="#requirements">ADD Requirements</button>
+												<button class="btn btn-primary btn-round" data-toggle="modal" data-target="#{{p.id}}">ADD Requirements</button>
 												<!--Add Must Have Requirements-->
-												<div class="modal fade" id="requirements" role="dialog">
+												<div class="modal fade" id="{{p.id}}" role="dialog">
 														<div class="modal-dialog">
 																<!-- Modal content -->
 																<div class="modal-content">
@@ -119,7 +121,7 @@
 																							{{ old('success') }}
 																					</div>
 																		{% endif %}
-																			<form class="form-horizontal" role="form" method="POST" action="/inserMustHave">
+																			<form class="form-horizontal" role="form" method="POST" action="/insertMustHave">
 
 																				{{ csrfField }}
 																					<!--Requirements-->
@@ -151,6 +153,7 @@
 																		</form>
 																</div>
 														</div>
+													</div>
 												</div>
 											</td>
 											<td>&nbsp;</td>
