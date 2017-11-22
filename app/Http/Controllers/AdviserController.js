@@ -27,32 +27,13 @@ class AdviserController {
                                   .where({endorseTo: user.email, confirmed: 1, endorseType: 'Submit Project Proposal'}).fetch()
 
 
-    //Project & Requirements
-    const projects = yield Database.schema.raw("select p.id,g.groupName,p.projectname,p.created_at,p.status,p.notes from projects as p inner join group_controls as g on p.groupId = g.groupId where p.adviser='"
-                      + user.email + "'")
+    // Project & Requirements For Adviser
+    const projects = yield Database.select('g.groupName', 'p.projectname', 'p.created_at','p.status','p.notes').from('projects as p')
+    .innerJoin('group_controls as g','p.groupId','g.groupId').where('g.adviser',user.email)
 
-    const projectJson = JSON.stringify(projects[0])
-    const projectParse = JSON.parse(projectJson)
-    var projObjWbs = []
-    for(var i=0; i<projectParse.length; i++){
-      var requirements = yield Requirements.query().innerJoin('projects', 'requirements.projectId', 'projects.id')
-                        .where('requirements.projectId', projectParse[i].id).fetch()
-      var reqString = JSON.stringify(requirements)
-      var reqParse = JSON.parse(reqString)
-      //Push a new obj
-      for(var l=0; l<reqParse.length; l++){
-       var tempData = reqParse[l]
-        projObjWbs.push({
-          "projectName" : tempData.projectname,
-          "deadline" : tempData.deadline,
-          "must" : tempData.must_have,
-          "milestone" : tempData.milestone
-        })
-      }
-		}
-    projObjWbs = JSON.parse(JSON.stringify(projObjWbs))
-		yield response.sendView('adviserDashboard', {projectParse, projObjWbs, proposals:proposals.toJSON(),
-          proposalsApp:proposalsApp.toJSON(), proposalsDis:proposalsDis.toJSON(),user:false})
+
+		yield response.sendView('adviserDashboard', {projects,proposals:proposals.toJSON(),
+    proposalsApp:proposalsApp.toJSON(), proposalsDis:proposalsDis.toJSON(),user:true})
 
 	}
 
