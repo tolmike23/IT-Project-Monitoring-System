@@ -21,15 +21,8 @@
                           <a class="dropdown-item" href="#">Panelist page</a>
                           <div class="dropdown-divider"></div>
                           <a class="dropdown-item" data-toggle="modal" data-target="#groupControl" href="#">Create groups</a>
-<<<<<<< HEAD
-                          <a class="dropdown-item" data-toggle="modal" data-target="#" href="#">Add panelist</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Create Project</a>
-=======
-                          <a class="dropdown-item" data-toggle="modal" data-target="" href="#">Add panelist</a>
                           <div class="dropdown-divider"></div>
                           <a class="dropdown-item" data-toggle="modal" data-target="#projectControl">Create Project</a>
->>>>>>> origin/ITPMS-Dev
                       </ul>
                   </div>
               </div>
@@ -77,10 +70,9 @@
                       {% endif %}
                   </table>
               </div>
-    </div>
+    			</div>
             <!--Recent endorsements from Adviser Tables End-->
 
-<<<<<<< HEAD
             <!-- Project Requirements Tab Start-->
             <div class="card">
                 <div class="card-header bg-primary">
@@ -102,7 +94,6 @@
                             <th><strong>Must Have</strong></th>
                             <th><strong>Must Have</strong></th>
                             <th><strong>Progress (%)</strong></th>
-                            <th>&nbsp;</th>
                         </thead>
                         <tbody>
                             {% for item in requirements %}
@@ -111,20 +102,15 @@
                                 <td>{{item.deadline}}</td>
                                 <td>{{item.must_have}}</td>
                                 <td>{{item.milestone}}</td>
-                                <td><a href="/editRequirement">Edit</a>Edit</td>
                             </tr>
                             {% endfor %}
                         </tbody>
                         {% endif %}
                     </table>
                 </div>
-            </div>
+            	</div>
             <!-- Project Requirements Tab End-->
-        </div>
-    </div>
-    </div>
-    </div>
-=======
+
 						<!-- Project Requirements Tab Start-->
 						<div class="card">
 							<div class="card-header bg-primary">
@@ -136,6 +122,7 @@
 									</li>
 								</ul>
 							</div>
+
 							<div class="card-body">
 								<table class="table table-hover table-responsive">
 								{% if currentUser %}
@@ -213,7 +200,6 @@
 													</div>
 												</div>
 											</td>
-											<td>&nbsp;</td>
 										</tr>
 										{% endfor %}
 									</tbody>
@@ -222,12 +208,11 @@
 							</div>
 						</div>
 						<!-- Project Requirements Tab End-->
-					</div>
-				</div>
-			</div>
-		</div>
->>>>>>> origin/ITPMS-Dev
-	</div>
+        	</div>
+	    	</div>
+	    </div>
+    </div>
+</div>
 	<!-- Fruit Jam Create Group Control -->
 	<div class="modal fade" id="groupControl" role="dialog">
 			<div class="modal-dialog">
@@ -346,7 +331,6 @@
 					</div>
 			</div>
 	</div>
-<<<<<<< HEAD
 
 {#
 <div class="modal fade" id="createEndorse" role="dialog">
@@ -424,7 +408,6 @@
         </div>
     </div>
 </div> #}
-=======
 	<!-- Fruit Jam Project Control -->
 	<div class="modal fade" id="projectControl" role="dialog">
 			<div class="modal-dialog">
@@ -487,5 +470,4 @@
 					</div>
 			</div>
 	</div>
->>>>>>> origin/ITPMS-Dev
 {% endblock %}

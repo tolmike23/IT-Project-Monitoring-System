@@ -1,24 +1,13 @@
 'use strict'
 const Endorse = use('App/Model/Endorse')
 const GroupControl = use('App/Model/GroupControl')
-<<<<<<< HEAD
 const Notification = use('App/Model/Notification')
-
-class CoordinatorController {
-    * showCoordinator (request, response){
-        const user = yield request.auth.getUser()
-
-        const endorse = yield Endorse.query().where({endorseTo : user.email}).fetch()
-
-=======
 const Project = use('App/Model/Project')
-const Requirements = use('App/Model/Requirement')
 class CoordinatorController {
     * showCoordinator (request, response){
         const user = yield request.auth.getUser()
         const projects  = yield Project.query().innerJoin('group_controls','projects.groupId', 'group_controls.groupId').where('projects.coordinator',user.email).fetch()
         const endorse = yield Endorse.query().where({endorseTo : user.email, endorseType: 'Endorse to Coordinator'}).fetch()
->>>>>>> origin/ITPMS-Dev
         const gc = yield GroupControl.query().where({coordinator: user.email}).fetch()
         const gcMax = yield GroupControl.query().max('groupId as maxId')
         const gcMaxStringfy = JSON.stringify(gcMax)
@@ -51,7 +40,6 @@ class CoordinatorController {
 
     }
 
-<<<<<<< HEAD
 
 
 
@@ -79,8 +67,6 @@ class CoordinatorController {
   }
  */
 
-
-=======
     * createProject(request,response){
       try {
         const user = yield request.auth.getUser()
@@ -113,7 +99,6 @@ class CoordinatorController {
         return response.redirect('back')
       }
     }
->>>>>>> origin/ITPMS-Dev
 
 }
 
