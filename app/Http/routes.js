@@ -75,6 +75,8 @@ Route.post('/file', 'DashboardController.store')
 Route.get('users/*', 'DashboardController.download')
 //Add Work Break Down Structure
 Route.post('/addWork', 'DashboardController.mustHave')
+//Edit Work Break Down Structure Display Modal
+Route.get('/editWork', 'DashboardController.sendEditWbs')
 //Edit Work Break Down Structure post
 Route.post('/updateWbs', 'DashboardController.updateWbs')
 //Notifications Read

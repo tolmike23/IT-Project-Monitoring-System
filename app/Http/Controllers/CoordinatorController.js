@@ -1,6 +1,16 @@
 'use strict'
 const Endorse = use('App/Model/Endorse')
 const GroupControl = use('App/Model/GroupControl')
+<<<<<<< HEAD
+const Notification = use('App/Model/Notification')
+
+class CoordinatorController {
+    * showCoordinator (request, response){
+        const user = yield request.auth.getUser()
+
+        const endorse = yield Endorse.query().where({endorseTo : user.email}).fetch()
+
+=======
 const Project = use('App/Model/Project')
 const Requirements = use('App/Model/Requirement')
 class CoordinatorController {
@@ -8,6 +18,7 @@ class CoordinatorController {
         const user = yield request.auth.getUser()
         const projects  = yield Project.query().innerJoin('group_controls','projects.groupId', 'group_controls.groupId').where('projects.coordinator',user.email).fetch()
         const endorse = yield Endorse.query().where({endorseTo : user.email, endorseType: 'Endorse to Coordinator'}).fetch()
+>>>>>>> origin/ITPMS-Dev
         const gc = yield GroupControl.query().where({coordinator: user.email}).fetch()
         const gcMax = yield GroupControl.query().max('groupId as maxId')
         const gcMaxStringfy = JSON.stringify(gcMax)
@@ -40,6 +51,36 @@ class CoordinatorController {
 
     }
 
+<<<<<<< HEAD
+
+
+
+/*
+ * edit (request, response){
+    console.log('Editing proposal..ID :'+request.input('id')+' Group ID : '+request.input('groupId'))
+    const endorse = yield Endorse.query().where('id', request.input('id')).fetch()
+
+    yield response.sendView('editEndorse', {proposal:endorse.toJSON()})
+  }
+
+* updateProposal (request, response){
+    console.log('Updating proposal..ID : '+request.input('id')+' Group : '+request.input('groupId'))
+
+    const endorse = yield Endorse.query().where('id', request.input('id')).update({
+        description: request.input('description'),
+  		  endorseType: request.input('endorseType'),
+  		  notes: request.input('notes'),
+  		  updated_at: Date.now()
+    })
+
+
+    yield response.redirect('/dashboard')
+
+  }
+ */
+
+
+=======
     * createProject(request,response){
       try {
         const user = yield request.auth.getUser()
@@ -72,6 +113,7 @@ class CoordinatorController {
         return response.redirect('back')
       }
     }
+>>>>>>> origin/ITPMS-Dev
 
 }
 
