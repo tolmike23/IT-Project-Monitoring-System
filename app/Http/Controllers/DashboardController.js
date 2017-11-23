@@ -71,6 +71,7 @@ class DashboardController {
 	* mustHave (request, response) {
 		try {
 			const user = yield request.auth.getUser()
+			console.log('group ID: '+request.input('groupId'))
 			const wbsIn = new Workbreakdown()
 			// console.log('mustID: '+request.input('mustId'))
 			wbsIn.must_id = request.input('mustId')
@@ -78,13 +79,14 @@ class DashboardController {
 			wbsIn.status = request.input('status')
 			wbsIn.startdate = request.input('startDate')
 			wbsIn.enddate = request.input('endDate')
+			wbsIn.groupId = request.input('groupId')
 			wbsIn.email = user.email
 			yield wbsIn.save()
 
 			return response.redirect('/dashboard')
 
 		} catch (e) {
-			yield request.with({ error: "column 'status' cannot be null" }).flash()
+			yield request.with({ error: e.message }).flash()
 			return response.redirect('/dashboard')
 		}
 

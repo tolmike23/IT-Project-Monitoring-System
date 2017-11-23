@@ -13,21 +13,24 @@ class AdviserController {
     -Show Group Requirements Under This Adviser
   */
   * showAdviser (request, response){
+    //User
     const user = yield request.auth.getUser()
+
     //Proposal Null
     const proposals = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
-                                 .where({endorseTo: user.email, confirmed:null, endorseType: 'Proposal'}).fetch()
-
+    .where({endorseTo: user.email, confirmed:null, endorseType: 'Proposal'}).fetch()
 
     //Proposal Disapproved
     const proposalsDis = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
-                                  .where({endorseTo: user.email, confirmed: 0, endorseType: 'Proposal'}).fetch()
+    .where({endorseTo: user.email, confirmed: 0, endorseType: 'Proposal'}).fetch()
 
     //Proposal Approved
     const proposalsApp = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
-                                  .where({endorseTo: user.email, confirmed: 1, endorseType: 'Proposal'}).fetch()
+    .where({endorseTo: user.email, confirmed: 1, endorseType: 'Proposal'}).fetch()
 
-
+    //Work Break Down Structure
+    const wbs = yield yield Database.select('g.groupName', 'm.workId', 'm.description', 'm.status','m.startdate','m.enddate').from('workbreakdowns as m')
+    .innerJoin('group_controls as g','m.groupId','g.groupId').where('g.adviser',user.email)
 
     // Project & Requirements For Adviser
     const projects = yield Database.select('g.groupName', 'p.projectname', 'p.created_at','p.status','p.notes').from('projects as p')
@@ -36,18 +39,18 @@ class AdviserController {
     // Notifications Fetch Data
     const notifyAd = yield Database.select('n.groupId', 'n.category', 'n.id').from('notifications as n').innerJoin('group_controls as g','n.groupId','g.groupId')
     .where('g.adviser',user.email).where('n.statusAdviser', 0)
-    console.log(JSON.stringify(notifyAd))
+
     //Notification Counter
     const adCounter = yield Database.select('n.groupId').from('notifications as n').innerJoin('group_controls as g','n.groupId','g.groupId')
     .where('g.adviser',user.email).where('n.statusAdviser', 0).count('* as counter')
-
     const adstring = JSON.stringify(adCounter)
     const notifyCounterAd = JSON.parse(adstring)
     const counterAdviser = notifyCounterAd[0].counter
-    console.log(counterAdviser)
-		yield response.sendView('adviserDashboard', {projects,proposals:proposals.toJSON(),
+
+    //Return View
+    yield response.sendView('adviserDashboard', {projects,proposals:proposals.toJSON(),
     proposalsApp:proposalsApp.toJSON(), proposalsDis:proposalsDis.toJSON(),
-    notifyAd, counterAdviser, user:true})
+    notifyAd, counterAdviser, wbs, user:true})
 
 	}
 
@@ -100,6 +103,7 @@ class AdviserController {
     yield response.sendView('advisers', {advisers:advisers.toJSON()} )
 
   }
+
   * read (request, response, next ){
 		const notifyId = request.param(0)
 		yield Notification.query().where('id', notifyId).update({statusAdviser: 1})
@@ -107,8 +111,15 @@ class AdviserController {
 		yield response.redirect('back')
 	}
 
-  * edit (request, response){
-
+  * updateMust (request, response){
+    const workId = request.input('workId')
+		const desc = request.input('descWbs')
+		const status = request.input('status')
+		const start = request.input('startDate')
+		const end = request.input('endDate')
+		const affectedRows = yield Database.select('*').from('workbreakdowns')
+		.where('workId', request.input('workId')).update({ description: desc, status: status, startdate: start, enddate: end})
+		yield response.redirect('/adviserDashboard')
   }
 
 }

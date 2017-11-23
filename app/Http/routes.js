@@ -36,12 +36,14 @@ Route.get('/confirm', 'AdviserController.confirm')
 Route.post('/advisers', 'AdviserController.add')
 Route.post('/addAdviser', 'AdviserController.call')
 Route.get('readAd/*', 'AdviserController.read')
+Route.post('/updateWbsAd', 'AdviserController.updateMust')
 //Coordinator View
 Route.get('/coordinatorDashboard','CoordinatorController.showCoordinator')
 Route.post('/createGroup', 'CoordinatorController.createGroup')
 Route.post('/createProject', 'CoordinatorController.createProject')
 Route.post('/insertMustHave', 'CoordinatorController.insertReq')
 Route.post('/submitEndorsement','EndorseController.submitEndorse')
+Route.get('readCord/*', 'CoordinatorController.read')
 
 //Group Page
 Route.get('/dashboard', 'DashboardController.showGroup')

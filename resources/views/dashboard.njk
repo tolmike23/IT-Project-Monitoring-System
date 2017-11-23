@@ -12,7 +12,9 @@
                         <li class="nav-item ">
                             <a class="nav-link active" data-toggle="tab" role="tab">
                                             {{gc.groupName}}&nbsp;|&nbsp;{{gc.clSched}}&nbsp;|&nbsp;Coordinator: {{gc.coordinator}}&nbsp;|&nbsp;Adviser:&nbsp;{{gc.adviser}}
+                                            {{gc.groupId}}
                                         </a>
+
                         </li>
                     </ul>
                     {% endfor %} {% else %}
@@ -176,7 +178,7 @@
                             <ul class="nav nav-tabs nav-tabs-neutral">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" role="tab">
-                                               Proposal Of Project
+                                               Proposal Of Project {{groupId}}
                                             </a>
                                 </li>
                             </ul>
@@ -393,6 +395,7 @@
                                                             <form class="form-horizontal" role="form" method="POST" action="/updateWbs">
                                                                 {{ csrfField }}
                                                                 <input id="workId" name="workId" type="text" class="form-control" value="{{w.workId}}" style="display:none">
+
                                                                 <div class="form-group">
                                                                     <label for="groupname" class="text-muted">WBS Description</label>
                                                                     <div class="col-md-12">
@@ -659,6 +662,9 @@
                 <form class="form-horizontal" role="form" method="POST" action="/addWork">
 
                     {{ csrfField }}
+                    {% for gcId in groupControl %}
+                       <input id="groupId" name="groupId" type="text" class="form-control" value="{{gcId.groupId}}" style="display:none">
+                    {%endfor%}
 
                     <div class="col-lg-12">
                         <label for="endorsedBy" class="col-lg-12 control-label">Created by</label>

@@ -8,9 +8,12 @@ const Requirement = use('App/Model/Requirement')
 
 class CoordinatorController {
     * showCoordinator (request, response){
+
         const user = yield request.auth.getUser()
+
         const projects = yield Database.select('g.groupName', 'p.id', 'p.projectname','p.groupId').from('projects as p')
         .innerJoin('group_controls as g','p.groupId', 'g.groupId').where('p.coordinator',user.email)
+
         const requirements = yield Requirement.query().innerJoin('projects','requirements.projectId', 'projects.id').where('projects.coordinator', user.email).fetch()
 
         //const endorse = yield Endorse.query().where({endorseTo : user.email, //endorseType: 'Endorse to Coordinator'}).fetch()
@@ -29,12 +32,17 @@ class CoordinatorController {
 
         //Notification Counter
         const helo = yield Database.select('n.groupId','n.category').from('notifications as n').innerJoin('group_controls as g','n.groupId','g.groupId')
-        .where('g.coordinator',user.email).where('n.statusChairman', 0).count('* as counter')
+        .where('g.coordinator',user.email).where('n.statusCoordinator', 0).count('* as counter')
         const counter = JSON.parse(JSON.stringify(helo))
         const cordCounter = counter[0].counter
+        console.log("How Many Notification "+ cordCounter)
+
+        //Work Break Down Structure
+        const wbs = yield yield Database.select('g.groupName', 'm.workId', 'm.description', 'm.status','m.startdate','m.enddate').from('workbreakdowns as m')
+        .innerJoin('group_controls as g','m.groupId','g.groupId').where('g.coordinator',user.email)
 
         yield response.sendView('coordinatorDashboard', {endorse:endorse, gc:gc.toJSON(), maxId,
-          projects, requirements:requirements.toJSON(), coordinatorCounter, cordCounter})
+          projects, requirements:requirements.toJSON(), coordinatorCounter, cordCounter, wbs})
     }
 
     * createGroup(request,response){
@@ -78,6 +86,13 @@ class CoordinatorController {
         return response.redirect('back')
       }
     }
+
+    * read (request, response, next ){
+  		const notifyId = request.param(0)
+  		yield Notification.query().where('id', notifyId).update({statusCoordinator: 1})
+  		console.log("Notify category: " +notifyId)
+  		yield response.redirect('back')
+  	}
 
     * insertReq(request,response){
       try {
