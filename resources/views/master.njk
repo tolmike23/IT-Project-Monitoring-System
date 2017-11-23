@@ -63,21 +63,23 @@
                               <i class="now-ui-icons ui-1_bell-53"></i>
                               <span><p class="btn-round btn-danger btn-sm"><strong>{{notifyGroupNotifyCounter + counter}}</strong></p></span>
                               </a>
-                            {% endif %}
+                              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2" data-toggle="popover">
 
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2" data-toggle="popover">
-                            <!--Populate Unread Announcements-->
-                            {% for nC in fetchNotify %}
-                              <a class="dropdown-item" href="read/{{nC.id}}" data-toggle="tooltip" data-placement="right"
-                              title="{{nC.comment}}" id="read" name="read">{{nC.category}}</a>
-                              <div class="dropdown-divider"></div>
-                            {% endfor %}
-                            <!--Populate Unread Announcement FOR WBS-->
-                            {% if (counter > 0) %}
-                              <i class="dropdown-item" data-toggle="tooltip" data-placement="right"
-                              title="Just a reminder: {{counter}} WBS due within 7 days." >WBS Announcement</i>
+                              <!--Populate Unread Announcements-->
+                              {% for nC in fetchNotify %}
+                                <a class="dropdown-item" href="read/{{nC.id}}" data-toggle="tooltip" data-placement="right"
+                                title="{{nC.comment}}" id="read" name="read">{{nC.category}}</a>
+                                <div class="dropdown-divider"></div>
+                              {% endfor %}
+
+                              <!--Populate Unread Announcement FOR WBS-->
+                              {% if (counter > 0) %}
+                                <i class="dropdown-item" data-toggle="tooltip" data-placement="right"
+                                title="Just a reminder: {{counter}} WBS due within 7 days." >WBS Announcement</i>
+                              {% endif %}
+
+                              </div>
                             {% endif %}
-                            </div>
                           </li>
                           <!--End Notifications Dashboard-->
 

@@ -187,7 +187,7 @@ class DashboardController {
                 var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay))) // Date Difference
                 console.log("End Dates diff from Today Date: "+diffDays)
                 //Check wbs end date if its due within 7 days
-                if(diffDays <= 0){
+                if(diffDays <= 20){
                      counter++
                      console.log("Counter: "+counter)
                      var tempData = endDate[i]
