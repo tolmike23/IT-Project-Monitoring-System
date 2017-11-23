@@ -18,6 +18,39 @@
       height: 380px;
       overflow-y: scroll;
     }
+
+    #scroll {
+    position:fixed;
+    right:10px;
+    bottom:10px;
+    cursor:pointer;
+    width:50px;
+    height:50px;
+    background-color:#3498db;
+    text-indent:-9999px;
+    display:none;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+    }
+    #scroll span {
+        position:absolute;
+        top:50%;
+        left:50%;
+        margin-left:-8px;
+        margin-top:-12px;
+        height:0;
+        width:0;
+        border:8px solid transparent;
+        border-bottom-color:#ffffff
+    }
+    #scroll:hover {
+        background-color:#e74c3c;
+        opacity:1;
+        filter:"alpha(opacity=100)";
+        -ms-filter:"alpha(opacity=100)";
+    }
+
     </style>
 </head>
 <body class="index-page sidebar-collapse">
@@ -150,8 +183,9 @@
 
                           <!--Start Notifications Chairman-->
                           <!--End Notifications Chairman-->
+
                           <li class="nav-item active dropdown">
-                              <a class="nav-link nav-pills nav-pills-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="logoutDdLink" >{{ currentUser.email }}</a>
+                              <a class="nav-link nav-pills nav-pills-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="logoutDdLink" ><i class="now-ui-icons users_circle-08 "></i>&nbsp;{{ currentUser.email }}</a>
                               <div class="dropdown-menu" aria-labelledby="logoutDdLink">
                                   <a class="dropdown-item" href="/logout"><i class="fa fa-btn"></i>Logout</a>
                               </div>
@@ -164,6 +198,7 @@
     </nav>
     {% block content %}
     {% endblock %}
+    <a href="javascript:void(0);" id="scroll" title="Scroll to Top" style="display: none;">Top<span></span></a>
 </body>
 <!--   Core JS Files   -->
 <script src="js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
@@ -230,6 +265,18 @@
           }
       });
     };
+
+    $(window).scroll(function(){
+        if($(this).scrollTop() > 100){
+            $('#scroll').fadeIn();
+        }else{
+            $('#scroll').fadeOut();
+        }
+    });
+    $('#scroll').click(function(){
+        $("html, body").animate({ scrollTop: 0 }, 600);
+        return false;
+    });
 
 });
 </script>
