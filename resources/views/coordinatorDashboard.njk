@@ -310,7 +310,8 @@
                                                                     <thead class="text-warning">
                                                                         <th><strong>Criteria</strong></th>
                                                                         <th><strong>Avg. Score</strong></th>
-                                                                        <th>Created</th>
+                                                                        <th><strong>Created</strong></th>
+                                                                        <th><strong>Remarks</strong></th>
                                                                     </thead>
                                                                     <tbody>
                                                                         {% for item in rating %}
@@ -318,6 +319,7 @@
                                                                             <td>{{item.criteria}}</td>
                                                                             <td>{{item.score}}</td>
                                                                             <td>{{item.created_at}}</td>
+                                                                            <td>{{item.comments}}</td>
                                                                         </tr>
                                                                         {% endfor %}
                                                                     </tbody>
