@@ -5,6 +5,7 @@ const GroupControl = use('App/Model/GroupControl')
 const Notification = use('App/Model/Notification')
 const Project = use('App/Model/Project')
 const Requirement = use('App/Model/Requirement')
+const Rating = use('App/Model/Rating')
 
 class CoordinatorController {
     * showCoordinator (request, response){
@@ -33,8 +34,10 @@ class CoordinatorController {
         const counter = JSON.parse(JSON.stringify(helo))
         const cordCounter = counter[0].counter
 
+        const rating = yield Rating.query().where('createdBy', user.email).fetch()
+
         yield response.sendView('coordinatorDashboard', {endorse:endorse, gc:gc.toJSON(), maxId,
-          projects, requirements:requirements.toJSON(), coordinatorCounter, cordCounter})
+          projects, requirements:requirements.toJSON(), coordinatorCounter, cordCounter, rating:rating.toJSON()})
     }
 
     * createGroup(request,response){
@@ -93,6 +96,24 @@ class CoordinatorController {
         console.log("Error Insert Requirements "+e.stack)
         return response.redirect('back')
       }
+    }
+
+    * insertRating (request, response){
+        try {
+            const user = yield request.auth.getUser()
+            const rating = new Rating()
+            rating.projectId = request.input('pid')
+            rating.criteria = request.input('criteria')
+            rating.score = request.input('avgScore')
+            rating.createdBy = user.email
+            rating.comments = request.input('remarks')
+            yield rating.save()
+            return response.redirect('/coordinatorDashboard')
+
+        } catch (e) {
+            console.log('Error creating in rating'+e.stack)
+            return response.redirect('back')
+        }
     }
 
 }

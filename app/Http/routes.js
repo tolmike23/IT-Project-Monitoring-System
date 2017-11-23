@@ -42,6 +42,7 @@ Route.post('/createGroup', 'CoordinatorController.createGroup')
 Route.post('/createProject', 'CoordinatorController.createProject')
 Route.post('/insertMustHave', 'CoordinatorController.insertReq')
 Route.post('/submitEndorsement','EndorseController.submitEndorse')
+Route.post('/insertProjectRating','CoordinatorController.insertRating')
 
 //Group Page
 Route.get('/dashboard', 'DashboardController.showGroup')

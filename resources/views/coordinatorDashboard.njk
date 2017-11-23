@@ -33,8 +33,8 @@
                             <ul class="nav nav-tabs nav-tabs-neutral">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" role="tab">
-																		Recent endorsements
-																		</a>
+                                        Recent endorsements
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -159,8 +159,8 @@
                             <ul class="nav nav-tabs nav-tabs-neutral">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" role="tab">
-																		Projects
-																		</a>
+                                        Projects
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -182,7 +182,7 @@
                                         <td>{{p.id}}</td>
                                         <td>{{p.projectname}}</td>
                                         <td>
-                                            <button class="btn btn-primary btn-round" data-toggle="modal" data-target="#{{p.id}}req" href="#"><strong>ADD Requirements</strong></button>
+                                            <button class="btn btn-primary btn-md btn-round" data-toggle="modal" data-target="#{{p.id}}req" href="#"><strong>ADD Requirements</strong></button>
                                             <!--Add Must Have Requirements-->
                                             <div class="modal fade" id="{{p.id}}req" role="dialog">
                                                 <div class="modal-dialog">
@@ -236,6 +236,94 @@
                                                                     <button type="submit" class="btn btn-primary btn-round btn-lg">Create</button>
                                                                 </div>
                                                             </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                        <button class="btn btn-success btn-md btn-round" data-toggle="modal" data-target="#{{p.id}}rate" href="#"><strong>ADD Rating</strong></button>
+                                            <div class="modal fade" id="{{p.id}}rate" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content -->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Add Project Rating</h5>
+                                                            <a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+												            </a>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <!--Error-->
+                                                            {% if old('error') %}
+                                                            <div class="text-danger">
+                                                                {{ old('error') }}
+                                                            </div>
+                                                            {% endif %}
+                                                            <!--Success-->
+                                                            {% if old('success') %}
+                                                            <div class="text-success">
+                                                                {{ old('success') }}
+                                                            </div>
+                                                            {% endif %}
+                                                            <form class="form-horizontal" role="form" method="POST" action="/insertProjectRating">
+
+                                                                {{ csrfField }}
+                                                                <!--Requirements-->
+                                                                <div class="form-group">
+                                                                    <div class="col-md-4">
+                                                                        <label for="groupname" class="text-muted">Project Id</label>
+                                                                        <input type="text" class="form-control" value="{{p.id}}" disabled>
+                                                                        <input id="pid" name="pid" type="text" class="form-control" value="{{p.id}}" style='display:none'>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <div class="col-md-12">
+                                                                        <label for="groupname" class="text-muted">Criteria</label>
+                                                                        <input id="criteria" name="criteria" type="text" class="form-control" required>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label for="lastname" class="col-md-10 text-muted">Avg. score</label>
+                                                                    <div class="col-md-12">
+                                                                        <input id="avgScore" type="number" class="form-control"  name="avgScore" required>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label for="lastname" class="col-md-10 text-muted">Remarks</label>
+                                                                    <div class="col-md-12">
+                                                                        <textarea id="remarks" type="text" class="form-control"  name="remarks" required></textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="footer text-center">
+                                                                    <button type="submit" class="btn btn-primary btn-round btn-sm">Create</button>
+                                                                </div>
+                                                            </form>
+
+                                                            <!--Display ratings-->
+                                                            <div class="card-body">
+                                                                {% if currentUser %}
+                                                                <table class="table table-hover table-md table-striped table-responsive">
+                                                                    <thead class="text-warning">
+                                                                        <th><strong>Criteria</strong></th>
+                                                                        <th><strong>Avg. Score</strong></th>
+                                                                        <th>Created</th>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {% for item in rating %}
+                                                                        <tr class="text-black">
+                                                                            <td>{{item.criteria}}</td>
+                                                                            <td>{{item.score}}</td>
+                                                                            <td>{{item.created_at}}</td>
+                                                                        </tr>
+                                                                        {% endfor %}
+                                                                    </tbody>
+                                                                </table>
+                                                                {% endif %}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
