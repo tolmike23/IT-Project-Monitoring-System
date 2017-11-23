@@ -131,6 +131,17 @@ class CoordinatorController {
         }
     }
 
+    * updateMust (request, response){
+      const workId = request.input('workId')
+  		const desc = request.input('descWbs')
+  		const status = request.input('status')
+  		const start = request.input('startDate')
+  		const end = request.input('endDate')
+  		const affectedRows = yield Database.select('*').from('workbreakdowns')
+  		.where('workId', request.input('workId')).update({ description: desc, status: status, startdate: start, enddate: end})
+  		yield response.redirect('/coordinatorDashboard')
+    }
+
 }
 
 module.exports = CoordinatorController

@@ -45,6 +45,7 @@ Route.post('/insertMustHave', 'CoordinatorController.insertReq')
 Route.post('/submitEndorsement','EndorseController.submitEndorse')
 Route.get('readCord/*', 'CoordinatorController.read')
 Route.post('/insertProjectRating','CoordinatorController.insertRating')
+Route.post('/updateWbsCor', 'CoordinatorController.updateMust')
 //Group Page
 Route.get('/dashboard', 'DashboardController.showGroup')
 Route.get('/adviserDashboard', 'DashboardController.showAdviser')
