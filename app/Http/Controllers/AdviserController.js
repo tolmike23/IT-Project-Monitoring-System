@@ -17,7 +17,7 @@ class AdviserController {
     //Proposal Null
     const proposals = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
                                  .where({endorseTo: user.email, confirmed:null, endorseType: 'Proposal'}).fetch()
-    console.log('Proposal '+proposals)
+
 
     //Proposal Disapproved
     const proposalsDis = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
@@ -27,7 +27,7 @@ class AdviserController {
     const proposalsApp = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
                                   .where({endorseTo: user.email, confirmed: 1, endorseType: 'Proposal'}).fetch()
 
-    console.log('Approved '+JSON.stringify(proposalsApp))
+
 
     // Project & Requirements For Adviser
     const projects = yield Database.select('g.groupName', 'p.projectname', 'p.created_at','p.status','p.notes').from('projects as p')
@@ -67,6 +67,7 @@ class AdviserController {
       endorse.endorseBy = endorseBy
       endorse.endorseTo = gcParse[0].coordinator
       endorse.confirmed = 1
+      endorse.notes = "confirm"
       endorse.confirmDate = dateConfirm
       yield endorse.save()
       return response.redirect('back')

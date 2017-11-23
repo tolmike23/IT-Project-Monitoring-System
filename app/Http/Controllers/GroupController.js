@@ -51,35 +51,43 @@ class GroupController {
         }
     }
 
-  * edit (request, response){
-	/* get data */
-	const group = yield Group.query().where('id', request.input('id')).fetch()
-	const project = yield Projects.query().where('id', request.input('project')).fetch()
-	const requirements = yield Requirements.query().where('projectId', request.input('project')).fetch()
-
-    console.log('member '+JSON.stringify(group))
-    yield response.sendView('editGroup', {group:group.toJSON()})
-
-  }
+  // * edit (request, response){
+	// /* get data */
+	// const group = yield Group.query().where('id', request.input('id')).fetch()
+	// const project = yield Projects.query().where('id', request.input('project')).fetch()
+	// const requirements = yield Requirements.query().where('projectId', request.input('project')).fetch()
+  //
+  //   console.log('member '+JSON.stringify(group))
+  //   yield response.sendView('editGroup', {group:group.toJSON()})
+  //
+  // }
 
   * post (request, response){
-    const member = yield Group.findOrCreate(
-    {
-        id: request.input('id')
-    },
-    {
-        firstname: request.input('firstname'),
-        lastname: request.input('lastname'),
-        status: request.input('status'),
-        updated_at: Date.now()
-    })
-
-    console.log('Updating member '+request.input('firstname'))
-    const group = yield Group.query().where('groupId', request.input('groupId')).fetch()
-    const endorse = yield Endorse.query().where('groupId', request.input('groupId')).fetch()
-    const requirements = yield Requirements.query().where('projectId', request.input('projectId')).fetch()
-
-    yield response.sendView('dashboard', {group:group.toJSON(), endorse:endorse.toJSON(), requirements:requirements.toJSON(), user:true})
+		const member = yield Group.query().where('id', request.input('id')).update({
+			firstname: request.input('firstname'),
+			lastname: request.input('lastname'),
+			status: request.input('status'),
+			updated_at: Date.now()
+		})
+		return response.redirect('/dashboard')
+    // const member = yield Group.findOrCreate(
+    // {
+    //     id: request.input('id')
+    // },
+    // {
+    //     firstname: request.input('firstname'),
+    //     lastname: request.input('lastname'),
+    //     status: request.input('status'),
+    //     updated_at: Date.now()
+    // })
+    //
+    // console.log('Updating member '+request.input('firstname'))
+    // const group = yield Group.query().where('groupId', request.input('groupId')).fetch()
+    // const endorse = yield Endorse.query().where('groupId', request.input('groupId')).fetch()
+    // const requirements = yield Requirements.query().where('projectId', request.input('projectId')).fetch()
+    //
+    // yield response.sendView('dashboard', {group:group.toJSON(), endorse:endorse.toJSON(),
+		// 	requirements:requirements.toJSON(), user:true})
   }
 
 }

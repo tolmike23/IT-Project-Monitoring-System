@@ -14,6 +14,7 @@ class GroupControlsTableSchema extends Schema {
       table.string('coordinator', 254).notNullable()
       table.string('adviser', 254).notNullable()
       table.string('chairman', 254).notNullable()
+      table.string('panelist', 254).notNullable()
       table.integer('joined')
       table.string('status', 20)
       table.string('notes', 254)

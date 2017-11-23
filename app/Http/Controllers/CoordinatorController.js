@@ -39,6 +39,7 @@ class CoordinatorController {
         gc.coordinator = user.email
         gc.adviser = request.input('adviser')
         gc.chairman = request.input('chairman')
+        gc.panelist = request.input('panelist')
         yield gc.save()
         yield request.with({ success: "Group Successfully Created" }).flash()
         return response.redirect('back')
@@ -50,33 +51,6 @@ class CoordinatorController {
       }
 
     }
-
-
-
-
-/*
- * edit (request, response){
-    console.log('Editing proposal..ID :'+request.input('id')+' Group ID : '+request.input('groupId'))
-    const endorse = yield Endorse.query().where('id', request.input('id')).fetch()
-
-    yield response.sendView('editEndorse', {proposal:endorse.toJSON()})
-  }
-
-* updateProposal (request, response){
-    console.log('Updating proposal..ID : '+request.input('id')+' Group : '+request.input('groupId'))
-
-    const endorse = yield Endorse.query().where('id', request.input('id')).update({
-        description: request.input('description'),
-  		  endorseType: request.input('endorseType'),
-  		  notes: request.input('notes'),
-  		  updated_at: Date.now()
-    })
-
-
-    yield response.redirect('/dashboard')
-
-  }
- */
 
     * createProject(request,response){
       try {

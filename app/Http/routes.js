@@ -47,13 +47,14 @@ Route.get('/dashboard', 'DashboardController.showGroup')
 Route.get('/adviserDashboard', 'DashboardController.showAdviser')
 
 Route.post('/dashboard', 'GroupController.add')
-Route.post('/addGroup', 'GroupController.add')
 Route.post('/updateMember', 'GroupController.post')
-Route.get('/editGroup', 'GroupController.edit')
 Route.get('/joinGroup', 'GroupController.join')
+// Route.post('/addGroup', 'GroupController.add')
+// Route.get('/editGroup', 'GroupController.edit')
 
+//Endorse
 Route.post('/submitProposal', 'EndorseController.submitProposal')
-Route.get('/editEndorse', 'EndorseController.edit')
+// Route.get('/editEndorse', 'EndorseController.edit')
 Route.get('/updateProposal', 'EndorseController.updateProposal')
 
 Route.get('/projects', 'ProjectsController.show')

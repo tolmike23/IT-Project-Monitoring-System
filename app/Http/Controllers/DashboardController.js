@@ -69,18 +69,25 @@ class DashboardController {
 
 	//Fruitjam Work Break Down Structure Added
 	* mustHave (request, response) {
-		const user = yield request.auth.getUser()
-		const wbsIn = new Workbreakdown()
+		try {
+			const user = yield request.auth.getUser()
+			const wbsIn = new Workbreakdown()
+			// console.log('mustID: '+request.input('mustId'))
+			wbsIn.must_id = request.input('mustId')
+			wbsIn.description = request.input('mustDesc')
+			wbsIn.status = request.input('status')
+			wbsIn.startdate = request.input('startDate')
+			wbsIn.enddate = request.input('endDate')
+			wbsIn.email = user.email
+			yield wbsIn.save()
 
-		wbsIn.must_id = request.input('mustId')
-		wbsIn.description = request.input('mustDesc')
-		wbsIn.status = request.input('status')
-		wbsIn.startdate = request.input('startDate')
-		wbsIn.enddate = request.input('endDate')
-		wbsIn.email = user.email
-		yield wbsIn.save()
+			return response.redirect('/dashboard')
 
-		return response.redirect('/dashboard')
+		} catch (e) {
+			yield request.with({ error: "column 'status' cannot be null" }).flash()
+			return response.redirect('/dashboard')
+		}
+
 	}
 
 	//Fruitjam Work Break Down Structure Update
@@ -106,7 +113,6 @@ class DashboardController {
 		const user = yield request.auth.getUser()
 		try {
 
-            console.log('Current User : '+user.email)
             var prj = null
 
             const group = yield Group.query().where('email', user.email).fetch()
@@ -143,15 +149,16 @@ class DashboardController {
 		members = JSON.parse(JSON.stringify(members))
 
 		if (grpCtr.length > 0){
-					  console.log('Group ID : '+grpCtr[0].groupId)
 
             const group = yield Group.query().where('groupId', grpCtr[0].groupId).fetch()
 
             const groupControl = yield GroupControl.query().where('groupId', grpCtr[0].groupId)
 
-            const endorse = yield Endorse.query().where('studentId', grpCtr[0].groupId).fetch()
+            const endorse = yield Endorse.query().where('groupId', grpCtr[0].groupId).fetch()
 
             const requirements =  yield Requirements.query().where('projectId', grpCtr[0].groupId).fetch()
+
+						const projects = yield Projects.query().where('groupId', grpCtr[0].groupId).fetch()
 
             // get Upload table data
             const uploads = yield Database.select('*').from('uploads').where('groupId', grpCtr[0].groupId)
@@ -180,7 +187,7 @@ class DashboardController {
                 var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay))) // Date Difference
                 console.log("End Dates diff from Today Date: "+diffDays)
                 //Check wbs end date if its due within 7 days
-                if(diffDays <= 1){
+                if(diffDays <= 0){
                      counter++
                      console.log("Counter: "+counter)
                      var tempData = endDate[i]
@@ -198,8 +205,8 @@ class DashboardController {
 		//Notification Total Counter
 		const notifyGroupNotifyCounter = notifyCounterAll[0].counter
 
-		console.log("Notification Total Counter FOR Coordinator: "+notifyGroupNotifyCounter)
-		console.log("Notification Total Counter FOR Wbs: "+counter)
+		// console.log("Notification Total Counter FOR Coordinator: "+notifyGroupNotifyCounter)
+		// console.log("Notification Total Counter FOR Wbs: "+counter)
 
 		yield response.sendView('dashboard', {group:group.toJSON(), projects:projects.toJSON(),
 				groupControl, endorse:endorse.toJSON(), requirements:requirements.toJSON(),
@@ -209,7 +216,7 @@ class DashboardController {
 		else
 		{
 			const groupControl = yield GroupControl.query().fetch()
-			console.log('groupControl '+groupControl)
+			// console.log('groupControl '+groupControl)
 			yield response.sendView('dashboard', {groupControl:groupControl.toJSON(),user:false})
 		}
 		} catch (e) {

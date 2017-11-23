@@ -182,9 +182,9 @@
                                         <td>{{p.id}}</td>
                                         <td>{{p.projectname}}</td>
                                         <td>
-                                            <button class="btn btn-primary btn-round" data-toggle="modal" data-target="#{{p.id}}">ADD Requirements</button>
+                                            <button class="btn btn-primary btn-round" data-toggle="modal" data-target="#{{p.id}}req" href="#"><strong>ADD Requirements</strong></button>
                                             <!--Add Must Have Requirements-->
-                                            <div class="modal fade" id="{{p.id}}" role="dialog">
+                                            <div class="modal fade" id="{{p.id}}req" role="dialog">
                                                 <div class="modal-dialog">
                                                     <!-- Modal content -->
                                                     <div class="modal-content">
@@ -374,6 +374,13 @@
 													<label for="chairman" class="col-lg-12 control-label">Chairman</label>
 													<div class="form-group">
 															<input id="chairman" type="email" class="form-control" name="chairman"  required>
+													</div>
+											</div>
+
+                      <div class="col-lg-12">
+													<label for="panelist" class="col-lg-12 control-label">Panelist</label>
+													<div class="form-group">
+															<input id="panelist" type="email" class="form-control" name="panelist"  required>
 													</div>
 											</div>
 
