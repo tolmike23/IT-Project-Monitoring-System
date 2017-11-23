@@ -102,22 +102,47 @@
                             <span><p class="btn-round btn-danger btn-sm"><strong>{{counterAdviser}}</strong></p></span>
                             </a>
 
-                            {% for nAd in notifyAd %}
-
-                              <div class="dropdown-menu" aria-labelledby="adDropDown" data-toggle="popover">
-                              <!--Populate Unread Announcements-->
-                                <a class="dropdown-item" href="readAd/{{nAd.groupId}}" data-toggle="tooltip" data-placement="right"
-                                title="{{nAd.category}} For Group {{nAd.groupId}}" id="read" name="read">{{nAd.category}}</a>
-                                <div class="dropdown-divider"></div>
-                              </div>
-
-                            {% endfor %}
+                            <div class="dropdown-menu" aria-labelledby="adDropDown" data-toggle="popover">
+                            <!--Populate Unread Announcements-->
+                              {% for nAd in notifyAd %}
+                              <a class="dropdown-item" href="readAd/{{nAd.groupId}}" data-toggle="tooltip" data-placement="right"
+                              title="{{nAd.category}} For Group {{nAd.groupId}}" id="read" name="read">{{nAd.category}}</a>
+                              <div class="dropdown-divider"></div>
+                              {% endfor %}
+                            </div>
 
                           {% endif %}
                           </li>
                           <!--End Notifications Adviser-->
 
                           <!--Start Notifications Coordinator-->
+                          <li class="nav-item active dropdown">
+                          {% if (cordCounter <= 0) %}
+
+                            <a class="nav-link" data-toggle="tooltip" data-placement="right"
+                            title="No Notifications" aria-expanded="true">
+                            <i class="now-ui-icons ui-1_bell-53"></i>
+                            </a>
+
+                          {% endif %}
+
+                          {% if (cordCounter > 0) %}
+
+                            <a href="#" class="nav-link nav-pills nav-pills-primary alert" data-toggle="dropdown" id="adDropDown" aria-expanded="true">
+                            <i class="now-ui-icons ui-1_bell-53"></i>
+                            <span><p class="btn-round btn-danger btn-sm"><strong>{{cordCounter}}</strong></p></span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="adDropDown" data-toggle="popover">
+                            <!--Populate Unread Announcements-->
+                              {% for nAdc in coordinatorCounter %}
+                              <a class="dropdown-item" href="readCord/{{nAdc.groupId}}" data-toggle="tooltip" data-placement="right"
+                              title="{{nAdc.category}} For Group {{nAdc.groupId}}" id="read" name="read">{{nAdc.category}}</a>
+                              {# <div class="dropdown-divider"></div> #}
+                                {% endfor %}
+                            </div>
+
+                          {% endif %}
+                          </li>
                           <!--End Notifications Coordinator-->
 
                           <!--Start Notifications Panelist-->

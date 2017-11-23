@@ -13,6 +13,7 @@ class NotificationsTableSchema extends Schema {
       table.string('email').notNullable()
       table.boolean('statusGroup').notNullable()
       table.boolean('statusAdviser').notNullable()
+        table.boolean('statusCoordinator').notNullable()
       table.boolean('statusChairman').notNullable()
       table.boolean('statusPanelist').notNullable()
       table.timestamps()
