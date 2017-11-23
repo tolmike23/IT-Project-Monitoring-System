@@ -5,7 +5,7 @@ const Projects = use('App/Model/Project')
 const Panelist = use('App/Model/Panelist')
 const Requirements = use('App/Model/Requirement')
 const Endorse = use('App/Model/Endorse')
-
+const Notification = use('App/Model/Notification')
 class AdviserController {
   /*Adviser Show
     -Show Group Proposal Under This Adviser
@@ -33,9 +33,21 @@ class AdviserController {
     const projects = yield Database.select('g.groupName', 'p.projectname', 'p.created_at','p.status','p.notes').from('projects as p')
     .innerJoin('group_controls as g','p.groupId','g.groupId').where('g.adviser',user.email)
 
+    // Notifications Fetch Data
+    const notifyAd = yield Database.select('n.groupId', 'n.category').from('notifications as n').innerJoin('group_controls as g','n.groupId','g.groupId')
+    .where('g.adviser',user.email).where('n.statusAdviser', 0)
+    console.log(JSON.stringify(notifyAd))
+    //Notification Counter
+    const adCounter = yield Database.select('n.groupId').from('notifications as n').innerJoin('group_controls as g','n.groupId','g.groupId')
+    .where('g.adviser',user.email).where('n.statusAdviser', 0).count('* as counter')
 
+    const adstring = JSON.stringify(adCounter)
+    const notifyCounterAd = JSON.parse(adstring)
+    const counterAdviser = notifyCounterAd[0].counter
+    console.log(counterAdviser)
 		yield response.sendView('adviserDashboard', {projects,proposals:proposals.toJSON(),
-    proposalsApp:proposalsApp.toJSON(), proposalsDis:proposalsDis.toJSON(),user:true})
+    proposalsApp:proposalsApp.toJSON(), proposalsDis:proposalsDis.toJSON(),
+    notifyAd, counterAdviser, user:true})
 
 	}
 
@@ -88,6 +100,12 @@ class AdviserController {
     yield response.sendView('advisers', {advisers:advisers.toJSON()} )
 
   }
+  * read (request, response, next ){
+		const notifyId = request.param(0)
+		yield Notification.query().where('id', notifyId).update({statusAdviser: 1})
+		console.log("Notify category: " +notifyId)
+		yield response.redirect('back')
+	}
 
   * edit (request, response){
 
