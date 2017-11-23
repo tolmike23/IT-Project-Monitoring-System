@@ -20,12 +20,12 @@
                         </div>
 
                         <div class="content">
-                            <div class="input-group form-group-no-border input-lg">
+                            <div class="input-group form-group-no-border input-lg" >
                                 <label class="radio-inline form-control">
-								    <input name="userType" id="group" value="S" type="radio" checked>&nbsp; Student
+								    <input name="userType" id="group" value="S" type="radio" required>&nbsp; Student
                                 </label>
                                 <label class="radio-inline form-control">
-                                    <input name="userType" id="faculty" value="F" type="radio">&nbsp; Faculty
+                                    <input name="userType" id="faculty" value="F" type="radio" >&nbsp; Faculty
                                 </label>
 							</div>
 							<div class="input-group form-group-no-border input-lg">
@@ -84,7 +84,7 @@
                                 {{ old('error') }}
                             </div>
                             {% endif %}
-                            
+
 							<div class="footer text-center">
 
 									<button type="submit" class="btn btn-primary  btn-round btn-md ">Register
