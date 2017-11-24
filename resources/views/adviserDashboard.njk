@@ -194,23 +194,16 @@
 													<table class="table table-hover table-responsive">
 															{% if currentUser %}
 															<thead class="text-primary">
-																	{#
-																	<th>&nbsp;</th> #}
-																	<th><strong>Project Name</strong></th>
-																	<th><strong>Deadline</strong></th>
+																	<th><strong>Project Id</strong></th>
 																	<th><strong>Must Have</strong></th>
-																	<th><strong>Progress (%)</strong></th>
-																	<th>&nbsp;</th>
+																	<th><strong>Deadline</strong></th>
 															</thead>
 															<tbody>
-																	{% for item in projObjWbs %}
+																	{% for item in requirements %}
 																	<tr class="text-black">
-																			<td>{{item.projectName}}</td>
+																			<td>{{item.projectId}}</td>
+																			<td>{{item.must_have}}</td>
 																			<td>{{item.deadline}}</td>
-																			<td>{{item.must}}</td>
-																			<td>{{item.milestone}}</td>
-																			{#
-																			<td><a href="/editRequirement">Edit</a>Edit</td> #}
 																	</tr>
 																	{% endfor %}
 															</tbody>
@@ -240,6 +233,8 @@
 																	<th><strong>Status</strong></th>
 																	<th><strong>Start Date</strong></th>
 																	<th><strong>End Date</strong></th>
+																	<th><strong>Create|Update</strong></th>
+																	<th><strong>Create|Update</strong></th>
 															</thead>
 															<tbody>
 																	{% for w in wbs %}
@@ -249,6 +244,8 @@
 																			<td>{{w.status}}</td>
 																			<td>{{w.startdate}}</td>
 																			<td>{{w.enddate}}</td>
+																			<td>{{w.email}}</td>
+																			<td>{{w.updated_at}}</td>
 																			<td>
 																					<button class="btn btn-xs btn-white btn-round" data-toggle="modal" data-target="#{{w.workId}}wbss">
 																							<i class="fa fa-pencil-square-o"></i>

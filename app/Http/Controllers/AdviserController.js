@@ -29,12 +29,16 @@ class AdviserController {
     .where({endorseTo: user.email, confirmed: 1, endorseType: 'Proposal'}).fetch()
 
     //Work Break Down Structure
-    const wbs = yield yield Database.select('g.groupName', 'm.workId', 'm.description', 'm.status','m.startdate','m.enddate').from('workbreakdowns as m')
+    const wbs = yield yield Database.select('g.groupName', 'm.workId', 'm.description', 'm.status','m.startdate','m.enddate','m.email','m.updated_at').from('workbreakdowns as m')
     .innerJoin('group_controls as g','m.groupId','g.groupId').where('g.adviser',user.email)
 
-    // Project & Requirements For Adviser
+    // Project
     const projects = yield Database.select('g.groupName', 'p.projectname', 'p.created_at','p.status','p.notes').from('projects as p')
     .innerJoin('group_controls as g','p.groupId','g.groupId').where('g.adviser',user.email)
+
+    //Project Requirements
+    const requirements = yield Database.select('r.projectId','r.must_have','r.deadline').from('requirements as r')
+    .innerJoin('group_controls as g', 'r.groupId', 'g.groupId').where('g.adviser',user.email)
 
     // Notifications Fetch Data
     const notifyAd = yield Database.select('n.groupId', 'n.category', 'n.id').from('notifications as n').innerJoin('group_controls as g','n.groupId','g.groupId')
@@ -50,7 +54,7 @@ class AdviserController {
     //Return View
     yield response.sendView('adviserDashboard', {projects,proposals:proposals.toJSON(),
     proposalsApp:proposalsApp.toJSON(), proposalsDis:proposalsDis.toJSON(),
-    notifyAd, counterAdviser, wbs, user:true})
+    notifyAd, counterAdviser, wbs, requirements, user:true})
 
 	}
 
@@ -112,13 +116,16 @@ class AdviserController {
 	}
 
   * updateMust (request, response){
+    var newDate = new Date()
+    const user = yield request.auth.getUser()
     const workId = request.input('workId')
 		const desc = request.input('descWbs')
 		const status = request.input('status')
 		const start = request.input('startDate')
 		const end = request.input('endDate')
 		const affectedRows = yield Database.select('*').from('workbreakdowns')
-		.where('workId', request.input('workId')).update({ description: desc, status: status, startdate: start, enddate: end})
+		.where('workId', request.input('workId')).update({ description: desc, status: status, startdate: start,
+      enddate: end, email:user.email, updated_at: newDate})
 		yield response.redirect('/adviserDashboard')
   }
 

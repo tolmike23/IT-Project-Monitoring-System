@@ -17,8 +17,6 @@ class CoordinatorController {
 
         const requirements = yield Requirement.query().innerJoin('projects','requirements.projectId', 'projects.id').where('projects.coordinator', user.email).fetch()
 
-        //const endorse = yield Endorse.query().where({endorseTo : user.email, //endorseType: 'Endorse to Coordinator'}).fetch()
-
         const endorse = yield Database.from('endorses').whereRaw('endorseType != ?', ['Proposal']).whereRaw('endorseTo = ?', [user.email])
 
         const gc = yield GroupControl.query().where({coordinator: user.email}).fetch()
@@ -39,7 +37,7 @@ class CoordinatorController {
         console.log("How Many Notification "+ cordCounter)
 
         //Work Break Down Structure
-        const wbs = yield yield Database.select('g.groupName', 'm.workId', 'm.description', 'm.status','m.startdate','m.enddate').from('workbreakdowns as m')
+        const wbs = yield yield Database.select('g.groupName', 'm.workId', 'm.description', 'm.status','m.startdate','m.enddate','m.email','m.updated_at').from('workbreakdowns as m')
         .innerJoin('group_controls as g','m.groupId','g.groupId').where('g.coordinator',user.email)
 
         const rating = yield Rating.query().where('createdBy', user.email).fetch()
@@ -103,7 +101,7 @@ class CoordinatorController {
         require.projectId = request.input('pid')
         require.must_have = request.input('must')
         require.deadline = request.input('deadline')
-        console.log("Deadline: "+request.input('deadline'))
+        require.groupId = request.input('gid')
         yield require.save()
         return response.redirect('/coordinatorDashboard')
 
@@ -132,13 +130,16 @@ class CoordinatorController {
     }
 
     * updateMust (request, response){
+      var newDate = new Date()
+      const user = yield request.auth.getUser()
       const workId = request.input('workId')
   		const desc = request.input('descWbs')
   		const status = request.input('status')
   		const start = request.input('startDate')
   		const end = request.input('endDate')
   		const affectedRows = yield Database.select('*').from('workbreakdowns')
-  		.where('workId', request.input('workId')).update({ description: desc, status: status, startdate: start, enddate: end})
+  		.where('workId', request.input('workId')).update({ description: desc, status: status, startdate: start,
+        enddate: end, email:user.email, updated_at: newDate})
   		yield response.redirect('/coordinatorDashboard')
     }
 

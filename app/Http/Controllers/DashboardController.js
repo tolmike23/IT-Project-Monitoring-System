@@ -94,13 +94,16 @@ class DashboardController {
 
 	//Fruitjam Work Break Down Structure Update
 	* updateWbs (request, response) {
+	  var newDate = new Date()
+		const user = yield request.auth.getUser()
 		const workId = request.input('workId')
 		const desc = request.input('descWbs')
 		const status = request.input('status')
 		const start = request.input('startDate')
 		const end = request.input('endDate')
 		const affectedRows = yield Database.select('*').from('workbreakdowns')
-		.where('workId', request.input('workId')).update({ description: desc, status: status, startdate: start, enddate: end})
+		.where('workId', request.input('workId')).update({description: desc, status: status,
+			startdate: start, enddate: end, email:user.email, updated_at: newDate})
 		yield response.redirect('/dashboard')
 	}
 	//Fruitjam notifications
@@ -166,7 +169,7 @@ class DashboardController {
             const uploads = yield Database.select('*').from('uploads').where('groupId', grpCtr[0].groupId)
 
             //get Workbreakdowns data
-            const works = yield Database.select('*').from('workbreakdowns').where('email', user.email).orderBy('must_id', 'asc')
+            const works = yield Database.select('*').from('workbreakdowns').where('groupId', grpCtr[0].groupId).orderBy('must_id', 'asc')
 
 						//Fetch notification data for Group
 						const fetchNotify = yield Database.select('*').from('notifications').where({groupId: grpCtr[0].groupId, statusGroup:0})
@@ -206,9 +209,6 @@ class DashboardController {
 
 		//Notification Total Counter
 		const notifyGroupNotifyCounter = notifyCounterAll[0].counter
-
-		// console.log("Notification Total Counter FOR Coordinator: "+notifyGroupNotifyCounter)
-		// console.log("Notification Total Counter FOR Wbs: "+counter)
 
 		yield response.sendView('dashboard', {group:group.toJSON(), projects:projects.toJSON(),
 				groupControl, endorse:endorse.toJSON(), requirements:requirements.toJSON(),

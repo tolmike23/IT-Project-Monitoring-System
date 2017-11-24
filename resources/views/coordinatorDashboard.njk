@@ -215,6 +215,7 @@
                                                                         <label for="groupname" class="text-muted">Project Id</label>
                                                                         <input type="text" class="form-control" value="{{p.id}}" disabled>
                                                                         <input id="pid" name="pid" type="text" class="form-control" value="{{p.id}}" style='display:none'>
+                                                                        <input id="gid" name="gid" type="text" class="form-control" value="{{p.groupId}}" style='display:none'>
                                                                     </div>
                                                                 </div>
 
@@ -396,6 +397,8 @@
                                     <th><strong>Status</strong></th>
                                     <th><strong>Start Date</strong></th>
                                     <th><strong>End Date</strong></th>
+                                    <th><strong>Create|Update</strong></th>
+  																	<th><strong>Create|Update</strong></th>
                                 </thead>
                                 <tbody>
                                     {% for w in wbs %}
@@ -405,6 +408,8 @@
                                         <td>{{w.status}}</td>
                                         <td>{{w.startdate}}</td>
                                         <td>{{w.enddate}}</td>
+                                        <td>{{w.email}}</td>
+  																			<td>{{w.updated_at}}</td>
                                         <td>
                                             <button class="btn btn-xs btn-white btn-round" data-toggle="modal" data-target="#{{w.workId}}wbss">
                                                 <i class="fa fa-pencil-square-o"></i>
