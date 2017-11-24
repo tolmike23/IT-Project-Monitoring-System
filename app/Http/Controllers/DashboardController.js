@@ -235,7 +235,8 @@ class DashboardController {
         const view = request.input('userType')
         if (view === 'A') return response.redirect('/adviserDashboard')
         if (view === 'C') return response.redirect('/coordinatorDashboard')
-        if (view === 'P') return response.redirect('/master')
+        if (view === 'P') return response.redirect('/panelistDashboard')
+				if (view === 'H') return response.redirect('/chairmanDashboard')
     }
 
 }

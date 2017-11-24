@@ -26,7 +26,7 @@ class CoordinatorController {
         const maxId = gcMaxParse[0].maxId + 1
 
         //Notification Data
-        const coordinatorCounter = yield Database.select('n.groupId','n.category').from('notifications as n').innerJoin('group_controls as g','n.groupId','g.groupId')
+        const coordinatorCounter = yield Database.select('n.groupId','n.category','n.id').from('notifications as n').innerJoin('group_controls as g','n.groupId','g.groupId')
         .where('g.coordinator',user.email).where('n.statusCoordinator', 0)
 
         //Notification Counter

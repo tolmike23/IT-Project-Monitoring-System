@@ -37,7 +37,7 @@ Route.post('/advisers', 'AdviserController.add')
 Route.post('/addAdviser', 'AdviserController.call')
 Route.get('readAd/*', 'AdviserController.read')
 Route.post('/updateWbsAd', 'AdviserController.updateMust')
-//Coordinator View
+//Coordinator Page
 Route.get('/coordinatorDashboard','CoordinatorController.showCoordinator')
 Route.post('/createGroup', 'CoordinatorController.createGroup')
 Route.post('/createProject', 'CoordinatorController.createProject')
@@ -46,21 +46,23 @@ Route.post('/submitEndorsement','EndorseController.submitEndorse')
 Route.get('readCord/*', 'CoordinatorController.read')
 Route.post('/insertProjectRating','CoordinatorController.insertRating')
 Route.post('/updateWbsCor', 'CoordinatorController.updateMust')
+//Panelist Page
+Route.get('/panelistDashboard', 'PanelistController.index')
+Route.get('readPanel/*', 'PanelistController.read')
+//Chairman Page
+Route.get('/chairmanDashboard', 'ChairmanController.index')
+Route.get('readChaiman/*', 'ChairmanController.read')
 //Group Page
 Route.get('/dashboard', 'DashboardController.showGroup')
 Route.get('/adviserDashboard', 'DashboardController.showAdviser')
-
 Route.post('/dashboard', 'GroupController.add')
 Route.post('/updateMember', 'GroupController.post')
 Route.get('/joinGroup', 'GroupController.join')
-// Route.post('/addGroup', 'GroupController.add')
-// Route.get('/editGroup', 'GroupController.edit')
 
 //Endorse
 Route.post('/submitProposal', 'EndorseController.submitProposal')
-// Route.get('/editEndorse', 'EndorseController.edit')
 Route.get('/updateProposal', 'EndorseController.updateProposal')
-
+//Projects
 Route.get('/projects', 'ProjectsController.show')
 Route.post('/addProject', 'ProjectsController.call')
 Route.post('/Projects', 'ProjectsController.add')

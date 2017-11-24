@@ -118,6 +118,7 @@
 
 
                           <!--Start Notifications Adviser-->
+
                           <li class="nav-item active dropdown">
                           {% if (counterAdviser <= 0) %}
 
@@ -146,9 +147,11 @@
 
                           {% endif %}
                           </li>
+
                           <!--End Notifications Adviser-->
 
                           <!--Start Notifications Coordinator-->
+
                           <li class="nav-item active dropdown">
                           {% if (cordCounter <= 0) %}
 
@@ -168,7 +171,7 @@
                             <div class="dropdown-menu" aria-labelledby="adDropDown" data-toggle="popover">
                             <!--Populate Unread Announcements-->
                               {% for nAdc in coordinatorCounter %}
-                              <a class="dropdown-item" href="readCord/{{nAdc.groupId}}" data-toggle="tooltip" data-placement="right"
+                              <a class="dropdown-item" href="readCord/{{nAdc.id}}" data-toggle="tooltip" data-placement="right"
                               title="{{nAdc.category}} For Group {{nAdc.groupId}}" id="read" name="read">{{nAdc.category}}</a>
                               {# <div class="dropdown-divider"></div> #}
                                 {% endfor %}
@@ -179,9 +182,65 @@
                           <!--End Notifications Coordinator-->
 
                           <!--Start Notifications Panelist-->
+
+                          <li class="nav-item active dropdown">
+                          {% if (panelistCounter <= 0) %}
+
+                            <a class="nav-link" data-toggle="tooltip" data-placement="right"
+                            title="No Notifications" aria-expanded="true">
+                            <i class="now-ui-icons ui-1_bell-53"></i>
+                            </a>
+
+                          {% endif %}
+
+                          {% if (panelistCounter > 0) %}
+
+                            <a href="#" class="nav-link nav-pills nav-pills-primary alert" data-toggle="dropdown" id="adDropDown" aria-expanded="true">
+                            <i class="now-ui-icons ui-1_bell-53"></i>
+                            <span><p class="btn-round btn-danger btn-sm"><strong>{{panelistCounter}}</strong></p></span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="adDropDown" data-toggle="popover">
+                            <!--Populate Unread Announcements-->
+                              {% for nAdp in panelistNotification %}
+                              <a class="dropdown-item" href="readPanel/{{nAdp.id}}" data-toggle="tooltip" data-placement="right"
+                              title="{{nAdp.category}} For Group {{nAdp.groupId}}" id="read" name="read">{{nAdp.category}} </a>
+                              {% endfor %}
+                            </div>
+
+                            {% endif %}
+                          </li>
+
                           <!--End Notifications Panelist-->
 
                           <!--Start Notifications Chairman-->
+
+                          <li class="nav-item active dropdown">
+                          {% if (chairmanCounter <= 0) %}
+
+                            <a class="nav-link" data-toggle="tooltip" data-placement="right"
+                            title="No Notifications" aria-expanded="true">
+                            <i class="now-ui-icons ui-1_bell-53"></i>
+                            </a>
+
+                          {% endif %}
+
+                          {% if (chairmanCounter > 0) %}
+
+                            <a href="#" class="nav-link nav-pills nav-pills-primary alert" data-toggle="dropdown" id="adDropDown" aria-expanded="true">
+                            <i class="now-ui-icons ui-1_bell-53"></i>
+                            <span><p class="btn-round btn-danger btn-sm"><strong>{{chairmanCounter}}</strong></p></span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="adDropDown" data-toggle="popover">
+                            <!--Populate Unread Announcements-->
+                              {% for nAdp in chairmanNotification %}
+                              <a class="dropdown-item" href="readChaiman/{{nAdp.id}}" data-toggle="tooltip" data-placement="right"
+                              title="{{nAdp.category}} For Group {{nAdp.groupId}}" id="read" name="read">{{nAdp.category}}</a>
+                              {% endfor %}
+                            </div>
+
+                            {% endif %}
+                          </li>
+
                           <!--End Notifications Chairman-->
 
                           <li class="nav-item active dropdown">

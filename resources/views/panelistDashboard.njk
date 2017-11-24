@@ -1,0 +1,111 @@
+{% extends 'master' %}
+
+{% block content %}
+<div class="wrapper">
+	<div class="page-header clear-filter" filter-color="orange">
+			<div class="page-header-image" data-parallax="true"></div>
+			<div class="container">
+					<div class="row" style="padding-top:90px">
+							<div class="col-md-12 animsition" data-animsition-in-class="fade-in-down-sm" data-animsition-in-duration="500">
+									<div class="row">
+											<div class="col-lg-6 col-md-12">
+													<h4 class="category">Faculty Dashboard | Panelist </h4>
+											</div>
+
+											<div class="col-lg-2">
+													<div class="dropdown">
+															<a href="#pablo" class="btn btn-primary btn-round dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink1">
+																	<strong> More options</strong>
+															</a>
+															<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+																	<a class="dropdown-item" href="/coordinatorDashboard">Coordinator page</a>
+																	<a class="dropdown-item" href="/adviserDashboard">Adviser page</a>
+                                  <a class="dropdown-item" href="/chairmanDashboard">Chairman Page</a>
+															</ul>
+													</div>
+											</div>
+									</div>
+
+									<!--Panelist Projects Tables Start-->
+									<div class="card">
+											<div class="card-header bg-primary">
+													<ul class="nav nav-tabs nav-tabs-neutral">
+															<li class="nav-item">
+																	<a class="nav-link active" data-toggle="tab" role="tab">
+              											Projects
+              										</a>
+															</li>
+													</ul>
+											</div>
+											<div class="card-body">
+													<table class="table table-hover table-responsive">
+															{% if currentUser %}
+															<thead class="text-primary">
+																	<th><strong>Group Name</strong></th>
+																	<th><strong>Project name</strong></th>
+																	<th><strong>Created</strong></th>
+																	<th><strong>Status</strong></th>
+																	<th><strong>Notes</strong></th>
+															</thead>
+															<tbody>
+																	{% for project in projects %}
+																	<tr class="text-black">
+																			<td>{{project.groupName}}</td>
+																			<td>{{project.projectname}}</td>
+																			<td>{{project.created_at }}</td>
+																			<td>{{project.status}}</td>
+																			<td>{{project.notes}}</td>
+																	</tr>
+																	{% endfor %}
+															</tbody>
+															{% endif %}
+													</table>
+											</div>
+									</div>
+									<!--Panelist Projects Tables End-->
+
+                  <!--Panelist Group Tables Start-->
+									<div class="card">
+											<div class="card-header bg-primary">
+													<ul class="nav nav-tabs nav-tabs-neutral">
+															<li class="nav-item">
+																	<a class="nav-link active" data-toggle="tab" role="tab">
+              											Group List
+              										</a>
+															</li>
+													</ul>
+											</div>
+											<div class="card-body">
+													<table class="table table-hover table-responsive">
+															{% if currentUser %}
+															<thead class="text-primary">
+                                  <th><strong>Group ID</strong></th>
+																	<th><strong>Group Name</strong></th>
+                                  <th><strong>Group Memebers</strong></th>
+																	<th><strong>Chairman</strong></th>
+																	<th><strong>Adviser</strong></th>
+																	<th><strong>Coordinator</strong></th>
+															</thead>
+															<tbody>
+																	{% for project in groupList %}
+																	<tr class="text-black">
+																			<td>{{project.groupId}}</td>
+																			<td>{{project.groupName}}</td>
+                                      <td>{{project.email}}</td>
+																			<td>{{project.chairman }}</td>
+																			<td>{{project.adviser}}</td>
+																			<td>{{project.coordinator}}</td>
+																	</tr>
+																	{% endfor %}
+															</tbody>
+															{% endif %}
+													</table>
+											</div>
+									</div>
+									<!--Panelist Group Tables End-->
+							</div>
+					</div>
+			</div>
+	</div>
+</div>
+{% endblock %}
