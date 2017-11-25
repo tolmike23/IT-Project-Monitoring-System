@@ -45,7 +45,8 @@ class RegisterController {
 
             yield user.save()
             // redirect user to login page
-            response.redirect('/login')
+            yield request.with({ success: "Account Successfully Created | Please Log In" }).flash()
+            return response.redirect('/login')
         } catch(e) {
             console.log('Registration error: '+ e.message)
             yield request.with({ error: "Application is preventing you to register for duplicate entry for email or id" }).flash()

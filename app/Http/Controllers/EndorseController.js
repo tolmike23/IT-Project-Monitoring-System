@@ -21,12 +21,15 @@ class EndorseController {
         endorse.notes = request.input('notes')
         yield endorse.save()
 
-        const endo = yield Endorse.query().where('studentId', groupId).fetch()
-        const group = yield Group.query().where('groupId', groupId).fetch()
-        const projects = yield Projects.query().where('groupId',groupId).fetch()
-        const groupControl = yield GroupControl.query().where('groupId', groupId).fetch()
+        return response.redirect('/dashboard')
 
-        yield response.sendView('dashboard', {endorse:endo.toJSON(), group:group.toJSON(), projects:projects.toJSON(), groupControl:groupControl.toJSON(), user:true})
+        // const endo = yield Endorse.query().where('studentId', groupId).fetch()
+        // const group = yield Group.query().where('groupId', groupId).fetch()
+        // const projects = yield Projects.query().where('groupId',groupId).fetch()
+        // const groupControl = yield GroupControl.query().where('groupId', groupId).fetch()
+        //
+        // yield response.sendView('dashboard', {endorse:endo.toJSON(), group:group.toJSON(),
+        //   projects:projects.toJSON(), groupControl:groupControl.toJSON(), user:true})
     }
 
  // * edit (request, response){
