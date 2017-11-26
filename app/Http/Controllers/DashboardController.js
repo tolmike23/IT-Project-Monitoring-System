@@ -120,17 +120,20 @@ class DashboardController {
 
             var prj = null
 
-            const group = yield Group.query().where('email', user.email).fetch()
-            const grpStr = JSON.stringify(group)
+            const grp = yield Group.query().where('email', user.email).fetch()
+            const grpStr = JSON.stringify(grp)
+            console.log('grpStr '+grpStr)
             const grpCtr = JSON.parse(grpStr)
 
-            const projects = yield Projects.query().where('groupId', user.email).fetch()
-            const prjGrp = Object.keys(JSON.stringify(projects)).length
+            //const projects = yield Projects.query().where('groupId', user.email).fetch()
+            //const prjGrp = Object.keys(JSON.stringify(projects)).length
 
+            /*
             if (prjGrp > 2) {  // no project available
                 prj = projects
             }
             else {
+                console.log('Way group')
                 prj = yield Projects.query().where('groupId', "").fetch()
             }
             var members = []
@@ -149,78 +152,91 @@ class DashboardController {
                 "updated_at": tempItem.updated_at
             })
 
-		}
+		    }
 
-		members = JSON.parse(JSON.stringify(members))
+		    members = JSON.parse(JSON.stringify(members))
+            */
 
-		if (grpCtr.length > 0){
+            if (grpCtr.length > 0){
 
-            const group = yield Group.query().where('groupId', grpCtr[0].groupId).fetch()
+                console.log('group '+grpCtr[0].groupId)
+                const groupId = grpCtr[0].groupId
+                const group = yield Group.query().where('groupId', groupId).fetch()
+                console.log('Group '+JSON.stringify(group))
 
-            const groupControl = yield GroupControl.query().where('groupId', grpCtr[0].groupId)
+                const groupControl = yield GroupControl.query().where('groupId', groupId).fetch()
+                console.log('Group Control '+JSON.stringify(groupControl))
 
-            const endorse = yield Endorse.query().where('groupId', grpCtr[0].groupId).fetch()
+                const endorse = yield Endorse.query().where('groupId', groupId).fetch()
+                console.log('Endorse '+JSON.stringify(endorse))
 
-            const requirements =  yield Requirements.query().where('projectId', grpCtr[0].groupId).fetch()
+                const requirements =  yield Requirements.query().where('projectId', groupId).fetch()
+                console.log('Requirements '+JSON.stringify(requirements))
 
-						const projects = yield Projects.query().where('groupId', grpCtr[0].groupId).fetch()
+                const projects = yield Projects.query().where('groupId', groupId).fetch()
+                console.log('Projects '+JSON.stringify(projects))
 
-            // get Upload table data
-            const uploads = yield Database.select('*').from('uploads').where('groupId', grpCtr[0].groupId)
+                // get Upload table data
+                const uploads = yield Database.select('*').from('uploads').where('groupId', groupId)
+                console.log('Uploads '+JSON.stringify(uploads))
 
-            //get Workbreakdowns data
-            const works = yield Database.select('*').from('workbreakdowns').where('groupId', grpCtr[0].groupId).orderBy('must_id', 'asc')
+                //get Workbreakdowns data
+                const works = yield Database.select('*').from('workbreakdowns').where('groupId', groupId).orderBy('must_id', 'asc')
+                console.log('Works '+JSON.stringify(works))
 
-						//Fetch notification data for Group
-						const fetchNotify = yield Database.select('*').from('notifications').where({groupId: grpCtr[0].groupId, statusGroup:0})
+                //Fetch notification data for Group
+                const fetchNotify = yield Database.select('*').from('notifications').where({groupId: groupId, statusGroup:0})
+                console.log('fetchNotify '+JSON.stringify(fetchNotify))
 
-            //count notification data for All
-            const notifyAll = yield Database.select('*').from('notifications').where({groupId: grpCtr[0].groupId, statusGroup:0}).count('* as counter')
-            const jsonNotifyAll = JSON.stringify(notifyAll)
-            const notifyCounterAll = JSON.parse(jsonNotifyAll)
+                //count notification data for All
+                const notifyAll = yield Database.select('*').from('notifications').where({groupId: groupId, statusGroup:0}).count('* as counter')
+                console.log('notifyAll '+JSON.stringify(notifyAll))
+                const jsonNotifyAll = JSON.stringify(notifyAll)
+                const notifyCounterAll = JSON.parse(jsonNotifyAll)
 
-            // workbreakdowns end date
-            const jsonDate = JSON.stringify(works)
-            const endDate = JSON.parse(jsonDate)
-            var counter = 0 // How many due within 7 days
-            var jsonObjWbs = []
-            for(var i=0; i<endDate.length; i++){
-                var end =  endDate[i].enddate // end date data from wbs
-                var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
-                var firstDate = new Date()//Today date
-                var secondDate = new Date(end)//enddates
-                var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay))) // Date Difference
-                console.log("End Dates diff from Today Date: "+diffDays)
-                //Check wbs end date if its due within 7 days
-                if(diffDays <= 7){
-                     counter++
-                     console.log("Counter: "+counter)
-                     var tempData = endDate[i]
-                     jsonObjWbs.push({
-                            "description" : tempData.description,
-                            "id" : tempData.workId
-                     })
+                // workbreakdowns end date
+                const jsonDate = JSON.stringify(works)
+                const endDate = JSON.parse(jsonDate)
+                var counter = 0 // How many due within 7 days
+                var jsonObjWbs = []
 
+                for(var i=0; i<endDate.length; i++){
+                    var end =  endDate[i].enddate // end date data from wbs
+                    var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+                    var firstDate = new Date()//Today date
+                    var secondDate = new Date(end)//enddates
+                    var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay))) // Date Difference
+                    console.log("End Dates diff from Today Date: "+diffDays)
+                    //Check wbs end date if its due within 7 days
+                    if(diffDays <= 7){
+                         counter++
+                         console.log("Counter: "+counter)
+                         var tempData = endDate[i]
+                         jsonObjWbs.push({
+                                "description" : tempData.description,
+                                "id" : tempData.workId
+                         })
+
+                    }
                 }
-							}
 
-		//Print the Necessary Values for WBS date comparison
-		jsonObjWbs = JSON.parse(JSON.stringify(jsonObjWbs))
+                //Print the Necessary Values for WBS date comparison
+                jsonObjWbs = JSON.parse(JSON.stringify(jsonObjWbs))
 
-		//Notification Total Counter
-		const notifyGroupNotifyCounter = notifyCounterAll[0].counter
+                //Notification Total Counter
+                const notifyGroupNotifyCounter = notifyCounterAll[0].counter
 
-		yield response.sendView('dashboard', {group:group.toJSON(), projects:projects.toJSON(),
-				groupControl, endorse:endorse.toJSON(), requirements:requirements.toJSON(),
-				notifyGroupNotifyCounter,fetchNotify,counter,jsonObjWbs,works, uploads, user:true})
+                yield response.sendView('dashboard', {group:group.toJSON(), projects:projects.toJSON(),
+                        groupControl:groupControl.toJSON(), endorse:endorse.toJSON(), requirements:requirements.toJSON(),
+                        notifyGroupNotifyCounter, fetchNotify, counter, jsonObjWbs, works, uploads, user:true})
 
-		}
-		else
-		{
-			const groupControl = yield GroupControl.query().fetch()
-			// console.log('groupControl '+groupControl)
-			yield response.sendView('dashboard', {groupControl:groupControl.toJSON(),user:false})
-		}
+            }
+            else
+            {
+                const groupControl = yield GroupControl.query().fetch()
+                // console.log('groupControl '+groupControl)
+                yield response.sendView('dashboard', {groupControl:groupControl.toJSON(), user:false})
+            }
 		} catch (e) {
 			console.log('Exception thrown from DashboardController: '+e.stack)
 		}

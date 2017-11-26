@@ -47,7 +47,7 @@ class GroupController {
             // const endorse = yield Endorse.query().where('groupId', request.input('groupId')).fetch()
             //
             // yield response.sendView('dashboard', {group:group.toJSON(), endorse:endorse.toJSON(), user:true})
-						return response.redirect('/dashboard')
+            return response.redirect('/dashboard')
         }
     }
 

@@ -13,7 +13,7 @@ class CoordinatorController {
         const user = yield request.auth.getUser()
 
         const projects = yield Database.select('g.groupName', 'p.id', 'p.projectname','p.groupId').from('projects as p')
-        .innerJoin('group_controls as g','p.groupId', 'g.groupId').where('p.coordinator',user.email)
+        .innerJoin('group_controls as g','p.groupId', 'g.groupId').where('p.coordinator', user.email)
 
         const requirements = yield Database.select('p.projectname','r.id', 'r.must_have', 'r.deadline')
         .from('requirements as r')
