@@ -7,55 +7,69 @@
         <div class="container">
             <div class="row" style="padding-top:90px">
                 <div class="col-md-12 animsition" data-animsition-in-class="fade-in-down-sm" data-animsition-in-duration="500">
-                    {% if currentUser %} {% if user %} {% for gc in groupControl %}
-                    <ul class="nav nav-tabs nav-tabs-neutral">
-                        <li class="nav-item ">
-                            <a class="nav-link active" data-toggle="tab" role="tab">
-                                            {{gc.groupName}}&nbsp;|&nbsp;{{gc.clSched}}&nbsp;|&nbsp;Coordinator: {{gc.coordinator}}&nbsp;|&nbsp;Adviser:&nbsp;{{gc.adviser}}
-                                        </a>
+                    {% if currentUser %}
+                      {% if user %}
+                        {% for gc in groupControl %}
+                          <ul class="nav nav-tabs nav-tabs-neutral">
+                              <li class="nav-item ">
+                                  <a class="nav-link active" data-toggle="tab" role="tab">
+                                      {{gc.groupName}}&nbsp;|&nbsp;{{gc.clSched}}&nbsp;|&nbsp;Coordinator: {{gc.coordinator}}&nbsp;|&nbsp;Adviser:&nbsp;{{gc.adviser}}
+                                      
+                                  </a>
 
-                        </li>
-                    </ul>
-                    {% endfor %} {% else %}
-                    <form method="GET" action="joinGroup">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item">
-                                <div class="form-group">
-                                    <select id="groupControl" name="groupControl" class="selectpicker" data-size="10" data-style="btn btn-info btn-round btn-md" required>
-                                        <option disabled selected><strong>Select schedule</strong> &nbsp;</option>
-                                        {% for gc in groupControl %}
-                                        <option value={{gc.groupId}}>{{gc.groupName}}&nbsp;/&nbsp;{{gc.clSched}}&nbsp;/&nbsp;Coordinator: {{gc.coordinator}} &nbsp;</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </li>
-                            <li class="nav-item">&nbsp;&nbsp;</li>
-                            <li class="nav-item">
-                                <div class="form-group" style="padding-top:10px;">
-                                    <input class="form-control" name="groupKey" id="groupKey" placeholder="Valid Group Key..." value="{{old('groupKey')}}" required/>
-                                </div>
-                                <div class="form-group">&nbsp;&nbsp;&nbsp;&nbsp;{{grpKeyError}}</div>
-                            </li>
-                            <li class="nav-item">&nbsp;&nbsp;</li>
-                            <li class="nav-item">
-                                <div class="form-group form-group-no-border input-md">
-                                    <button type="submit" class="btn btn-success btn-round btn-md" data-toggle="modal">
-                                        <strong>Join group</strong>
-                                        <div class="ripple-container"></div>
-                                    </button>
-                                </div>
-                            </li>
-                        </ul>
-                    </form>
-                    {% endif %} {% endif %} {% if currentUser %} {% if user %}
-                    <p class="category">Group Dashboard</p>
+                              </li>
+                          </ul>
+                        {% endfor %}
+
+
+                        {% else %}
+                        <form method="GET" action="joinGroup">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <div class="form-group">
+                                        <select id="groupControl" name="groupControl" class="selectpicker" data-size="10" data-style="btn btn-info btn-round btn-md" required>
+                                            <option disabled selected><strong>Select schedule</strong> &nbsp;</option>
+                                            {% for gc in groupControl %}
+                                            <option value={{gc.groupId}}>{{gc.groupName}}&nbsp;/&nbsp;{{gc.clSched}}&nbsp;/&nbsp;Coordinator: {{gc.coordinator}} &nbsp;</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </li>
+                                <li class="nav-item">&nbsp;&nbsp;</li>
+                                <li class="nav-item">
+                                    <div class="form-group" style="padding-top:10px;">
+                                        <input class="form-control" name="groupKey" id="groupKey" placeholder="Valid Group Key..." value="{{old('groupKey')}}" required/>
+                                    </div>
+                                    <div class="form-group">&nbsp;&nbsp;&nbsp;&nbsp;{{grpKeyError}}</div>
+                                </li>
+                                <li class="nav-item">&nbsp;&nbsp;</li>
+                                <li class="nav-item">
+                                    <div class="form-group form-group-no-border input-md">
+                                        <button type="submit" class="btn btn-success btn-round btn-md" data-toggle="modal">
+                                            <strong>Join group</strong>
+                                            <div class="ripple-container"></div>
+                                        </button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </form>
+                      {% endif %}
+                    {% endif %}
+                    {% if currentUser %}
+                    {% if user %}
+                    <p class="category">Group Dashboard
+                      <a href="/dashboard" class="btn btn-primary  btn-icon-mini btn-round">
+                          <span class="now-ui-icons arrows-1_refresh-69"></span>
+                      </a>
+                    </p>
+
                     <div class="card">
                         <div class="card-header bg-primary">
                             <ul class="nav nav-tabs nav-tabs-neutral">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" role="tab">
-                                                Group Info | members list
-                                            </a>
+                                        Group Info | members list
+                                    </a>
                                 </li>
                             </ul>
                         </div>
