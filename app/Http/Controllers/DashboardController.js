@@ -170,7 +170,7 @@ class DashboardController {
                 const endorse = yield Endorse.query().where('groupId', groupId).fetch()
 
 
-                const requirements =  yield Requirements.query().where('projectId', groupId).fetch()
+                const requirements =  yield Requirements.query().where('groupId', groupId).fetch()
 
 
                 const projects = yield Projects.query().where('groupId', groupId).fetch()
