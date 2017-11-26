@@ -1,4 +1,4 @@
-{% extends 'master' %}
+Project Requirements | Must have{% extends 'master' %}
 
 {% block content %}
 <div class="wrapper">
@@ -240,7 +240,7 @@
                                                                 <div class="form-group">
                                                                     <label for="lastname" class="col-md-10 text-muted">Estimated Deadline</label>
                                                                     <div class="col-md-12">
-                                                                        <input id="deadline" type="text" class="form-control datetimepicker" placeholder="Start Date" name="deadline" required>
+                                                                        <input id="deadline" type="text" class="form-control datetimepicker" placeholder="Start Date" name="deadline">
                                                                     </div>
                                                                 </div>
 
@@ -493,7 +493,7 @@
                                                               {{ csrfField }}
                                                               <input id="workId" name="workId" type="text" class="form-control" value="{{item.id}}" style="display:none">
 
-                                                              
+
 
                                                               <div class="form-group">
                                                                   <label for="groupname" class="text-muted">Deadline</label>

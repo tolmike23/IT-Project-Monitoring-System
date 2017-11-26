@@ -153,7 +153,7 @@ class CoordinatorController {
     }
 
     * updateReq(request, response){
-      yield Requirement.query().update({deadline: request.input('deadline')})
+      yield Requirement.query().where({id: request.input('workId')}).update({deadline: request.input('deadline')})
       return response.redirect('/coordinatorDashboard')
     }
 
