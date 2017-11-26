@@ -153,7 +153,7 @@ class CoordinatorController {
     }
 
     * updateReq(request, response){
-      yield Requirement.query().update({deadline: request.input('deadline'), must_have: request.input('msh')})
+      yield Requirement.query().update({deadline: request.input('deadline')})
       return response.redirect('/coordinatorDashboard')
     }
 
