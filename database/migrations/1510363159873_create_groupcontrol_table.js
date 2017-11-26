@@ -19,6 +19,7 @@ class GroupControlsTableSchema extends Schema {
       table.string('status', 20)
       table.string('notes', 254)
       table.string('rating', 10)
+      table.boolean('statusCoordinator').notNullable()
       table.timestamps()
     })
   }

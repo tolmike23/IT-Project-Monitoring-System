@@ -21,14 +21,18 @@ class CoordinatorController {
 
         const endorse = yield Database.from('endorses').whereRaw('endorseType != ?', ['Proposal']).whereRaw('endorseTo = ?', [user.email])
 
-        const gc = yield GroupControl.query().where({coordinator: user.email}).fetch()
+        const gc = yield GroupControl.query().where({coordinator: user.email, statusCoordinator: 0}).fetch()
+
         const gcMax = yield GroupControl.query().max('groupId as maxId')
         const gcMaxStringfy = JSON.stringify(gcMax)
         const gcMaxParse = JSON.parse(gcMaxStringfy)
         const maxId = gcMaxParse[0].maxId + 1
 
+
         //Notification Data
-        const coordinatorCounter = yield Database.select('n.groupId','n.category','n.id').from('notifications as n').innerJoin('group_controls as g','n.groupId','g.groupId')
+        const coordinatorCounter = yield Database.select('n.groupId','n.category','n.id')
+        .from('notifications as n')
+        .innerJoin('group_controls as g','n.groupId','g.groupId')
         .where('g.coordinator',user.email).where('n.statusCoordinator', 0)
 
         //Notification Counter
@@ -43,10 +47,11 @@ class CoordinatorController {
 
         const rating = yield Rating.query().where('createdBy', user.email).fetch()
 
-        const users = yield Database.select('*').from('users').where({type: 'F'})
+        const users = yield Database.select('*').from('users').where({type: 'F'}).whereNot({email: user.email})
 
         yield response.sendView('coordinatorDashboard', {endorse:endorse, gc:gc.toJSON(), maxId,
-          projects, requirements, coordinatorCounter, cordCounter, wbs, rating:rating.toJSON(), users})
+          projects, requirements, coordinatorCounter, cordCounter, wbs,
+          rating:rating.toJSON(), users})
     }
 
     * createGroup(request,response){
@@ -82,6 +87,7 @@ class CoordinatorController {
         proj.coordinator = user.email
         proj.groupId = request.input('groupId')
         yield proj.save()
+        yield GroupControl.query().where({groupId: request.input('groupId')}).update({statusCoordinator:1})
         yield request.with({ success: "Project Successfully Created" }).flash()
         return response.redirect('back')
 
@@ -147,7 +153,7 @@ class CoordinatorController {
     }
 
     * updateReq(request, response){
-      yield Requirement.query().update({deadline: request.input('deadline')})
+      yield Requirement.query().update({deadline: request.input('deadline'), must_have: request.input('msh')})
       return response.redirect('/coordinatorDashboard')
     }
 
