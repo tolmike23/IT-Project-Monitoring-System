@@ -31,8 +31,8 @@
 													<ul class="nav nav-tabs nav-tabs-neutral">
 															<li class="nav-item">
 																	<a class="nav-link active" data-toggle="tab" role="tab">
-										Proposal
-									</a>
+																		Events Log
+																	</a>
 															</li>
 													</ul>
 											</div>
@@ -41,11 +41,11 @@
 															{% if currentUser %}
 															<thead class="text-primary">
 																	<th><strong>Group Name</strong></th>
+																	<th><strong>Title</strong></th>
 																	<th><strong>Description</strong></th>
 																	<th><strong>Type</strong></th>
-																	<th><strong>Notes</strong></th>
 																	<th><strong>Created</strong></th>
-																	<th><strong>Approved</strong></th>
+																	<th><strong>Action</strong></th>
 															</thead>
 															<tbody>
 																	<!--Null/Default-->
@@ -53,12 +53,13 @@
 																	<tr class="text-black">
 																			<td>{{p.groupName}}</td>
 																			<td>{{p.description}}</td>
-																			<td>{{p.endorseType}}</td>
 																			<td>{{p.notes}}</td>
+																			<td>{{p.endorseType}}</td>
 																			<td>{{p.created_at}}</td>
 																			<td>
 																					<form method="GET" action="/confirm">
-																							<input name="projectId" id="projectId" value="{{p.id}}" style='display:none'>
+																							<!-- Endorse Id -->
+																							<input name="eid" id="eid" value="{{p.id}}" style="display:none" />
 																							<!-- Description -->
 																							<input name="description" id="description" value="{{p.description}}" style="display:none" />
 																							<!--Student Id-->
@@ -96,14 +97,12 @@
 																	<tr class="text-black">
 																			<td>{{p.groupName}}</td>
 																			<td>{{p.description}}</td>
-																			<td>{{p.endorseType}}</td>
 																			<td>{{p.notes}}</td>
+																			<td>{{p.endorseType}}</td>
 																			<td>{{p.created_at}}</td>
 																			<td>
 																					<form method="GET" action="/confirm">
 																							<!--Proposal Id-->
-																							<input name="projectId" id="projectId" value="{{p.id}}" style='display:none'>
-
 																							<label class="form-check-label">
 																									<input class="form-check-input" type="checkbox" name="approved" id="approved" value=1 disabled="" checked="">
 																									<span class="form-check-sign"></span>
@@ -118,13 +117,13 @@
 																	<tr class="text-black">
 																			<td>{{p.groupName}}</td>
 																			<td>{{p.description}}</td>
-																			<td>{{p.endorseType}}</td>
 																			<td>{{p.notes}}</td>
+																			<td>{{p.endorseType}}</td>
 																			<td>{{p.created_at}}</td>
+
+
 																			<td>
 																					<form method="GET" action="/confirm">
-																							<input name="projectId" id="projectId" value="{{p.id}}" style='display:none'>
-
 																							<label class="form-check-label">
 																									<input class="form-check-input" type="checkbox" name="approved" id="approved" value=0 disabled="" checked="">
 																									<span class="form-check-sign"></span>

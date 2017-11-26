@@ -15,7 +15,9 @@ class CoordinatorController {
         const projects = yield Database.select('g.groupName', 'p.id', 'p.projectname','p.groupId').from('projects as p')
         .innerJoin('group_controls as g','p.groupId', 'g.groupId').where('p.coordinator',user.email)
 
-        const requirements = yield Requirement.query().innerJoin('projects','requirements.projectId', 'projects.id').where('projects.coordinator', user.email).fetch()
+        const requirements = yield Database.select('p.projectname','r.id', 'r.must_have', 'r.deadline')
+        .from('requirements as r')
+        .innerJoin('projects as p','r.projectId', 'p.id').where('p.coordinator', user.email)
 
         const endorse = yield Database.from('endorses').whereRaw('endorseType != ?', ['Proposal']).whereRaw('endorseTo = ?', [user.email])
 
@@ -34,7 +36,6 @@ class CoordinatorController {
         .where('g.coordinator',user.email).where('n.statusCoordinator', 0).count('* as counter')
         const counter = JSON.parse(JSON.stringify(helo))
         const cordCounter = counter[0].counter
-        console.log("How Many Notification "+ cordCounter)
 
         //Work Break Down Structure
         const wbs = yield yield Database.select('g.groupName', 'm.workId', 'm.description', 'm.status','m.startdate','m.enddate','m.email','m.updated_at').from('workbreakdowns as m')
@@ -42,8 +43,10 @@ class CoordinatorController {
 
         const rating = yield Rating.query().where('createdBy', user.email).fetch()
 
+        const users = yield Database.select('*').from('users').where({type: 'F'})
+
         yield response.sendView('coordinatorDashboard', {endorse:endorse, gc:gc.toJSON(), maxId,
-          projects, requirements:requirements.toJSON(), coordinatorCounter, cordCounter, wbs, rating:rating.toJSON()})
+          projects, requirements, coordinatorCounter, cordCounter, wbs, rating:rating.toJSON(), users})
     }
 
     * createGroup(request,response){
@@ -141,6 +144,11 @@ class CoordinatorController {
   		.where('workId', request.input('workId')).update({ description: desc, status: status, startdate: start,
         enddate: end, email:user.email, updated_at: newDate})
   		yield response.redirect('/coordinatorDashboard')
+    }
+
+    * updateReq(request, response){
+      yield Requirement.query().update({deadline: request.input('deadline')})
+      return response.redirect('/coordinatorDashboard')
     }
 
 }

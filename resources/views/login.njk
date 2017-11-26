@@ -43,6 +43,13 @@
 
                             <label class="text-warning">{{loginMessage}}</label>
 
+														<!--Success-->
+														{% if old('success') %}
+														<label class="text-success">
+																{{ old('success') }}
+														</label>
+														{% endif %}
+
                         </div>
                         <div class="footer text-center">
                             <button type="submit" class="btn btn-primary btn-round btn-lg">Login</button>
