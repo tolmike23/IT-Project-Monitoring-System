@@ -17,8 +17,11 @@ class AdviserController {
     const user = yield request.auth.getUser()
 
     //Proposal Null
-    const proposals = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
-    .where({endorseTo: user.email, confirmed:null, endorseType: 'Proposal'}).fetch()
+
+    const proposals = yield Database.select('g.groupId','g.groupName','e.description','e.endorseType', 'e.notes', 'e.created_at', 'e.id', '.e.endorseTo')
+    .from('endorses as e')
+    .innerJoin('group_controls as g','e.groupId', 'g.groupId')
+    .where({endorseTo: user.email, confirmed:null, endorseType: 'Proposal'})
 
     //Proposal Disapproved
     const proposalsDis = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
@@ -52,7 +55,7 @@ class AdviserController {
     const counterAdviser = notifyCounterAd[0].counter
 
     //Return View
-    yield response.sendView('adviserDashboard', {projects,proposals:proposals.toJSON(),
+    yield response.sendView('adviserDashboard', {projects,proposals,
     proposalsApp:proposalsApp.toJSON(), proposalsDis:proposalsDis.toJSON(),
     notifyAd, counterAdviser, wbs, requirements, user:true})
 
@@ -62,22 +65,25 @@ class AdviserController {
     //Update Proposal
     var todayDate = new Date()//Today date
     const dateConfirm = todayDate
-    const proId = request.input('projectId')
+    const eId = request.input('eid')
     const studentId = request.input('studentId')
     const groupId = request.input('groupId')
     const endorseBy = request.input('endorseBy')
     const confirm = request.input('approved')
+    console.log('Test Id: '+groupId +'Test confirm val: '+confirm)
     const desc = request.input('description')
     const groupControl = yield Database.select('coordinator')
     .from('group_controls').where('groupId', groupId)
     const gcJson = JSON.stringify(groupControl)
     const gcParse = JSON.parse(gcJson)
+    yield Endorse.query().where('id', eId).update({confirmed: confirm, confirmDate: dateConfirm})
     //Insert New Updated Proposal
-    yield Endorse.query().where('id', proId).update({confirmed: confirm, confirmDate: dateConfirm})
-    if(confirm <= 0 )
+    if(confirm <= 0)
     {
-      return response.redirect('back')
-    }else{
+      return response.redirect('/adviserDashboard')
+    }
+    else
+    {
       const endorse = new Endorse()
       endorse.groupId = groupId
       endorse.studentId = studentId
@@ -89,7 +95,8 @@ class AdviserController {
       endorse.notes = "confirm"
       endorse.confirmDate = dateConfirm
       yield endorse.save()
-      return response.redirect('back')
+      return response.redirect('/adviserDashboard')
+
     }
 
   }

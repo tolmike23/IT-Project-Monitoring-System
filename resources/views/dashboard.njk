@@ -186,7 +186,7 @@
 
                             <table class="table table-hover table-md table-responsive">
                                 <thead class="text-primary">
-                                    <th><strong>Proposal</strong></th>
+                                    <th><strong>Title</strong></th>
                                     <th><strong>Type</strong></th>
                                     <th><strong>Endorse by</strong></th>
                                     <th><strong>Endorse to</strong></th>
@@ -530,6 +530,7 @@
                     <input id="endorseTo" name="endorseTo" value={{gc.adviser}} style="display:none;" />
                     <input id="groupId" name="groupId" value={{gc.groupId}} style="display:none;" /> {% endfor %}
 
+                    <input id="endorseType" name="endorseType" value=Proposal style="display:none;" />
                     <input id="studentId" name="studentId" value={{currentUser.personal_code}} style="display:none;" />
 
                     <div class="col-lg-12">
@@ -540,25 +541,15 @@
                     </div>
 
                     <div class="col-lg-12">
-                        <label for="project" class="col-lg-12 control-label">Description</label>
+                        <label for="project" class="col-lg-12 control-label">Title</label>
                         <div class="form-group">
                             <input id="description" type="text" class="form-control" name="description" placeholder="Describe your proposal..." required/>
                         </div>
                     </div>
 
                     <div class="col-lg-12">
-                        <div class="form-group">
-                            <select class="selectpicker" id="endorseType" name="endorseType" data-style="btn btn-primary btn-round btn-md" required>
-                                <option disabled selected>Type</option>
-                                <option value='Proposal'>Submit Project Proposal</option>
-                                <option disabled value='Endorse to Coordinator'>Endorse to Coordinator</option>
-                                <option disabled value='For Panel Meeting'>For Panel Meeting</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-12">
-                        <textarea id="notes" type="text" class="form-control" name="notes" placeholder="Additional remarks..." rows="3" required></textarea>
+                        <label for="notes" class="col-lg-12 control-label">Description</label>
+                        <input id="notes" type="text" class="form-control" name="notes" placeholder="Description" required></input>
                     </div>
 
                     <div class="footer text-center">

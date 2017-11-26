@@ -46,6 +46,7 @@ Route.post('/submitEndorsement','EndorseController.submitEndorse')
 Route.get('readCord/*', 'CoordinatorController.read')
 Route.post('/insertProjectRating','CoordinatorController.insertRating')
 Route.post('/updateWbsCor', 'CoordinatorController.updateMust')
+Route.post('/updateRequirements', 'CoordinatorController.updateReq')
 //Panelist Page
 Route.get('/panelistDashboard', 'PanelistController.index')
 Route.get('readPanel/*', 'PanelistController.read')
