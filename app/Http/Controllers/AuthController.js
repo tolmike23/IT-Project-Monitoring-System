@@ -3,7 +3,6 @@
 const User = use('App/Model/User')
 const Hash = use('Hash')
 const Database = use('Database')
-const GroupControl = use('App/Model/GroupControl')
 
 class AuthController {
 
@@ -12,7 +11,7 @@ class AuthController {
     }
 
     * login(request, response) {
-        const userType = request.input('userType')
+        //const userType = request.input('userType')
         const email = request.input('email')
         const password = request.input('password')
 
@@ -23,6 +22,23 @@ class AuthController {
 
         try {
 
+            const logUser = yield User.query().where('email', email).fetch()
+            const strUser = JSON.stringify(logUser)
+            const prsUser = JSON.parse(strUser)
+            console.log('Parsed User '+prsUser[0].type)
+
+            const authCheckGrp = yield request.auth.attempt(email, password)
+            if (authCheckGrp){
+                if (prsUser[0].type === "S")
+                    return response.redirect('/dashboard')
+                else
+                    return response.redirect('/dashboardOptions')
+            } else {
+                yield response.sendView('login', {
+                loginMessage: loginMessage.error })
+            }
+
+            /*
             console.log('User type : ' + userType)
             const qryUser = yield Database.schema.raw("select * from users where email='" + email + "' and type='" + userType + "'")
             const rsUser = JSON.stringify(qryUser)
@@ -30,7 +46,7 @@ class AuthController {
             if (userType.toLowerCase() === 's') {
                 console.log('Student info '+logUser[0].length)
                 if (logUser[0].length === 1) {
-                    const authCheckGrp = yield request.auth.attempt(email, password, userType)
+                    const authCheckGrp = yield request.auth.attempt(email, password)
                     if (authCheckGrp)
                         return response.redirect('/dashboard')
                 }
@@ -62,7 +78,7 @@ class AuthController {
                     //response.redirect('back')
                 }
 
-            }
+            } */
             
         } catch (e) {
             //response.location('back')
@@ -70,6 +86,20 @@ class AuthController {
                 loginMessage: e.message
             })
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /*
 			if (userType.toLowerCase() === 'group'){
