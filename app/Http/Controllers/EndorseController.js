@@ -26,7 +26,10 @@ class EndorseController {
         const projects = yield Projects.query().where('groupId',groupId).fetch()
         const groupControl = yield GroupControl.query().where('groupId', groupId).fetch()
 
-        yield response.sendView('dashboard', {endorse:endo.toJSON(), group:group.toJSON(), projects:projects.toJSON(), groupControl:groupControl.toJSON(), user:true})
+        return response.redirect('dashbaord')
+
+     /*
+        yield response.sendView('dashboard', {endorse:endo.toJSON(), group:group.toJSON(), projects:projects.toJSON(), groupControl:groupControl.toJSON(), user:true})*/
     }
 
  // * edit (request, response){
