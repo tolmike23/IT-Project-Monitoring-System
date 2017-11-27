@@ -49,9 +49,11 @@ class CoordinatorController {
 
         const users = yield Database.select('*').from('users').where({type: 'F'}).whereNot({email: user.email})
 
+        const groupControls = yield GroupControl.query().where({coordinator: user.email}).fetch()
+
         yield response.sendView('coordinatorDashboard', {endorse:endorse, gc:gc.toJSON(), maxId,
           projects, requirements, coordinatorCounter, cordCounter, wbs,
-          rating:rating.toJSON(), users})
+          rating:rating.toJSON(), users, groupControls:groupControls.toJSON()})
     }
 
     * createGroup(request,response){
