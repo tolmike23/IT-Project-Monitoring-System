@@ -818,34 +818,6 @@ Project Requirements | Must have{% extends 'master' %}
 												 <button type="submit" class="btn btn-primary btn-round btn-lg">Create</button>
 											</div>
 									</form>
-
-									<!--Display Created Groups-->
-									<div class="card-body">
-											{% if currentUser %}
-													<table class="table table-hover table-md table-responsive">
-															<thead class="text-warning">
-																	<th><strong>Group Id</strong></th>
-																	<th><strong>Class Schedule</strong></th>
-																	<th><strong>Group Key</strong></th>
-                                  <th><strong>Adviser</strong></th>
-                                  <th><strong>Chairman</strong></th>
-                                  <th><strong>Panelist</strong></th>
-															</thead>
-															<tbody>
-																	{% for g in gc %}
-																			<tr class="text-black">
-																					<td>{{g.groupId}}</td>
-																					<td>{{g.clSched}}</td>
-																					<td>{{g.groupKey}}</td>
-                                          <td>{{g.adviser}}</td>
-                                          <td>{{g.chairman}}</td>
-                                          <td>{{g.panelist}}</td>
-																			</tr>
-																	{% endfor %}
-															</tbody>
-													</table>
-											{% endif %}
-									</div>
 							</div>
 							<div class="modal-footer"></div>
 					</div>
