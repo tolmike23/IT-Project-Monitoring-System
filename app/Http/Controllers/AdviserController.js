@@ -44,7 +44,7 @@ class AdviserController {
     .innerJoin('group_controls as g', 'r.groupId', 'g.groupId').where('g.adviser',user.email)
 
     // Notifications Fetch Data
-    const notifyAd = yield Database.select('n.groupId', 'n.category', 'n.id').from('notifications as n').innerJoin('group_controls as g','n.groupId','g.groupId')
+    const notifyAd = yield Database.select('n.groupId', 'n.category', 'n.id','g.groupName').from('notifications as n').innerJoin('group_controls as g','n.groupId','g.groupId')
     .where('g.adviser',user.email).where('n.statusAdviser', 0)
 
     //Notification Counter

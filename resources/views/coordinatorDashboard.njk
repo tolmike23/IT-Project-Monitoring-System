@@ -24,6 +24,7 @@ Project Requirements | Must have{% extends 'master' %}
                                     <a class="dropdown-item" data-toggle="modal" data-target="#groupControl" href="#">Create groups</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" data-toggle="modal" data-target="#projectControl">Create Project</a>
+                                    <a class="dropdown-item" data-toggle="modal" data-target="#groupList">Group List</a>
                                 </ul>
                             </div>
                         </div>
@@ -826,6 +827,9 @@ Project Requirements | Must have{% extends 'master' %}
 																	<th><strong>Group Id</strong></th>
 																	<th><strong>Class Schedule</strong></th>
 																	<th><strong>Group Key</strong></th>
+                                  <th><strong>Adviser</strong></th>
+                                  <th><strong>Chairman</strong></th>
+                                  <th><strong>Panelist</strong></th>
 															</thead>
 															<tbody>
 																	{% for g in gc %}
@@ -833,6 +837,9 @@ Project Requirements | Must have{% extends 'master' %}
 																					<td>{{g.groupId}}</td>
 																					<td>{{g.clSched}}</td>
 																					<td>{{g.groupKey}}</td>
+                                          <td>{{g.adviser}}</td>
+                                          <td>{{g.chairman}}</td>
+                                          <td>{{g.panelist}}</td>
 																			</tr>
 																	{% endfor %}
 															</tbody>
@@ -844,6 +851,52 @@ Project Requirements | Must have{% extends 'master' %}
 					</div>
 			</div>
 	</div>
+
+  <!-- Fruit Jam Create Group Control -->
+	<div class="modal fade" id="groupList" role="dialog">
+			<div class="modal-dialog" >
+					<!-- Modal content -->
+					<div class="modal-content" style="width: 800px;" >
+							<div class="modal-header">
+									<h5 class="modal-title">Group List</h5>
+									<a class="nav nav-link nav-pills nav-pills-success"
+										 data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+									</a>
+							</div>
+							<div class="modal-body">
+									<!--Display Created Groups-->
+									<div class="card-body">
+											{% if currentUser %}
+													<table class="table table-hover table-md  col-lg-2 table-responsive">
+															<thead class="text-warning col-lg-2">
+  																	<th><strong>Group Id</strong></th>
+  																	<th><strong>Class Schedule</strong></th>
+  																	<th><strong>Group Key</strong></th>
+                                    <th><strong>Adviser</strong></th>
+                                    <th><strong>Chairman</strong></th>
+                                    <th><strong>Panelist</strong></th>
+															</thead>
+															<tbody>
+																	{% for g in gc %}
+																			<tr class="text-black col-lg-2">
+																					<td>{{g.groupId}}</td>
+																					<td>{{g.clSched}}</td>
+																					<td>{{g.groupKey}}</td>
+                                          <td>{{g.adviser}}</td>
+                                          <td>{{g.chairman}}</td>
+                                          <td>{{g.panelist}}</td>
+																			</tr>
+																	{% endfor %}
+															</tbody>
+													</table>
+											{% endif %}
+									</div>
+							</div>
+							<div class="modal-footer"></div>
+					</div>
+			</div>
+	</div>
+
 
   <!-- Fruit Jam Project Control -->
   <div class="modal fade" id="projectControl" role="dialog">

@@ -30,7 +30,7 @@ class CoordinatorController {
 
 
         //Notification Data
-        const coordinatorCounter = yield Database.select('n.groupId','n.category','n.id')
+        const coordinatorCounter = yield Database.select('n.groupId','n.category','n.id','g.groupName')
         .from('notifications as n')
         .innerJoin('group_controls as g','n.groupId','g.groupId')
         .where('g.coordinator',user.email).where('n.statusCoordinator', 0)

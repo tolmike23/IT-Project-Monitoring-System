@@ -140,7 +140,7 @@
                             <!--Populate Unread Announcements-->
                               {% for nAd in notifyAd %}
                               <a class="dropdown-item" href="readAd/{{nAd.id}}" data-toggle="tooltip" data-placement="right"
-                              title="{{nAd.category}} For Group {{nAd.groupId}}" id="read" name="read">{{nAd.category}}</a>
+                              title="{{nAd.category}} For Group {{nAd.groupName}}" id="read" name="read">{{nAd.category}}</a>
                               <div class="dropdown-divider"></div>
                               {% endfor %}
                             </div>
@@ -172,7 +172,7 @@
                             <!--Populate Unread Announcements-->
                               {% for nAdc in coordinatorCounter %}
                               <a class="dropdown-item" href="readCord/{{nAdc.id}}" data-toggle="tooltip" data-placement="right"
-                              title="{{nAdc.category}} For Group {{nAdc.groupId}}" id="read" name="read">{{nAdc.category}}</a>
+                              title="{{nAdc.category}} For Group {{nAdc.groupName}}" id="read" name="read">{{nAdc.category}}</a>
                               {# <div class="dropdown-divider"></div> #}
                                 {% endfor %}
                             </div>
@@ -203,7 +203,7 @@
                             <!--Populate Unread Announcements-->
                               {% for nAdp in panelistNotification %}
                               <a class="dropdown-item" href="readPanel/{{nAdp.id}}" data-toggle="tooltip" data-placement="right"
-                              title="{{nAdp.category}} For Group {{nAdp.groupId}}" id="read" name="read">{{nAdp.category}} </a>
+                              title="{{nAdp.category}} For Group {{nAdp.groupName}}" id="read" name="read">{{nAdp.category}} </a>
                               {% endfor %}
                             </div>
 
@@ -234,7 +234,7 @@
                             <!--Populate Unread Announcements-->
                               {% for nAdp in chairmanNotification %}
                               <a class="dropdown-item" href="readChaiman/{{nAdp.id}}" data-toggle="tooltip" data-placement="right"
-                              title="{{nAdp.category}} For Group {{nAdp.groupId}}" id="read" name="read">{{nAdp.category}}</a>
+                              title="{{nAdp.category}} For Group {{nAdp.groupName}}" id="read" name="read">{{nAdp.category}}</a>
                               {% endfor %}
                             </div>
 
