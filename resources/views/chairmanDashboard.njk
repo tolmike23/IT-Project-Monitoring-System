@@ -32,8 +32,8 @@
 													<ul class="nav nav-tabs nav-tabs-neutral">
 															<li class="nav-item">
 																	<a class="nav-link active" data-toggle="tab" role="tab">
-											Projects
-										</a>
+																		Projects
+																	</a>
 															</li>
 													</ul>
 											</div>
@@ -62,7 +62,88 @@
 													</table>
 											</div>
 									</div>
-									<!--Adviser Projects Tables End-->
+									<!--Chairman Projects Tables End-->
+
+									<!-- Project Requirements Tab Start-->
+									<div class="card">
+											<div class="card-header bg-primary">
+													<ul class="nav nav-tabs nav-tabs-neutral">
+															<li class="nav-item">
+																	<a class="nav-link active" data-toggle="tab" role="tab">
+																	Project Requirements | Must have
+																	</a>
+															</li>
+													</ul>
+											</div>
+											<div class="card-body">
+													<table class="table table-hover table-responsive">
+															{% if currentUser %}
+															<thead class="text-primary">
+																	<th><strong>Project Name</strong></th>
+																	<th><strong>Must Have</strong></th>
+																	<th><strong>Deadline</strong></th>
+
+																	{# <th><strong>Progress (%)</strong></th> #}
+															</thead>
+															<tbody>
+																	{% for item in requirements %}
+																	<tr class="text-black">
+																			<td>{{item.projectname}}</td>
+																			<td>{{item.must_have}}</td>
+																			<td>{{item.deadline}}</td>
+																			<td>
+																				<button class="btn btn-xs btn-white btn-round" data-toggle="modal" data-target="#{{item.id}}it">
+																						<i class="fa fa-pencil-square-o"></i>
+																						<div class="ripple-container"></div>
+																				</button>
+																				<!--Add Must Have Requirements-->
+																				<div class="modal fade" id="{{item.id}}it" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																						<div class="modal-dialog">
+																								<!-- Modal content -->
+																								<div class="modal-content">
+
+																										<div class="modal-header">
+																												<h5 class="modal-title">Edit Requirements</h5>
+																												<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
+																												data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+																												<i class="now-ui-icons ui-1_simple-remove"></i>
+																												</a>
+																										</div>
+
+																										<div class="modal-body">
+																												<form class="form-horizontal" role="form" method="POST" action="/updateRequirementsChairman">
+																														{{ csrfField }}
+																														<input id="workId" name="workId" type="text" class="form-control" value="{{item.id}}" style="display:none">
+
+
+
+																														<div class="form-group">
+																																<label for="groupname" class="text-muted">Deadline</label>
+																																<div class="col-md-12">
+																																	<input name="deadline" id="deadline" type="text" class="form-control datetimepicker" value="{{item.deadline}}">
+																																</div>
+																														</div>
+
+																														<div class="footer text-center">
+																																<button class="btn btn-primary btn-round btn-md">
+																																		<i class="fa fa-btn fa-sign-in">&nbsp;</i> Save
+																																</button>
+																														</div>
+																												</form>
+																										</div>
+																								</div>
+																						</div>
+																				</div>
+																				<!--Add Must Have Requirements End-->
+																			</td>
+																	</tr>
+																	{% endfor %}
+															</tbody>
+															{% endif %}
+													</table>
+											</div>
+									</div>
+									<!-- Project Requirements Tab End-->
 							</div>
 					</div>
 			</div>

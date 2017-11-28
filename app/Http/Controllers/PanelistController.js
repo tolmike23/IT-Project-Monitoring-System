@@ -30,7 +30,15 @@ class PanelistController {
     const panelistCounter = counter[0].counter
     console.log("How Many Notification "+ panelistCounter)
 
-    yield response.sendView('panelistDashboard',{projects,groupList,panelistNotification,panelistCounter})
+    //Project Requirements
+    const requirements = yield Database.select('p.projectname','r.id', 'r.must_have', 'r.deadline')
+    .from('requirements as r')
+    .innerJoin('projects as p','r.projectId', 'p.id')
+    .innerJoin('group_controls as g','g.groupId', 'r.groupId')
+    .where('g.panelist', user.email)
+
+
+    yield response.sendView('panelistDashboard',{projects, groupList, panelistNotification, panelistCounter, requirements})
   }
 
   * read (request, response){
@@ -38,6 +46,11 @@ class PanelistController {
     yield Notification.query().where('id', notifyId).update({statusPanelist: 1})
     console.log("Notify category: " +notifyId)
     yield response.redirect('back')
+  }
+
+  * updateReq(request, response){
+    yield Database.select('*').from('requirements').where({id: request.input('workId')}).update({deadline: request.input('deadline')})
+    return response.redirect('/panelistDashboard')
   }
 }
 

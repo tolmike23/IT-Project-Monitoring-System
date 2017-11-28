@@ -20,8 +20,15 @@ class ChairmanController {
     const chairmanCounter = counter[0].counter
     console.log("How Many Notification "+ chairmanCounter)
 
+    //Project Requirements
+    const requirements = yield Database.select('p.projectname','r.id', 'r.must_have', 'r.deadline')
+    .from('requirements as r')
+    .innerJoin('projects as p','r.projectId', 'p.id')
+    .innerJoin('group_controls as g','g.groupId', 'r.groupId')
+    .where('g.chairman', user.email)
 
-    yield response.sendView('chairmanDashboard',{projects,chairmanNotification,chairmanCounter})
+
+    yield response.sendView('chairmanDashboard',{projects, chairmanNotification, chairmanCounter, requirements})
   }
 
   * read (request, response){
@@ -29,6 +36,11 @@ class ChairmanController {
     yield Notification.query().where('id', notifyId).update({statusChairman: 1})
     console.log("Notify category: " +notifyId)
     yield response.redirect('back')
+  }
+
+  * updateReq(request, response){
+    yield Database.select('*').from('requirements').where({id: request.input('workId')}).update({deadline: request.input('deadline')})
+    return response.redirect('/chairmanDashboard')
   }
 }
 

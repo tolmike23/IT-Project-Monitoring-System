@@ -181,9 +181,14 @@ class DashboardController {
 
 
                 //get Workbreakdowns data
-                const works = yield Database.select('*').from('workbreakdowns').where('groupId', groupId).orderBy('must_id', 'asc')
+                const works = yield Database.select('').from('workbreakdowns').where('groupId', groupId).orderBy('must_id', 'asc')
 
-
+								//Work Break Down Populate
+								const workMust = yield Database.select('r.must_have','w.description','w.status','w.startdate','w.enddate','w.email','w.updated_at')
+								.from('workbreakdowns as w')
+								.innerJoin('requirements as r')
+								.where('w.groupId', groupId)
+								.orderBy('w.must_id', 'asc')
                 //Fetch notification data for Group
                 const fetchNotify = yield Database.select('*').from('notifications').where({groupId: groupId, statusGroup:0})
 
@@ -228,7 +233,8 @@ class DashboardController {
 
                 yield response.sendView('dashboard', {group:group.toJSON(), projects:projects.toJSON(),
                         groupControl:groupControl.toJSON(), endorse:endorse.toJSON(), requirements:requirements.toJSON(),
-                        notifyGroupNotifyCounter, fetchNotify, counter, jsonObjWbs, works, uploads, user:true})
+                        notifyGroupNotifyCounter, fetchNotify, counter, jsonObjWbs, works,
+												uploads, user:true, workMust})
 
             }
             else

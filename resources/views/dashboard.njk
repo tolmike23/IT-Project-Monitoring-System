@@ -358,7 +358,7 @@
                             {% if currentUser %}
                             <table class="table table-responsive">
                                 <thead class="text-primary">
-                                    <th><strong>Must|ID</strong></th>
+                                    <th><strong>Must Have</strong></th>
                                     <th><strong>Description</strong></th>
                                     <th><strong>Status</strong></th>
                                     <th><strong>Start Date</strong></th>
@@ -368,9 +368,9 @@
                                     <th>&nbsp;</th>
                                 </thead>
                                 <tbody>
-                                    {% for w in works %}
+                                    {% for w in workMust %}
                                     <tr class="text-black">
-                                        <td>{{w.must_id}}</td>
+                                        <td>{{w.must_have}}</td>
                                         <td>{{w.description}}</td>
                                         <td>{{w.status}}</td>
                                         <td>{{w.startdate}}</td>
@@ -390,8 +390,9 @@
 
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">Edit WBS</h5>
-                                                            <a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
-                                                                          </a>
+                                                            <a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+                                                              <i class="now-ui-icons ui-1_simple-remove"></i>
+                                                            </a>
                                                         </div>
 
                                                         <div class="modal-body">

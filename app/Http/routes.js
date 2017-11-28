@@ -50,9 +50,13 @@ Route.post('/updateRequirements', 'CoordinatorController.updateReq')
 //Panelist Page
 Route.get('/panelistDashboard', 'PanelistController.index')
 Route.get('readPanel/*', 'PanelistController.read')
+Route.post('/updateRequirementsPanel', 'PanelistController.updateReq')
+
 //Chairman Page
 Route.get('/chairmanDashboard', 'ChairmanController.index')
 Route.get('readChaiman/*', 'ChairmanController.read')
+Route.post('/updateRequirementsChairman', 'ChairmanController.updateReq')
+
 //Group Page
 Route.get('/dashboard', 'DashboardController.showGroup')
 Route.get('/adviserDashboard', 'DashboardController.showAdviser')
