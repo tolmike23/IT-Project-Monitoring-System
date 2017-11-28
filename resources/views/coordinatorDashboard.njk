@@ -1,4 +1,4 @@
-{% extends 'master' %}
+Project Requirements | Must have{% extends 'master' %}
 
 {% block content %}
 <div class="wrapper">
@@ -24,8 +24,15 @@
                                     <a class="dropdown-item" data-toggle="modal" data-target="#groupControl" href="#">Create groups</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" data-toggle="modal" data-target="#projectControl">Create Project</a>
+                                    <a class="dropdown-item" data-toggle="modal" data-target="#groupList">Group List</a>
                                 </ul>
                             </div>
+                        </div>
+
+                        <div class="col-lg-2">
+                          <a href="/coordinatorDashboard" class="btn btn-primary btn-round">
+                             <i class="fa fa-refresh"></i>
+                          </a>
                         </div>
                     </div>
                     <!--Recent endorsements from Adviser Tables Start-->
@@ -234,7 +241,7 @@
                                                                 <div class="form-group">
                                                                     <label for="lastname" class="col-md-10 text-muted">Estimated Deadline</label>
                                                                     <div class="col-md-12">
-                                                                        <input id="deadline" type="text" class="form-control datetimepicker" placeholder="Start Date" name="deadline" required>
+                                                                        <input id="deadline" type="text" class="form-control datetimepicker" placeholder="Start Date" name="deadline">
                                                                     </div>
                                                                 </div>
 
@@ -486,6 +493,8 @@
                                                           <form class="form-horizontal" role="form" method="POST" action="/updateRequirements">
                                                               {{ csrfField }}
                                                               <input id="workId" name="workId" type="text" class="form-control" value="{{item.id}}" style="display:none">
+
+
 
                                                               <div class="form-group">
                                                                   <label for="groupname" class="text-muted">Deadline</label>
@@ -809,22 +818,45 @@
 												 <button type="submit" class="btn btn-primary btn-round btn-lg">Create</button>
 											</div>
 									</form>
+							</div>
+							<div class="modal-footer"></div>
+					</div>
+			</div>
+	</div>
 
+  <!-- Fruit Jam Create Group Control -->
+	<div class="modal fade" id="groupList" role="dialog">
+			<div class="modal-dialog col-lg-12" >
+					<!-- Modal content -->
+					<div class="modal-content" style="width: 900px; margin-left: -350px;">
+							<div class="modal-header">
+									<h5 class="modal-title">Group List</h5>
+									<a class="nav nav-link nav-pills nav-pills-success"
+										 data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+									</a>
+							</div>
+							<div class="modal-body">
 									<!--Display Created Groups-->
 									<div class="card-body">
 											{% if currentUser %}
-													<table class="table table-hover table-md table-responsive">
+													<table class="table table-hover table-md">
 															<thead class="text-warning">
-																	<th><strong>Group Id</strong></th>
-																	<th><strong>Class Schedule</strong></th>
-																	<th><strong>Group Key</strong></th>
+  																	<th><strong>Group Id</strong></th>
+  																	<th><strong>Class Schedule</strong></th>
+  																	<th><strong>Group Key</strong></th>
+                                    <th><strong>Adviser</strong></th>
+                                    <th><strong>Chairman</strong></th>
+                                    <th><strong>Panelist</strong></th>
 															</thead>
 															<tbody>
-																	{% for g in gc %}
+																	{% for g in groupControls %}
 																			<tr class="text-black">
 																					<td>{{g.groupId}}</td>
 																					<td>{{g.clSched}}</td>
 																					<td>{{g.groupKey}}</td>
+                                          <td>{{g.adviser}}</td>
+                                          <td>{{g.chairman}}</td>
+                                          <td>{{g.panelist}}</td>
 																			</tr>
 																	{% endfor %}
 															</tbody>
@@ -836,6 +868,7 @@
 					</div>
 			</div>
 	</div>
+
 
   <!-- Fruit Jam Project Control -->
   <div class="modal fade" id="projectControl" role="dialog">
@@ -872,7 +905,7 @@
   									</div>
 
   									<div class="col-lg-8">
-  											<label for="groupId" class="col-lg-12 control-label">Group Id</label>
+  											<label for="groupId" class="col-lg-12 control-label">Group Details</label>
   											<div class="form-group">
   													<select class="selectpicker" data-size="7" data-style="btn btn-primary btn-round" name="groupId" id="groupId" required>
   															<option disabled selected>Group Id | Group Name</option>

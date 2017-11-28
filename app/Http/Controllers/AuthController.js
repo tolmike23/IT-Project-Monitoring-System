@@ -58,10 +58,10 @@ class AuthController {
                     })
                     //response.redirect('back')
                 }
-               
+
             } else {
                 console.log('Faculty info '+logUser[0].length)
-                
+
                 if (logUser[0].length === 1){
                     const authCheckFlty = yield request.auth.attempt(email, password, userType)
                     if (authCheckFlty)
@@ -79,40 +79,28 @@ class AuthController {
                 }
 
             } */
-            
+
         } catch (e) {
             //response.location('back')
+
             yield response.sendView('login', {
-                loginMessage: e.message
+                loginMessage: e.message + ' account'
+
             })
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         /*
 			if (userType.toLowerCase() === 'group'){
 				const isGroup = yield Database.table('groups').where('email', email).count()
 				const stringGrp = JSON.stringify(isGroup)
 				const noOfGrp = stringGrp.substr(stringGrp.indexOf(':')+1,1)
-				console.log('isGroup : '+noOfGrp)							
-				if (parseInt(noOfGrp) > 0){					
+				console.log('isGroup : '+noOfGrp)
+				if (parseInt(noOfGrp) > 0){
 					// Attempt to login with email and password
 					const authCheckGrp = yield request.auth.attempt(email, password)
 					if (authCheckGrp){
-						return response.redirect('/dashboard')	
-					}					
+						return response.redirect('/dashboard')
+					}
 				} else {
 					response.location('back')
 					yield response.sendView('login', {loginMessage: "That was not a Group account"})
@@ -127,7 +115,7 @@ class AuthController {
 					// Attempt to login with email and password
 					const authCheckAdv = yield request.auth.attempt(email, password)
 					if (authCheckAdv)
-						return response.redirect('/adviserDashboard')	
+						return response.redirect('/adviserDashboard')
 				} else {
 					response.location('back')
 					yield response.sendView('login', {loginMessage:"That was not an Adviser account"})

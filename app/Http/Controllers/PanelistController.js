@@ -20,7 +20,7 @@ class PanelistController {
     .innerJoin('groups as g', 'gc.groupId', 'g.groupId').where('gc.panelist', user.email)
 
     //Notification Data
-    const panelistNotification = yield Database.select('n.groupId','n.category','n.id').from('notifications as n').innerJoin('group_controls as g','n.groupId','g.groupId')
+    const panelistNotification = yield Database.select('n.groupId','n.category','n.id','g.groupName').from('notifications as n').innerJoin('group_controls as g','n.groupId','g.groupId')
     .where('g.panelist',user.email).where('n.statusPanelist', 0)
 
     //Notification Counter
