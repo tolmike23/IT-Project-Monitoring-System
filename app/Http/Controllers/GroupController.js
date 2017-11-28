@@ -63,13 +63,28 @@ class GroupController {
   // }
 
   * post (request, response){
-		const member = yield Group.query().where('id', request.input('id')).update({
+      const stat = request.input('status')
+      const id = request.input('id')
+
+      if (stat === "active"){
+		const member = yield Group.query().where('id', id).update({
 			firstname: request.input('firstname'),
 			lastname: request.input('lastname'),
-			status: request.input('status'),
+			status: stat,
 			updated_at: Date.now()
 		})
-		return response.redirect('/dashboard')
+      }
+
+      if (stat === 'removed'){
+          console.log('member id '+id)
+          console.log('status '+stat)
+          const affectedRow = yield Database
+            .table('groups')
+            .where('id', id)
+            .delete()
+      }
+
+      return response.redirect('/dashboard')
     // const member = yield Group.findOrCreate(
     // {
     //     id: request.input('id')
