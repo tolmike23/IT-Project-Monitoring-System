@@ -156,12 +156,40 @@ class DashboardController {
 
 		    members = JSON.parse(JSON.stringify(members))
             */
-
-            if (grpCtr.length > 0){
+            if (grpCtr.length > 0) {
 
 
                 const groupId = grpCtr[0].groupId
                 const group = yield Group.query().where('groupId', groupId).fetch()
+                //console.log('Group '+JSON.stringify(group))
+
+                const groupControl = yield GroupControl.query().where('groupId', groupId).fetch()
+                //console.log('Group Control '+JSON.stringify(groupControl))
+
+                const endorse = yield Endorse.query().where('groupId', groupId).fetch()
+                //console.log('Endorse '+JSON.stringify(endorse))
+
+                const requirements =  yield Requirements.query().where('projectId', groupId).fetch()
+                //console.log('Requirements '+JSON.stringify(requirements))
+
+                const projects = yield Projects.query().where('groupId', groupId).fetch()
+                //console.log('Projects '+JSON.stringify(projects))
+
+                // get Upload table data
+                const uploads = yield Database.select('*').from('uploads').where('groupId', groupId)
+                //console.log('Uploads '+JSON.stringify(uploads))
+
+                //get Workbreakdowns data
+                const works = yield Database.select('*').from('workbreakdowns').where('groupId', groupId).orderBy('must_id', 'asc')
+                //console.log('Works '+JSON.stringify(works))
+
+                //Fetch notification data for Group
+                const fetchNotify = yield Database.select('*').from('notifications').where({groupId: groupId, statusGroup:0})
+                //console.log('fetchNotify '+JSON.stringify(fetchNotify))
+
+                //count notification data for All
+                const notifyAll = yield Database.select('*').from('notifications').where({groupId: groupId, statusGroup:0}).count('* as counter')
+                //console.log('notifyAll '+JSON.stringify(notifyAll))
 
 
                 const groupControl = yield GroupControl.query().where('groupId', groupId).fetch()
