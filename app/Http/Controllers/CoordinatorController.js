@@ -22,7 +22,10 @@ class CoordinatorController {
         .innerJoin('projects as p','r.projectId', 'p.id')
         .where('p.coordinator', user.email)
 
-        const endorse = yield Database.from('endorses').whereRaw('endorseType != ?', ['Proposal']).whereRaw('endorseTo = ?', [user.email])
+        const endorse = yield Database.from('endorses')
+        .whereRaw('endorseType != ?', ['Proposal'])
+        .whereRaw('endorseTo = ?', [user.email])
+        .orderBy('created_at', 'desc')
 
         const gc = yield GroupControl.query().where({coordinator: user.email, statusCoordinator: 0}).fetch()
 

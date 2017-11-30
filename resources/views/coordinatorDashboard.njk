@@ -46,7 +46,7 @@ Project Requirements | Must have{% extends 'master' %}
                                 </li>
                             </ul>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body table-fixed">
                             <table class="table table-hover table-responsive">
                                 {% if currentUser %}
                                 <thead class="text-primary">
@@ -278,9 +278,6 @@ Project Requirements | Must have{% extends 'master' %}
                                                                     <input id="endorseTo" name="endorseTo" value={{gc.chairman}} style="display:none;" />
                                                                 {% endfor %}
 
-
-
-
                                                                 <div class="col-lg-12">
                                                                     <label for="endorsedBy" class="col-lg-12 control-label">Created by</label>
                                                                     <div class="form-group">
@@ -488,7 +485,7 @@ Project Requirements | Must have{% extends 'master' %}
                                                                                               <div class="form-group">
                                                                                                   <label for="groupname" class="text-muted">Deadline</label>
                                                                                                   <div class="col-md-12">
-                                                                                                    <input name="deadline" id="deadline" type="text" class="form-control datetimepicker" value="{{item.deadline}}">
+                                                                                                    <input name="deadline" id="deadline" type="text" class="form-control datetimepicker" value="{{item.deadline}}" required>
                                                                                                   </div>
                                                                                               </div>
 
@@ -522,7 +519,7 @@ Project Requirements | Must have{% extends 'master' %}
                                           <div class="modal fade" id="{{wbsId}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                               <div class="modal-dialog">
                                                   <!-- Modal content -->
-                                                  <div class="modal-content" style="width:750px">
+                                                  <div class="modal-content" style="width:750px; height:600px">
 
                                                       <div class="modal-header">
                                                           <h5 class="modal-title">WBS</h5>
@@ -561,7 +558,7 @@ Project Requirements | Must have{% extends 'master' %}
                                                                                 <div class="ripple-container"></div>
                                                                             </button>
                                                                             <!--Add Must Have Requirements-->
-                                                                            <div class="modal fade" id="{{w.workId}}wbss" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                            <div class="modal fade" id="{{w.workId}}wbss" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" aria-hidden="false" style="width:750px">
                                                                                 <div class="modal-dialog">
                                                                                     <!-- Modal content -->
                                                                                     <div class="modal-content">
@@ -673,7 +670,7 @@ Project Requirements | Must have{% extends 'master' %}
                                 </li>
                             </ul>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body table-fixed">
                             <table class="table table-hover table-responsive">
                                 {% if currentUser %}
                                 <thead class="text-primary">
@@ -705,8 +702,6 @@ Project Requirements | Must have{% extends 'master' %}
                         </div>
                     </div>
                     <!--Recent endorsements from Adviser Tables End-->
-
-
                 </div>
             </div>
         </div>
@@ -851,7 +846,7 @@ Project Requirements | Must have{% extends 'master' %}
 											{% if currentUser %}
 													<table class="table table-hover table-md">
 															<thead class="text-warning">
-  																	<th><strong>Group Id</strong></th>
+  																	<th><strong>Group Name</strong></th>
   																	<th><strong>Class Schedule</strong></th>
   																	<th><strong>Group Key</strong></th>
                                     <th><strong>Adviser</strong></th>
@@ -861,7 +856,7 @@ Project Requirements | Must have{% extends 'master' %}
 															<tbody>
 																	{% for g in groupControls %}
 																			<tr class="text-black">
-																					<td>{{g.groupId}}</td>
+																					<td>{{g.groupName}}</td>
 																					<td>{{g.clSched}}</td>
 																					<td>{{g.groupKey}}</td>
                                           <td>{{g.adviser}}</td>
