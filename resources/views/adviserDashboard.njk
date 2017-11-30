@@ -19,7 +19,8 @@
 															</a>
 															<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
 																	<a class="dropdown-item" href="/coordinatorDashboard">Coordinator page</a>
-																	<a class="dropdown-item" href="/panelistDashboard">Panelist | Chairman page</a>
+																	<a class="dropdown-item" href="/panelistDashboard">Panelist</a>
+																	<a class="dropdown-item" href="/chairmanDashboard">Chairman page</a>
 															</ul>
 													</div>
 											</div>
@@ -126,8 +127,6 @@
 																			<td>{{p.notes}}</td>
 																			<td>{{p.endorseType}}</td>
 																			<td>{{p.created_at}}</td>
-
-
 																			<td>
 																					<form method="GET" action="/confirm">
 																							<label class="form-check-label">
@@ -205,7 +204,6 @@
 																															{% for item in requirements %}
 																																{% if p.groupId == item.groupId %}
 																																	<tr class="text-black">
-																																			<td>{{item.projectname}}</td>
 																																			<td>{{item.must_have}}</td>
 																																			<td>{{item.deadline}}</td>
 																																	</tr>
@@ -226,10 +224,10 @@
 																				<div class="modal fade" id="{{wbsId}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 																						<div class="modal-dialog">
 																								<!-- Modal content -->
-																								<div class="modal-content" style="width:750px">
+																								<div class="modal-content" style="width:750px; height:600px;">
 
 																										<div class="modal-header">
-																												<h5 class="modal-title">WBS </h5>
+																												<h5 class="modal-title">WBS</h5>
 																												<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
 																												data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
 																												<i class="now-ui-icons ui-1_simple-remove"></i>
@@ -237,11 +235,10 @@
 																										</div>
 
 																										<div class="modal-body table-fixed">
-																												<table class="table table-hover friendsoptionstable">
+																												<table class="table friendsoptionstable">
 																														{% if currentUser %}
 																														<thead class="text-primary">
 																															<tr>
-																																{# <th><strong>Group Name</strong></th> #}
 																																<th><strong>WBS Description</strong></th>
 																																<th><strong>Status</strong></th>
 																																<th><strong>Start Date</strong></th>
@@ -252,102 +249,100 @@
 																														</thead>
 																														<tbody>
 																																{% for w in wbs %}
-																																	{%if p.groupId == w.groupId %}
-																																	<tr class="text-black">
-																																			<td>{{w.description}}</td>
-																																			<td>{{w.status}}</td>
-																																			<td>{{w.startdate}}</td>
-																																			<td>{{w.enddate}}</td>
-																																			<td>{{w.email}}</td>
-																																			<td>{{w.updated_at}}</td>
-																																			<td>
-																																					<button class="btn btn-xs btn-white btn-round" data-toggle="modal" data-target="#{{w.workId}}wbss">
-																																							<i class="fa fa-pencil-square-o"></i>
-																																							<div class="ripple-container"></div>
-																																					</button>
-																																					<!--Add Must Have Requirements-->
-																																					<div class="modal fade" id="{{w.workId}}wbss" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-																																							<div class="modal-dialog">
-																																									<!-- Modal content -->
-																																									<div class="modal-content">
+																																		{%if p.groupId == w.groupId %}
+																																			<tr class="text-black">
+																																					<td><a data-toggle="modal" data-target="#{{w.workId}}wbss"
+																																						aria-haspopup="true" aria-expanded="true">{{w.description}}</a></td>
+																																					<td>{{w.status}}</td>
+																																					<td>{{w.startdate}}</td>
+																																					<td>{{w.enddate}}</td>
+																																					<td>{{w.email}}</td>
+																																					<td>{{w.updated_at}}</td>
+																																					<td>
+																																							<div class="modal fade" id="{{w.workId}}wbss" tabindex="-1" role="dialog" aria-hidden="false" style="width:750px">
+																																									<div class="modal-dialog">
+																																											<!-- Modal content -->
+																																											<div class="modal-content" >
 
-																																											<div class="modal-header">
-																																													<h5 class="modal-title">Edit WBS</h5>
-																																													<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
-																																																				</a>
-																																											</div>
-
-																																											<div class="modal-body">
-																																													<!--Error-->
-																																													{% if old('error') %}
-																																													<div class="text-danger">
-																																															{{ old('error') }}
+																																													<div class="modal-header">
+																																															<h5 class="modal-title">Edit WBS</h5>
+																																															<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+																																																<i class="now-ui-icons ui-1_simple-remove"></i>
+																																															</a>
 																																													</div>
-																																													{% endif %}
-																																													<!--Success-->
-																																													{% if old('success') %}
-																																													<div class="text-success">
-																																															{{ old('success') }}
-																																													</div>
-																																													{% endif %}
-																																													<form class="form-horizontal" role="form" method="POST" action="/updateWbsAd">
-																																															{{ csrfField }}
-																																															<input id="workId" name="workId" type="text" class="form-control" value="{{w.workId}}" style="display:none">
 
-																																															<div class="form-group">
-																																																	<label for="groupname" class="text-muted">WBS Description</label>
-																																																	<div class="col-md-12">
-																																																			<input id="descWbs" name="descWbs" type="text" class="form-control" value="{{w.description}}" required>
+																																													<div class="modal-body">
+																																															<!--Error-->
+																																															{% if old('error') %}
+																																															<div class="text-danger">
+																																																	{{ old('error') }}
+																																															</div>
+																																															{% endif %}
+																																															<!--Success-->
+																																															{% if old('success') %}
+																																															<div class="text-success">
+																																																	{{ old('success') }}
+																																															</div>
+																																															{% endif %}
+																																															<form class="form-horizontal" role="form" method="POST" action="/updateWbsAd">
+																																																	{{ csrfField }}
+																																																	<input id="workId" name="workId" type="text" class="form-control" value="{{w.workId}}" style="display:none">
+
+																																																	<div class="form-group">
+																																																			<label for="groupname" class="text-muted">WBS Description</label>
+																																																			<div class="col-md-12">
+																																																					<input id="descWbs" name="descWbs" type="text" class="form-control" value="{{w.description}}" required>
+																																																			</div>
 																																																	</div>
-																																															</div>
-																																															<div class="form-group">
-																																																	<label for="groupname" class="text-muted">Status:</label>
-																																																	<div class="col-md-12">
-																																																			<select name="status" id="status" class="selectpicker " data-style="btn btn-primary btn-default btn-round">
-																																																					<option value="{{w.status}}" disabled>{{w.status}}</option>
-																																																					<option value="{{w.status}}" style="display:none" selected>{{w.status}}</option>
-																																																					{% if w.status == 'Not Started' %}
-																																																					<option value="{{w.status}}" style="display:none">{{w.status}}</option>
-																																																					<option value="On-going"> On-going </option>
-																																																					<option value="Finished"> Finished </option>
-																																																					{% endif %} {% if w.status == 'Finished' %}
-																																																					<option value="{{w.status}}" style="display:none">{{w.status}}</option>
-																																																					<option value="Not Started"> Not Started </option>
-																																																					<option value="On-going"> On-going </option>
-																																																					{% endif %} {% if w.status == 'On-going' %}
-																																																					<option value="{{w.status}}" style="display:none">{{w.status}}</option>
-																																																					<option value="Not Started"> Not Started </option>
-																																																					<option value="Finished"> Finished </option>
-																																																					{% endif %}
-																																																			</select>
+																																																	<div class="form-group">
+																																																			<label for="groupname" class="text-muted">Status:</label>
+																																																			<div class="col-md-12">
+																																																					<select name="status" id="status" class="selectpicker " data-style="btn btn-primary btn-default btn-round">
+																																																							<option value="{{w.status}}" disabled>{{w.status}}</option>
+																																																							<option value="{{w.status}}" style="display:none" selected>{{w.status}}</option>
+																																																							{% if w.status == 'Not Started' %}
+																																																							<option value="{{w.status}}" style="display:none">{{w.status}}</option>
+																																																							<option value="On-going"> On-going </option>
+																																																							<option value="Finished"> Finished </option>
+																																																							{% endif %} {% if w.status == 'Finished' %}
+																																																							<option value="{{w.status}}" style="display:none">{{w.status}}</option>
+																																																							<option value="Not Started"> Not Started </option>
+																																																							<option value="On-going"> On-going </option>
+																																																							{% endif %} {% if w.status == 'On-going' %}
+																																																							<option value="{{w.status}}" style="display:none">{{w.status}}</option>
+																																																							<option value="Not Started"> Not Started </option>
+																																																							<option value="Finished"> Finished </option>
+																																																							{% endif %}
+																																																					</select>
+																																																			</div>
 																																																	</div>
-																																															</div>
-																																															<div class="form-group">
-																																																	<label for="lastname" class="col-md-10 text-muted">Start Date</label>
-																																																	<div class="col-md-12">
-																																																			<input id="startDate" type="text" class="form-control datetimepicker" placeholder="Start Date" name="startDate" value="{{w.startdate}}" required>
+																																																	<div class="form-group">
+																																																			<label for="lastname" class="col-md-10 text-muted">Start Date</label>
+																																																			<div class="col-md-12">
+																																																					<input id="startDate" type="text" class="form-control datetimepicker" placeholder="Start Date" name="startDate" value="{{w.startdate}}" required>
+																																																			</div>
 																																																	</div>
-																																															</div>
-																																															<div class="form-group">
-																																																	<label for="lastname" class="col-md-10 text-muted">End Date</label>
-																																																	<div class="col-md-12">
-																																																			<input id="endDate" type="text" class="form-control datetimepicker" placeholder="End Date" name="endDate" value="{{w.enddate}}" required>
+																																																	<div class="form-group">
+																																																			<label for="lastname" class="col-md-10 text-muted">End Date</label>
+																																																			<div class="col-md-12">
+																																																					<input id="endDate" type="text" class="form-control datetimepicker" placeholder="End Date" name="endDate" value="{{w.enddate}}" required>
+																																																			</div>
 																																																	</div>
-																																															</div>
-																																															<div class="footer text-center">
-																																																	<button class="btn btn-primary btn-round btn-md">
-																																																			<i class="fa fa-btn fa-sign-in">&nbsp;</i> Save
-																																																	</button>
-																																															</div>
-																																													</form>
+																																																	<div class="footer text-center">
+																																																			<button class="btn btn-primary btn-round btn-md">
+																																																					<i class="fa fa-btn fa-sign-in">&nbsp;</i> Save
+																																																			</button>
+																																																	</div>
+																																															</form>
+																																													</div>
 																																											</div>
 																																									</div>
 																																							</div>
-																																					</div>
-																																					<!--Add Must Have Requirements End-->
-																																			</td>
-																																	</tr>
-																																	{% endif %}
+																																							<!--Add Must Have Requirements End-->
+																																					</td>
+																																			</tr>
+																																			{%set hello = w.workId+'wbss' %}
+																																		{% endif %}
 																																{% endfor %}
 																														</tbody>
 																														{% endif %}
