@@ -12,12 +12,15 @@ class CoordinatorController {
 
         const user = yield request.auth.getUser()
 
-        const projects = yield Database.select('g.groupName', 'p.id', 'p.projectname','p.groupId').from('projects as p')
-        .innerJoin('group_controls as g','p.groupId', 'g.groupId').where('p.coordinator', user.email)
+        const projects = yield Database.select('g.groupName', 'p.id', 'p.projectname','p.groupId')
+        .from('projects as p')
+        .innerJoin('group_controls as g','p.groupId', 'g.groupId')
+        .where('p.coordinator', user.email)
 
-        const requirements = yield Database.select('p.projectname','r.id', 'r.must_have', 'r.deadline')
+        const requirements = yield Database.select('p.projectname','r.id', 'r.must_have', 'r.deadline', 'r.groupId')
         .from('requirements as r')
-        .innerJoin('projects as p','r.projectId', 'p.id').where('p.coordinator', user.email)
+        .innerJoin('projects as p','r.projectId', 'p.id')
+        .where('p.coordinator', user.email)
 
         const endorse = yield Database.from('endorses').whereRaw('endorseType != ?', ['Proposal']).whereRaw('endorseTo = ?', [user.email])
 
@@ -36,14 +39,18 @@ class CoordinatorController {
         .where('g.coordinator',user.email).where('n.statusCoordinator', 0)
 
         //Notification Counter
-        const helo = yield Database.select('n.groupId','n.category').from('notifications as n').innerJoin('group_controls as g','n.groupId','g.groupId')
+        const helo = yield Database.select('n.groupId','n.category')
+        .from('notifications as n')
+        .innerJoin('group_controls as g','n.groupId','g.groupId')
         .where('g.coordinator',user.email).where('n.statusCoordinator', 0).count('* as counter')
         const counter = JSON.parse(JSON.stringify(helo))
         const cordCounter = counter[0].counter
 
         //Work Break Down Structure
-        const wbs = yield yield Database.select('g.groupName', 'm.workId', 'm.description', 'm.status','m.startdate','m.enddate','m.email','m.updated_at').from('workbreakdowns as m')
-        .innerJoin('group_controls as g','m.groupId','g.groupId').where('g.coordinator',user.email)
+        const wbs = yield yield Database.select('m.groupId','g.groupName', 'm.must_id','m.workId', 'm.description', 'm.status','m.startdate','m.enddate','m.email','m.updated_at')
+        .from('workbreakdowns as m')
+        .innerJoin('group_controls as g','m.groupId','g.groupId')
+        .where('g.coordinator',user.email)
 
         const rating = yield Rating.query().where('createdBy', user.email).fetch()
 
@@ -152,11 +159,6 @@ class CoordinatorController {
   		.where('workId', request.input('workId')).update({ description: desc, status: status, startdate: start,
         enddate: end, email:user.email, updated_at: newDate})
   		yield response.redirect('/coordinatorDashboard')
-    }
-
-    * updateReq(request, response){
-      yield Requirement.query().where({id: request.input('workId')}).update({deadline: request.input('deadline')})
-      return response.redirect('/coordinatorDashboard')
     }
 
 }

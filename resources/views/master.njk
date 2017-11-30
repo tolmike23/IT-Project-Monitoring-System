@@ -14,11 +14,12 @@
     <link rel="stylesheet" href="animsition.min.css" type="text/css" />
     <!--Developer CSS Files -->
     <style>
+    /*for y axis*/
     .table-fixed{
       height: 380px;
-      overflow-y: scroll;
+      overflow-y: auto;
+      overflow-x: auto;
     }
-
     #scroll {
         position:fixed;
         right:10px;
@@ -50,7 +51,10 @@
         filter:"alpha(opacity=100)";
         -ms-filter:"alpha(opacity=100)";
     }
-
+    .friendsoptionstable {
+      table-layout: fixed;
+      word-wrap: break-word;
+    }
     </style>
 </head>
 <body class="index-page sidebar-collapse">

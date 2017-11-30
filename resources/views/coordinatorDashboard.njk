@@ -124,10 +124,6 @@ Project Requirements | Must have{% extends 'master' %}
                                                                         <select class="selectpicker" id="endorseType" name="endorseType" data-style="btn btn-primary btn-round btn-md" required>
                                                                             <option disabled selected style='display:none'>Endorse for</option>
                                                                             <option value='Panel meeting'>Panel meeting</option>
-
-                                                                            {# <option value='Milestone checking'>Milestone checking</option>
-                                                                            <option value='Proposal defense'>Proposal defense</option>
-                                                                            <option value='Final defense'>Final defense</option> #}
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -163,7 +159,6 @@ Project Requirements | Must have{% extends 'master' %}
                     <!--Recent endorsements from Adviser Tables End-->
 
 
-
                     <!-- Project Requirements Tab Start-->
                     <div class="card">
                         <div class="card-header bg-primary">
@@ -177,7 +172,7 @@ Project Requirements | Must have{% extends 'master' %}
                         </div>
 
                         <div class="card-body">
-                            <table class="table table-hover table-responsive">
+                            <table class="table table-responsive">
                                 {% if currentUser %}
                                 <thead class="text-primary">
                                     <th><strong>Group Id</strong></th>
@@ -189,7 +184,7 @@ Project Requirements | Must have{% extends 'master' %}
                                     <tr class="text-black">
                                         <td>{{p.groupId}}</td>
                                         <td>{{p.groupName}}</td>
-                                        <td>{{p.projectname}}</td>
+                                        <td><a data-toggle="modal" data-target="#{{p.id}}mhave" >{{p.projectname}}</a></td>
                                         <td>
                                             <button class="btn btn-primary btn-md btn-round" data-toggle="modal" data-target="#{{p.id}}req" href="#"><strong>ADD Requirements</strong></button>
 
@@ -434,55 +429,19 @@ Project Requirements | Must have{% extends 'master' %}
                                                 </div>
                                             </div>
                                         </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                                {% endif %}
-                            </table>
-                        </div>
-                    </div>
-                    <!-- Project Requirements Tab End-->
-
-										<!-- Project Requirements Tab Start-->
-                    <div class="card">
-                        <div class="card-header bg-primary">
-                            <ul class="nav nav-tabs nav-tabs-neutral">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" role="tab">
-																		Project Requirements | Must have
-																		</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="card-body">
-                            <table class="table table-hover table-responsive">
-                                {% if currentUser %}
-                                <thead class="text-primary">
-                                    <th><strong>Project Name</strong></th>
-																		<th><strong>Must Have</strong></th>
-                                    <th><strong>Deadline</strong></th>
-
-                                    {# <th><strong>Progress (%)</strong></th> #}
-                                </thead>
-                                <tbody>
-                                    {% for item in requirements %}
-                                    <tr class="text-black">
-                                        <td>{{item.projectname}}</td>
-                                        <td>{{item.must_have}}</td>
-                                        <td>{{item.deadline}}</td>
+                                        {% set wbsId = p.groupId + 'ss' %}
                                         <td>
-                                          <button class="btn btn-xs btn-white btn-round" data-toggle="modal" data-target="#{{item.id}}it">
-                                              <i class="fa fa-pencil-square-o"></i>
-                                              <div class="ripple-container"></div>
-                                          </button>
                                           <!--Add Must Have Requirements-->
-                                          <div class="modal fade" id="{{item.id}}it" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                          <div class="modal fade" id="{{p.id}}mhave" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                               <div class="modal-dialog">
                                                   <!-- Modal content -->
                                                   <div class="modal-content">
 
                                                       <div class="modal-header">
-                                                          <h5 class="modal-title">Edit Requirements</h5>
+                                                          <h5 class="modal-title">Must Have | <a data-toggle="modal" data-target="#{{wbsId}}"
+                                                            aria-haspopup="true" aria-expanded="true" data-dismiss="modal">
+                                                            WBS</a>
+                                                          </h5>
                                                           <a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
                                                           data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
                                                           <i class="now-ui-icons ui-1_simple-remove"></i>
@@ -490,158 +449,210 @@ Project Requirements | Must have{% extends 'master' %}
                                                       </div>
 
                                                       <div class="modal-body">
-                                                          <form class="form-horizontal" role="form" method="POST" action="/updateRequirements">
-                                                              {{ csrfField }}
-                                                              <input id="workId" name="workId" type="text" class="form-control" value="{{item.id}}" style="display:none">
+                                                        <table class="table table-hover table-responsive">
+                                                            {% if currentUser %}
+                                                            <thead class="text-primary">
+                                                                <th><strong>Project Name </strong></th>
+                                                                <th><strong>Must Have</strong></th>
+                                                                <th><strong>Deadline</strong></th>
+                                                            </thead>
+                                                            <tbody>
+                                                                {% for item in requirements %}
+                                                                  {% if p.groupId == item.groupId %}
+                                                                    <tr class="text-black">
+                                                                        <td>{{item.projectname}}</td>
+                                                                        <td>{{item.must_have}}</td>
+                                                                        <td>{{item.deadline}}</td>
+                                                                        <td>
+                                                                          <button class="btn btn-xs btn-white btn-round" data-toggle="modal" data-target="#{{item.id}}it">
+                                                                              <i class="fa fa-pencil-square-o"></i>
+                                                                          </button>
+                                                                          <!--Add Must Have Requirements-->
+                                                                          <div class="modal fade" id="{{item.id}}it" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                              <div class="modal-dialog">
+                                                                                  <!-- Modal content -->
+                                                                                  <div class="modal-content">
+                                                                                      <div class="modal-header">
+                                                                                          <h5 class="modal-title">Edit Requirements</h5>
+                                                                                          <a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
+                                                                                          data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+                                                                                          <i class="now-ui-icons ui-1_simple-remove"></i>
+                                                                                          </a>
+                                                                                      </div>
 
+                                                                                      <div class="modal-body">
+                                                                                          <form class="form-horizontal" role="form" method="POST" action="/updateRequirements">
+                                                                                              {{ csrfField }}
+                                                                                              <input id="workId" name="workId" type="text" class="form-control" value="{{item.id}}" style="display:none">
 
+                                                                                              <div class="form-group">
+                                                                                                  <label for="groupname" class="text-muted">Deadline</label>
+                                                                                                  <div class="col-md-12">
+                                                                                                    <input name="deadline" id="deadline" type="text" class="form-control datetimepicker" value="{{item.deadline}}">
+                                                                                                  </div>
+                                                                                              </div>
 
-                                                              <div class="form-group">
-                                                                  <label for="groupname" class="text-muted">Deadline</label>
-                                                                  <div class="col-md-12">
-                                                                    <input name="deadline" id="deadline" type="text" class="form-control datetimepicker" value="{{item.deadline}}">
-                                                                  </div>
-                                                              </div>
-
-                                                              <div class="footer text-center">
-                                                                  <button class="btn btn-primary btn-round btn-md">
-                                                                      <i class="fa fa-btn fa-sign-in">&nbsp;</i> Save
-                                                                  </button>
-                                                              </div>
-                                                          </form>
+                                                                                              <div class="footer text-center">
+                                                                                                  <button class="btn btn-primary btn-round btn-md">
+                                                                                                      <i class="fa fa-btn fa-sign-in">&nbsp;</i> Save
+                                                                                                  </button>
+                                                                                              </div>
+                                                                                          </form>
+                                                                                      </div>
+                                                                                  </div>
+                                                                              </div>
+                                                                          </div>
+                                                                          <!--Add Must Have Requirements End-->
+                                                                        </td>
+                                                                    </tr>
+                                                                  {% endif %}
+                                                                {% endfor %}
+                                                            </tbody>
+                                                            {% endif %}
+                                                        </table>
                                                       </div>
                                                   </div>
                                               </div>
                                           </div>
                                           <!--Add Must Have Requirements End-->
                                         </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                                {% endif %}
-                            </table>
-                        </div>
-                    </div>
-                    <!-- Project Requirements Tab End-->
 
-                    <!-- Project Work Break Down Structure Tab Start-->
-                    <div class="card">
-                        <div class="card-header bg-primary">
-                            <ul class="nav nav-tabs nav-tabs-neutral">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" role="tab">
-                    Project Work Break Down Structure
-                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="card-body">
-                            <table class="table table-hover table-responsive">
-                                {% if currentUser %}
-                                <thead class="text-primary">
-                                    <th><strong>Group Name</strong></th>
-                                    <th><strong>WBS Description</strong></th>
-                                    <th><strong>Status</strong></th>
-                                    <th><strong>Start Date</strong></th>
-                                    <th><strong>End Date</strong></th>
-                                    <th><strong>Create|Update</strong></th>
-  																	<th><strong>Create|Update</strong></th>
-                                </thead>
-                                <tbody>
-                                    {% for w in wbs %}
-                                    <tr class="text-black">
-                                        <td>{{w.groupName}}</td>
-                                        <td>{{w.description}}</td>
-                                        <td>{{w.status}}</td>
-                                        <td>{{w.startdate}}</td>
-                                        <td>{{w.enddate}}</td>
-                                        <td>{{w.email}}</td>
-  																			<td>{{w.updated_at}}</td>
                                         <td>
-                                            <button class="btn btn-xs btn-white btn-round" data-toggle="modal" data-target="#{{w.workId}}wbss">
-                                                <i class="fa fa-pencil-square-o"></i>
-                                                <div class="ripple-container"></div>
-                                            </button>
-                                            <!--Add Must Have Requirements-->
-                                            <div class="modal fade" id="{{w.workId}}wbss" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <!-- Modal content -->
-                                                    <div class="modal-content">
+                                          <!--Work Break Down Structure Start-->
+                                          <div class="modal fade" id="{{wbsId}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                              <div class="modal-dialog">
+                                                  <!-- Modal content -->
+                                                  <div class="modal-content" style="width:750px">
 
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Edit WBS</h5>
-                                                            <a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
-                                                                          </a>
-                                                        </div>
+                                                      <div class="modal-header">
+                                                          <h5 class="modal-title">WBS </h5>
+                                                          <a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
+                                                          data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+                                                          <i class="now-ui-icons ui-1_simple-remove"></i>
+                                                          </a>
+                                                      </div>
 
-                                                        <div class="modal-body">
-                                                            <!--Error-->
-                                                            {% if old('error') %}
-                                                            <div class="text-danger">
-                                                                {{ old('error') }}
-                                                            </div>
-                                                            {% endif %}
-                                                            <!--Success-->
-                                                            {% if old('success') %}
-                                                            <div class="text-success">
-                                                                {{ old('success') }}
-                                                            </div>
-                                                            {% endif %}
-                                                            <form class="form-horizontal" role="form" method="POST" action="/updateWbsCor">
-                                                                {{ csrfField }}
-                                                                <input id="workId" name="workId" type="text" class="form-control" value="{{w.workId}}" style="display:none">
+                                                      <div class="modal-body table-fixed">
+                                                          <table class="table table-hover friendsoptionstable">
+                                                              {% if currentUser %}
+                                                              <thead class="text-primary">
+                                                                <tr>
+                                                                  {# <th><strong>Group Name</strong></th> #}
+                                                                  <th><strong>WBS Description</strong></th>
+                                                                  <th><strong>Status</strong></th>
+                                                                  <th><strong>Start Date</strong></th>
+                                                                  <th><strong>End Date</strong></th>
+                                                                  <th><strong>Create|Update</strong></th>
+                                                                  <th><strong>Create|Update</strong></th>
+                                                                <tr>
+                                                              </thead>
+                                                              <tbody>
+                                                                  {% for w in wbs %}
+                                                                    {%if p.groupId == w.groupId %}
+                                                                    <tr class="text-black">
+                                                                        <td>{{w.description}}</td>
+                                                                        <td>{{w.status}}</td>
+                                                                        <td>{{w.startdate}}</td>
+                                                                        <td>{{w.enddate}}</td>
+                                                                        <td>{{w.email}}</td>
+                                                                        <td>{{w.updated_at}}</td>
+                                                                        <td>
+                                                                            <button class="btn btn-xs btn-white btn-round" data-toggle="modal" data-target="#{{w.workId}}wbss">
+                                                                                <i class="fa fa-pencil-square-o"></i>
+                                                                                <div class="ripple-container"></div>
+                                                                            </button>
+                                                                            <!--Add Must Have Requirements-->
+                                                                            <div class="modal fade" id="{{w.workId}}wbss" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <!-- Modal content -->
+                                                                                    <div class="modal-content">
 
-                                                                <div class="form-group">
-                                                                    <label for="groupname" class="text-muted">WBS Description</label>
-                                                                    <div class="col-md-12">
-                                                                        <input id="descWbs" name="descWbs" type="text" class="form-control" value="{{w.description}}" required>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="groupname" class="text-muted">Status:</label>
-                                                                    <div class="col-md-12">
-                                                                        <select name="status" id="status" class="selectpicker " data-style="btn btn-primary btn-default btn-round">
-                                                                            <option value="{{w.status}}" disabled>{{w.status}}</option>
-                                                                            <option value="{{w.status}}" style="display:none" selected>{{w.status}}</option>
-                                                                            {% if w.status == 'Not Started' %}
-                                                                            <option value="{{w.status}}" style="display:none">{{w.status}}</option>
-                                                                            <option value="On-going"> On-going </option>
-                                                                            <option value="Finished"> Finished </option>
-                                                                            {% endif %} {% if w.status == 'Finished' %}
-                                                                            <option value="{{w.status}}" style="display:none">{{w.status}}</option>
-                                                                            <option value="Not Started"> Not Started </option>
-                                                                            <option value="On-going"> On-going </option>
-                                                                            {% endif %} {% if w.status == 'On-going' %}
-                                                                            <option value="{{w.status}}" style="display:none">{{w.status}}</option>
-                                                                            <option value="Not Started"> Not Started </option>
-                                                                            <option value="Finished"> Finished </option>
-                                                                            {% endif %}
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="lastname" class="col-md-10 text-muted">Start Date</label>
-                                                                    <div class="col-md-12">
-                                                                        <input id="startDate" type="text" class="form-control datetimepicker" placeholder="Start Date" name="startDate" value="{{w.startdate}}" required>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="lastname" class="col-md-10 text-muted">End Date</label>
-                                                                    <div class="col-md-12">
-                                                                        <input id="endDate" type="text" class="form-control datetimepicker" placeholder="End Date" name="endDate" value="{{w.enddate}}" required>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="footer text-center">
-                                                                    <button class="btn btn-primary btn-round btn-md">
-                                                                        <i class="fa fa-btn fa-sign-in">&nbsp;</i> Save
-                                                                    </button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--Add Must Have Requirements End-->
+                                                                                        <div class="modal-header">
+                                                                                            <h5 class="modal-title">Edit WBS</h5>
+                                                                                            <a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+                                                                                                          </a>
+                                                                                        </div>
+
+                                                                                        <div class="modal-body">
+                                                                                            <!--Error-->
+                                                                                            {% if old('error') %}
+                                                                                            <div class="text-danger">
+                                                                                                {{ old('error') }}
+                                                                                            </div>
+                                                                                            {% endif %}
+                                                                                            <!--Success-->
+                                                                                            {% if old('success') %}
+                                                                                            <div class="text-success">
+                                                                                                {{ old('success') }}
+                                                                                            </div>
+                                                                                            {% endif %}
+                                                                                            <form class="form-horizontal" role="form" method="POST" action="/updateWbsCor">
+                                                                                                {{ csrfField }}
+                                                                                                <input id="workId" name="workId" type="text" class="form-control" value="{{w.workId}}" style="display:none">
+
+                                                                                                <div class="form-group">
+                                                                                                    <label for="groupname" class="text-muted">WBS Description</label>
+                                                                                                    <div class="col-md-12">
+                                                                                                        <input id="descWbs" name="descWbs" type="text" class="form-control" value="{{w.description}}" required>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="form-group">
+                                                                                                    <label for="groupname" class="text-muted">Status:</label>
+                                                                                                    <div class="col-md-12">
+                                                                                                        <select name="status" id="status" class="selectpicker " data-style="btn btn-primary btn-default btn-round">
+                                                                                                            <option value="{{w.status}}" disabled>{{w.status}}</option>
+                                                                                                            <option value="{{w.status}}" style="display:none" selected>{{w.status}}</option>
+                                                                                                            {% if w.status == 'Not Started' %}
+                                                                                                            <option value="{{w.status}}" style="display:none">{{w.status}}</option>
+                                                                                                            <option value="On-going"> On-going </option>
+                                                                                                            <option value="Finished"> Finished </option>
+                                                                                                            {% endif %} {% if w.status == 'Finished' %}
+                                                                                                            <option value="{{w.status}}" style="display:none">{{w.status}}</option>
+                                                                                                            <option value="Not Started"> Not Started </option>
+                                                                                                            <option value="On-going"> On-going </option>
+                                                                                                            {% endif %} {% if w.status == 'On-going' %}
+                                                                                                            <option value="{{w.status}}" style="display:none">{{w.status}}</option>
+                                                                                                            <option value="Not Started"> Not Started </option>
+                                                                                                            <option value="Finished"> Finished </option>
+                                                                                                            {% endif %}
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="form-group">
+                                                                                                    <label for="lastname" class="col-md-10 text-muted">Start Date</label>
+                                                                                                    <div class="col-md-12">
+                                                                                                        <input id="startDate" type="text" class="form-control datetimepicker" placeholder="Start Date" name="startDate" value="{{w.startdate}}" required>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="form-group">
+                                                                                                    <label for="lastname" class="col-md-10 text-muted">End Date</label>
+                                                                                                    <div class="col-md-12">
+                                                                                                        <input id="endDate" type="text" class="form-control datetimepicker" placeholder="End Date" name="endDate" value="{{w.enddate}}" required>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="footer text-center">
+                                                                                                    <button class="btn btn-primary btn-round btn-md">
+                                                                                                        <i class="fa fa-btn fa-sign-in">&nbsp;</i> Save
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--Add Must Have Requirements End-->
+                                                                        </td>
+                                                                    </tr>
+                                                                    {% endif %}
+                                                                  {% endfor %}
+                                                              </tbody>
+                                                              {% endif %}
+                                                          </table>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <!--Work Break Down Structure End-->
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -650,7 +661,6 @@ Project Requirements | Must have{% extends 'master' %}
                             </table>
                         </div>
                     </div>
-                    <!-- Project Requirements Tab End-->
 
                     <!--Project Activity Log-->
                     <div class="card">
@@ -826,7 +836,7 @@ Project Requirements | Must have{% extends 'master' %}
 
   <!-- Fruit Jam Create Group Control -->
 	<div class="modal fade" id="groupList" role="dialog">
-			<div class="modal-dialog col-lg-12" >
+			<div class="modal-dialog" >
 					<!-- Modal content -->
 					<div class="modal-content" style="width: 900px; margin-left: -350px;">
 							<div class="modal-header">

@@ -118,50 +118,14 @@ class DashboardController {
 		const user = yield request.auth.getUser()
 		try {
 
-            var prj = null
-
             const grp = yield Group.query().where('email', user.email).fetch()
             const grpStr = JSON.stringify(grp)
-            console.log('grpStr '+grpStr)
             const grpCtr = JSON.parse(grpStr)
 
-            //const projects = yield Projects.query().where('groupId', user.email).fetch()
-            //const prjGrp = Object.keys(JSON.stringify(projects)).length
-
-            /*
-            if (prjGrp > 2) {  // no project available
-                prj = projects
-            }
-            else {
-                console.log('Way group')
-                prj = yield Projects.query().where('groupId', "").fetch()
-            }
-            var members = []
-            for (var i=0; i<grpCtr.length; i++){
-            var tempItem = grpCtr[i]
-            members.push({
-                "row" : i,
-                "id": tempItem.id,
-                "groupName": tempItem.groupName,
-                "email": tempItem.email,
-                "firstname": tempItem.firstname,
-                "lastname": tempItem.lastname,
-                "status": tempItem.status,
-                "projectId": tempItem.projectId,
-                "created_at": tempItem.created_at,
-                "updated_at": tempItem.updated_at
-            })
-
-		    }
-
-		    members = JSON.parse(JSON.stringify(members))
-            */
             if (grpCtr.length > 0) {
-
 
                 const groupId = grpCtr[0].groupId
                 const group = yield Group.query().where('groupId', groupId).fetch()
-                //console.log('Group '+JSON.stringify(group))
 
                 const groupControl = yield GroupControl.query().where('groupId', groupId).fetch()
 
@@ -183,14 +147,14 @@ class DashboardController {
                 const works = yield Database.select('').from('workbreakdowns').where('groupId', groupId).orderBy('must_id', 'asc')
 
 								//Work Break Down Populate
-								const workMust = yield Database.select('r.must_have','w.description','w.status','w.startdate','w.enddate','w.email','w.updated_at')
+								const workMust = yield Database.select('r.id','w.must_id','r.must_have','w.description','w.status','w.startdate','w.enddate','w.email','w.updated_at')
 								.from('workbreakdowns as w')
-								.innerJoin('requirements as r')
-								.where('w.groupId', groupId)
-								.orderBy('w.must_id', 'asc')
+								.innerJoin('requirements as r', 'r.id', 'w.must_id')
+								.where('w.groupId',groupId)
+								console.log(JSON.stringify(workMust))
+
                 //Fetch notification data for Group
                 const fetchNotify = yield Database.select('*').from('notifications').where({groupId: groupId, statusGroup:0})
-
 
                 //count notification data for All
                 const notifyAll = yield Database.select('*').from('notifications').where({groupId: groupId, statusGroup:0}).count('* as counter')
