@@ -5,10 +5,6 @@ class ChairmanController {
   * index(request, response) {
     //User
     const user = yield request.auth.getUser()
-    //Project View
-    const projects = yield Database.select('g.groupName', 'p.projectname','p.created_at','p.status', 'p.notes').from('projects as p')
-    .innerJoin('group_controls as g','p.groupId','g.groupId').where('g.chairman',user.email)
-
     //Notification Data
     const chairmanNotification = yield Database.select('n.groupId','n.category','n.id', 'g.groupName').from('notifications as n').innerJoin('group_controls as g','n.groupId','g.groupId')
     .where('g.chairman',user.email).where('n.statusChairman', 0)
@@ -18,17 +14,25 @@ class ChairmanController {
     .where('g.chairman',user.email).where('n.statusChairman', 0).count('* as counter')
     const counter = JSON.parse(JSON.stringify(chairman))
     const chairmanCounter = counter[0].counter
-    console.log("How Many Notification "+ chairmanCounter)
+
+    //Project View
+    const projects = yield Database.select('g.groupName', 'p.projectname', 'p.created_at','p.status','p.notes', 'p.id','p.groupId')
+    .from('projects as p')
+    .innerJoin('group_controls as g','p.groupId','g.groupId')
+    .where('g.chairman',user.email)
 
     //Project Requirements
-    const requirements = yield Database.select('p.projectname','r.id', 'r.must_have', 'r.deadline')
+    const requirements = yield Database.select('r.projectId','r.must_have','r.deadline')
     .from('requirements as r')
-    .innerJoin('projects as p','r.projectId', 'p.id')
-    .innerJoin('group_controls as g','g.groupId', 'r.groupId')
-    .where('g.chairman', user.email)
+    .innerJoin('group_controls as g', 'r.groupId', 'g.groupId')
+    .where('g.chairman',user.email)
 
+    const wbs = yield yield Database.select('g.groupId','g.groupName', 'm.workId', 'm.description', 'm.status','m.startdate','m.enddate','m.email','m.updated_at')
+    .from('workbreakdowns as m')
+    .innerJoin('group_controls as g','m.groupId','g.groupId')
+    .where('g.chairman',user.email)
 
-    yield response.sendView('chairmanDashboard',{projects, chairmanNotification, chairmanCounter, requirements})
+    yield response.sendView('chairmanDashboard',{projects, chairmanNotification, chairmanCounter, requirements, wbs})
   }
 
   * read (request, response){

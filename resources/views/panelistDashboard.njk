@@ -27,13 +27,14 @@
 									</div>
 
 									<!--Panelist Projects Tables Start-->
+									<!--Chairman Projects Tables Start-->
 									<div class="card">
 											<div class="card-header bg-primary">
 													<ul class="nav nav-tabs nav-tabs-neutral">
 															<li class="nav-item">
 																	<a class="nav-link active" data-toggle="tab" role="tab">
-              											Projects
-              										</a>
+																		Projects
+																	</a>
 															</li>
 													</ul>
 											</div>
@@ -51,10 +52,104 @@
 																	{% for project in projects %}
 																	<tr class="text-black">
 																			<td>{{project.groupName}}</td>
-																			<td>{{project.projectname}}</td>
+																			<td><a data-toggle="modal" data-target="#{{project.id}}mhave" >{{project.projectname}}</a></td>
 																			<td>{{project.created_at }}</td>
 																			<td>{{project.status}}</td>
 																			<td>{{project.notes}}</td>
+																			<td>
+																				<!--a Must Have Requirements-->
+																				<div class="modal fade" id="{{project.id}}mhave" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																						<div class="modal-dialog">
+																								<!-- Modal content -->
+																								<div class="modal-content">
+
+																										<div class="modal-header">
+																												<h5 class="modal-title">Must Have | <a data-toggle="modal" data-target="#{{project.id}}helo"
+																													aria-haspopup="true" aria-expanded="true" data-dismiss="modal">
+																													WBS</a>
+																												</h5>
+																												<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
+																												data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+																												<i class="now-ui-icons ui-1_simple-remove"></i>
+																												</a>
+																										</div>
+
+																										<div class="modal-body">
+																											<table class="table table-hover table-responsive">
+																													{% if currentUser %}
+																													<thead class="text-primary">
+																															<th><strong>Must Have</strong></th>
+																															<th><strong>Deadline</strong></th>
+																													</thead>
+																													<tbody>
+																														{% for item in requirements %}
+																															{% if project.id == item.projectId %}
+																																<tr class="text-black">
+																																		<td>{{item.must_have}}</td>
+																																		<td>{{item.deadline}}</td>
+																																</tr>
+																															{% endif %}
+																														{% endfor %}
+																													</tbody>
+																													{% endif %}
+																											</table>
+																										</div>
+																								</div>
+																						</div>
+																				</div>
+																				<!--Add Must Have Requirements End-->
+																			</td>
+
+																			<td>
+																				<!--Work Break Down Structure Start-->
+																				<div class="modal fade" id="{{project.id}}helo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																						<div class="modal-dialog">
+																								<!-- Modal content -->
+																								<div class="modal-content" style="width:750px; height:600px;">
+
+																										<div class="modal-header">
+																												<h5 class="modal-title">WBS</h5>
+																												<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
+																												data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+																												<i class="now-ui-icons ui-1_simple-remove"></i>
+																												</a>
+																										</div>
+
+																										<div class="modal-body table-fixed">
+																												<table class="table friendsoptionstable">
+																														{% if currentUser %}
+																														<thead class="text-primary">
+																															<tr>
+																																<th><strong>WBS Description</strong></th>
+																																<th><strong>Status</strong></th>
+																																<th><strong>Start Date</strong></th>
+																																<th><strong>End Date</strong></th>
+																																<th><strong>Create|Update</strong></th>
+																																<th><strong>Create|Update</strong></th>
+																															<tr>
+																														</thead>
+																														<tbody>
+																																{% for w in wbs %}
+																																		{% if project.groupId == w.groupId %}
+																																			<tr class="text-black">
+																																					<td>{{w.description}}</td>
+																																					<td>{{w.status}}</td>
+																																					<td>{{w.startdate}}</td>
+																																					<td>{{w.enddate}}</td>
+																																					<td>{{w.email}}</td>
+																																					<td>{{w.updated_at}}</td>
+																																			</tr>
+																																		{% endif %}
+																																{% endfor %}
+																														</tbody>
+																														{% endif %}
+																												</table>
+																										</div>
+																								</div>
+																						</div>
+																				</div>
+																				<!--Work Break Down Structure End-->
+																			</td>
 																	</tr>
 																	{% endfor %}
 															</tbody>
@@ -62,10 +157,11 @@
 													</table>
 											</div>
 									</div>
+									<!--Chairman Projects Tables End-->
 									<!--Panelist Projects Tables End-->
 
                   <!--Panelist Group Tables Start-->
-									<div class="card">
+									<div class="card table-fixed">
 											<div class="card-header bg-primary">
 													<ul class="nav nav-tabs nav-tabs-neutral">
 															<li class="nav-item">
@@ -103,87 +199,6 @@
 											</div>
 									</div>
 									<!--Panelist Group Tables End-->
-
-									<!-- Project Requirements Tab Start-->
-									<div class="card">
-											<div class="card-header bg-primary">
-													<ul class="nav nav-tabs nav-tabs-neutral">
-															<li class="nav-item">
-																	<a class="nav-link active" data-toggle="tab" role="tab">
-																	Project Requirements | Must have
-																	</a>
-															</li>
-													</ul>
-											</div>
-											<div class="card-body">
-													<table class="table table-hover table-responsive">
-															{% if currentUser %}
-															<thead class="text-primary">
-																	<th><strong>Project Name</strong></th>
-																	<th><strong>Must Have</strong></th>
-																	<th><strong>Deadline</strong></th>
-
-																	{# <th><strong>Progress (%)</strong></th> #}
-															</thead>
-															<tbody>
-																	{% for item in requirements %}
-																	<tr class="text-black">
-																			<td>{{item.projectname}}</td>
-																			<td>{{item.must_have}}</td>
-																			<td>{{item.deadline}}</td>
-																			<td>
-																				<button class="btn btn-xs btn-white btn-round" data-toggle="modal" data-target="#{{item.id}}it">
-																						<i class="fa fa-pencil-square-o"></i>
-																						<div class="ripple-container"></div>
-																				</button>
-																				<!--Add Must Have Requirements-->
-																				<div class="modal fade" id="{{item.id}}it" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-																						<div class="modal-dialog">
-																								<!-- Modal content -->
-																								<div class="modal-content">
-
-																										<div class="modal-header">
-																												<h5 class="modal-title">Edit Requirements</h5>
-																												<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
-																												data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
-																												<i class="now-ui-icons ui-1_simple-remove"></i>
-																												</a>
-																										</div>
-
-																										<div class="modal-body">
-																												<form class="form-horizontal" role="form" method="POST" action="/updateRequirementsPanel">
-																														{{ csrfField }}
-																														<input id="workId" name="workId" type="text" class="form-control" value="{{item.id}}" style="display:none">
-
-
-
-																														<div class="form-group">
-																																<label for="groupname" class="text-muted">Deadline</label>
-																																<div class="col-md-12">
-																																	<input name="deadline" id="deadline" type="text" class="form-control datetimepicker" value="{{item.deadline}}">
-																																</div>
-																														</div>
-
-																														<div class="footer text-center">
-																																<button class="btn btn-primary btn-round btn-md">
-																																		<i class="fa fa-btn fa-sign-in">&nbsp;</i> Save
-																																</button>
-																														</div>
-																												</form>
-																										</div>
-																								</div>
-																						</div>
-																				</div>
-																				<!--Add Must Have Requirements End-->
-																			</td>
-																	</tr>
-																	{% endfor %}
-															</tbody>
-															{% endif %}
-													</table>
-											</div>
-									</div>
-									<!-- Project Requirements Tab End-->
 							</div>
 					</div>
 			</div>

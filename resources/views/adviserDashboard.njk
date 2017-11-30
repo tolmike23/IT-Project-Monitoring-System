@@ -15,7 +15,7 @@
 											<div class="col-lg-2">
 													<div class="dropdown">
 															<a href="#pablo" class="btn btn-primary btn-round dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink1">
-																	<strong> More options</strong>
+																	<strong>More options</strong>
 															</a>
 															<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
 																	<a class="dropdown-item" href="/coordinatorDashboard">Coordinator page</a>
@@ -171,13 +171,13 @@
 																  {% set wbsId = p.groupId + 'ss' %}
 																	<tr class="text-black">
 																			<td>{{project.groupName}}</td>
-																			<td><a data-toggle="modal" data-target="#{{p.id}}mhave" >{{project.projectname}}</a></td>
+																			<td><a data-toggle="modal" data-target="#{{project.id}}mhave" >{{project.projectname}}</a></td>
 																			<td>{{project.created_at }}</td>
 																			<td>{{project.status}}</td>
 																			<td>{{project.notes}}</td>
 																			<td>
-																				<!--Add Must Have Requirements-->
-																				<div class="modal fade" id="{{p.id}}mhave" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																				<!--a Must Have Requirements-->
+																				<div class="modal fade" id="{{project.id}}mhave" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 																						<div class="modal-dialog">
 																								<!-- Modal content -->
 																								<div class="modal-content">
@@ -202,7 +202,7 @@
 																													</thead>
 																													<tbody>
 																															{% for item in requirements %}
-																																{% if p.groupId == item.groupId %}
+																																{% if project.groupId == item.groupId %}
 																																	<tr class="text-black">
 																																			<td>{{item.must_have}}</td>
 																																			<td>{{item.deadline}}</td>
@@ -251,14 +251,17 @@
 																																{% for w in wbs %}
 																																		{%if p.groupId == w.groupId %}
 																																			<tr class="text-black">
-																																					<td><a data-toggle="modal" data-target="#{{w.workId}}wbss"
-																																						aria-haspopup="true" aria-expanded="true">{{w.description}}</a></td>
+																																					<td>{{w.description}}</td>
 																																					<td>{{w.status}}</td>
 																																					<td>{{w.startdate}}</td>
 																																					<td>{{w.enddate}}</td>
 																																					<td>{{w.email}}</td>
 																																					<td>{{w.updated_at}}</td>
 																																					<td>
+																																						<button class="btn btn-xs btn-white btn-round" data-toggle="modal" data-target="#{{w.workId}}wbss">
+	                                                                              <i class="fa fa-pencil-square-o"></i>
+	                                                                          </button>
+
 																																							<div class="modal fade" id="{{w.workId}}wbss" tabindex="-1" role="dialog" aria-hidden="false" style="width:750px">
 																																									<div class="modal-dialog">
 																																											<!-- Modal content -->

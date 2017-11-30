@@ -40,7 +40,7 @@ class AdviserController {
     .where('g.adviser',user.email)
 
     // Project
-    const projects = yield Database.select('g.groupName', 'p.projectname', 'p.created_at','p.status','p.notes')
+    const projects = yield Database.select('g.groupName', 'p.projectname', 'p.created_at','p.status','p.notes', 'p.id')
     .from('projects as p')
     .innerJoin('group_controls as g','p.groupId','g.groupId')
     .where('g.adviser',user.email)

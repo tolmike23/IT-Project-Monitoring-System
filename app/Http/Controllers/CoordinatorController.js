@@ -164,6 +164,11 @@ class CoordinatorController {
   		yield response.redirect('/coordinatorDashboard')
     }
 
+    * updateReq(request, response){
+      yield Requirement.query().where({id: request.input('workId')}).update({deadline: request.input('deadline'), must_have:request.input('mst')})
+      return response.redirect('/coordinatorDashboard')
+    }
+
 }
 
 module.exports = CoordinatorController

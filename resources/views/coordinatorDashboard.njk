@@ -146,9 +146,8 @@ Project Requirements | Must have{% extends 'master' %}
                                                     </div>
                                                 </div>
                                             </div>
-
-                                        </td>
-                                    </tr>
+                                          </td>
+                                      </tr>
                                       {% endif %}
                                     {% endfor %}
                                 </tbody>
@@ -432,17 +431,13 @@ Project Requirements | Must have{% extends 'master' %}
                                           <div class="modal fade" id="{{p.id}}mhave" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                               <div class="modal-dialog">
                                                   <!-- Modal content -->
-                                                  <div class="modal-content">
+                                                  <div class="modal-content" style="width:500px; height:400px;">
 
                                                       <div class="modal-header">
                                                           <h5 class="modal-title">Must Have | <a data-toggle="modal" data-target="#{{wbsId}}"
                                                             aria-haspopup="true" aria-expanded="true" data-dismiss="modal">
                                                             WBS</a>
                                                           </h5>
-                                                          <a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
-                                                          data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
-                                                          <i class="now-ui-icons ui-1_simple-remove"></i>
-                                                          </a>
                                                       </div>
 
                                                       <div class="modal-body">
@@ -467,6 +462,7 @@ Project Requirements | Must have{% extends 'master' %}
                                                                           <!--Add Must Have Requirements-->
                                                                           <div class="modal fade" id="{{item.id}}it" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                                                               <div class="modal-dialog">
+                                                                                  <br><br><br><br>
                                                                                   <!-- Modal content -->
                                                                                   <div class="modal-content">
                                                                                       <div class="modal-header">
@@ -481,11 +477,17 @@ Project Requirements | Must have{% extends 'master' %}
                                                                                           <form class="form-horizontal" role="form" method="POST" action="/updateRequirements">
                                                                                               {{ csrfField }}
                                                                                               <input id="workId" name="workId" type="text" class="form-control" value="{{item.id}}" style="display:none">
+                                                                                              <div class="form-group">
+                                                                                                  <label for="groupname" class="text-muted">Must Have</label>
+                                                                                                  <div class="col-md-12">
+                                                                                                    <input id="mst" name="mst" type="text" class="form-control" value="{{item.must_have}}" >
+                                                                                                  </div>
+                                                                                              </div>
 
                                                                                               <div class="form-group">
                                                                                                   <label for="groupname" class="text-muted">Deadline</label>
                                                                                                   <div class="col-md-12">
-                                                                                                    <input name="deadline" id="deadline" type="text" class="form-control datetimepicker" value="{{item.deadline}}" required>
+                                                                                                    <input name="deadline" id="deadline" type="text" class="form-control datetimepicker" value="{{item.deadline}}">
                                                                                                   </div>
                                                                                               </div>
 
