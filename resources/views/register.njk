@@ -2,98 +2,116 @@
 
 
 {% block content %}
-<div class="login-page sidebar-collapse animsition">   
-    <div class="page-header" filter-color="orange">    
-        <div class="page-header-image" style="background-image:url(../assets/img/login.jpg)"></div>        
-	       <div class="container">
-                <div class="col-md-4 content-center">				
-					<div class="card card-login card-plain">
-						{% include 'layout.alerts' %}
-						<form class="form-horizontal" role="form" method="POST" action="/register">
-						   
-							{{ csrfField }}                       
 
-                        <div class="header header-primary text-center">
+<div class="login-page sidebar-collapse animsition">
+
+    <div class="page-header" filter-color="orange">
+
+        <div class="page-header-image" style="background-image:url(../assets/img/login.jpg)"></div>
+
+        <div class="container">
+
+            <div class="col-md-4 content-center">
+
+
+                <div class="card card-login card-plain">
+
+                    {% include 'layout.alerts' %}
+
+
+                    <form class="form-horizontal" role="form" method="POST" action="/register">
+
+                        {{ csrfField }}
+
+                        <div class="header header-primary text-center" style="padding-top:200px;">
                             <div class="logo-container">
-                                <img src="../assets/img/now-logo.png" alt="">
+                                <img src="../assets/img/now-logo.png" alt="" style="padding-top:200px">
                             </div>
                         </div>
-                            
+
                         <div class="content">
+
                             <div class="input-group form-group-no-border input-lg">
                                 <label class="radio-inline form-control">
-								    <input name="userType" id="group" value="S" type="radio" checked>&nbsp; Student	
+                                    <input name="userType" id="group" value="S" type="radio" required>&nbsp; Student
                                 </label>
                                 <label class="radio-inline form-control">
                                     <input name="userType" id="faculty" value="F" type="radio">&nbsp; Faculty
                                 </label>
-							</div>                            
-							<div class="input-group form-group-no-border input-lg">
-                                <span class="input-group-addon">   
-                                    <i class="now-ui-icons text_caps-small"></i>  
-                                </span>
-								<input id="lastname" type="text" class="form-control" name="lastname" placeholder="Lastname" value="{{old('lastname')}}" required>
-							</div>
+                            </div>
                             <div class="input-group form-group-no-border input-lg">
-                                <span class="input-group-addon">  
-                                    <i class="now-ui-icons text_caps-small"></i>  
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons text_caps-small"></i>
                                 </span>
-								<input id="firstname" type="text" class="form-control" name="firstname" placeholder="Firstname" value="{{old('firstname')}}" required>
-							</div>
+                                <input id="lastname" type="text" class="form-control" name="lastname" placeholder="Lastname" value="{{old('lastname')}}" required>
+                            </div>
                             <div class="input-group form-group-no-border input-lg">
-                                <span class="input-group-addon">  
-                                    <i class="now-ui-icons text_caps-small"></i>  
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons text_caps-small"></i>
                                 </span>
-								<input id="middlename" type="text" class="form-control" name="middlename" placeholder="Middlename" value="{{old('middlename')}}" required>
-							</div>
-							<div class="input-group form-group-no-border input-lg">
-								<span class="input-group-addon">  
-                                    <i class="now-ui-icons text_caps-small"></i> 
+                                <input id="firstname" type="text" class="form-control" name="firstname" placeholder="Firstname" value="{{old('firstname')}}" required>
+                            </div>
+                            <div class="input-group form-group-no-border input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons text_caps-small"></i>
+                                </span>
+                                <input id="middlename" type="text" class="form-control" name="middlename" placeholder="Middlename" value="{{old('middlename')}}" required>
+                            </div>
+                            <div class="input-group form-group-no-border input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons text_caps-small"></i>
                                 </span>
                                 <input id="email" type="email" class="form-control" name="email" placeholder="Email" value="{{old('email')}}" required>
-							</div>
+                            </div>
 
-							<div class="input-group form-group-no-border input-lg">
-				                <span class="input-group-addon">                                
-                                    <i class="now-ui-icons text_caps-small"></i>                     
+                            <div class="input-group form-group-no-border input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons text_caps-small"></i>
                                 </span>
                                 <input id="personal_code" type="text" class="form-control" placeholder="Student/Faculty ID" name="personal_code" value="{{old('personal_code')}}" required>
-							</div>
-							
-							<div class="input-group form-group-no-border input-lg">
-				                <span class="input-group-addon">                                
-                                    <i class="now-ui-icons text_caps-small"></i>                     
+                            </div>
+
+                            <div class="input-group form-group-no-border input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons text_caps-small"></i>
                                 </span>
                                 <input id="password" type="password" class="form-control" name="password" value="{{old('password')}}" placeholder="Password" required>
-							</div>
+                            </div>
 
-							<div class="input-group form-group-no-border input-lg">
-				                <span class="input-group-addon">                                
-                                    <i class="now-ui-icons text_caps-small"></i>                     
-                                </span>                                
+                            <div class="input-group form-group-no-border input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons text_caps-small"></i>
+                                </span>
 
                                 <input id="password_confirmation" type="password" class="form-control" value="{{old('password_confirmation')}}" name="password_confirmation" placeholder="Confirm password" required>
-							</div>
-                            
+                            </div>
+
                             <div class="col-md-6 col-md-offset-4">
                                 <label class="text-danger">{{registerMessage}}</label>
                             </div>
-                            
-							<div class="footer text-center">
-									<button type="submit" class="btn btn-primary  btn-round btn-md ">Register
-									</button>
-							</div>
+                            <!--Error-->
+                            {% if old('error') %}
+                            <div class="text-danger">
+                                {{ old('error') }}
+                            </div>
+                            {% endif %}
+
+                            <div class="footer text-center">
+
+                                <button type="submit" class="btn btn-primary  btn-round btn-md ">Register
+                                </button>
+                            </div>
                             <div class="pull-left">
                                 <h6>
                                     <a href="/login" class="link">Login</a>&nbsp;<span><small> here if you are already registered</small></span>
                                 </h6>
                             </div>
-                            
-                            </div>
-						</form>
-					</div>
-			</div>
-	   </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

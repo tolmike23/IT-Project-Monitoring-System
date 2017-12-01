@@ -1,0 +1,71 @@
+{% extends 'master' %}
+
+{% block content %}
+<div class="login-page sidebar-collapse animsition">
+	 <div class="page-header" filter-color="orange">
+        <div class="page-header-image" style="background-image:url(../assets/img/login.jpg)"></div>
+        <div class="container">
+            <div class="col-md-4 content-center">
+                <div class="card card-login card-plain">
+                    <form class="form" method="post" action="/viewAs">
+
+                        {{ csrfField }}
+
+                        <div class="header header-primary text-center">
+                            <div class="logo-container">
+                                <img src="../assets/img/now-logo.png" alt="">
+                            </div>
+                        </div>
+                        <div class="content_center">View as</div>
+                        <div>&nbsp;</div>
+                        <div class="content">
+                            <div class="form-group-no-border">
+																<div class="form-control">
+																	<label class="radio-inline">
+	                                    <input name="userType" id="adviser" value="A" type="radio" required>Adviser
+	                                </label>
+
+																	<label class="radio-inline">
+																			<input name="userType" id="coordinator" value="C" type="radio" required>Coordinator
+																	</label>
+
+																	<label class="radio-inline">
+																		<input name="userType" id="panelist" value="P" type="radio" required>Panelist
+																	</label>
+
+																	<label class="radio-inline">
+																		<input name="userType" id="chairman" value="H" type="radio" required>Chairman
+																	</label>
+																</div>
+                            </div>
+                        </div>
+                        <div class="footer text-center">
+                            <button type="submit" class="btn btn-primary btn-round btn-lg">Continue</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="container">
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="#">
+                                Disclaimer
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="copyright">
+                    &copy;
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script>, Designed by
+                    <a href="#" target="_blank">Jaboy</a>.
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+{% endblock %}

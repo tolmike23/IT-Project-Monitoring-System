@@ -1,0 +1,241 @@
+{% extends 'master' %}
+
+{% block content %}
+<div class="wrapper">
+	<div class="page-header clear-filter" filter-color="orange">
+			<div class="page-header-image" data-parallax="true"></div>
+			<div class="container">
+					<div class="row" style="padding-top:90px">
+							<div class="col-md-12 animsition" data-animsition-in-class="fade-in-down-sm" data-animsition-in-duration="500">
+									<div class="row">
+											<div class="col-lg-6 col-md-12">
+													<h4 class="category">Faculty Dashboard | Panelist </h4>
+											</div>
+
+											<div class="col-lg-2">
+													<div class="dropdown">
+															<a href="#pablo" class="btn btn-primary btn-round dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink1">
+																	<strong> More options</strong>
+															</a>
+															<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+																	<a class="dropdown-item" href="/coordinatorDashboard">Coordinator page</a>
+																	<a class="dropdown-item" href="/adviserDashboard">Adviser page</a>
+                                  <a class="dropdown-item" href="/chairmanDashboard">Chairman Page</a>
+															</ul>
+													</div>
+											</div>
+									</div>
+
+									<!--Panelist Projects Tables Start-->
+									<div class="card">
+											<div class="card-header bg-primary">
+													<ul class="nav nav-tabs nav-tabs-neutral">
+															<li class="nav-item">
+																	<a class="nav-link active" data-toggle="tab" role="tab">
+																		Projects
+																	</a>
+															</li>
+													</ul>
+											</div>
+											<div class="card-body">
+													<table class="table table-hover table-responsive">
+															{% if currentUser %}
+															<thead class="text-primary">
+																	<th><strong>Group Name</strong></th>
+																	<th><strong>Project name</strong></th>
+																	<th><strong>Created</strong></th>
+																	<th><strong>Status</strong></th>
+																	<th><strong>Notes</strong></th>
+															</thead>
+															<tbody>
+																	{% for project in projects %}
+																	<tr class="text-black">
+																			<td>{{project.groupName}}</td>
+																			<td><a data-toggle="modal" data-target="#{{project.id}}mhave">{{project.projectname}}</a></td>
+																			<td>{{project.created_at }}</td>
+																			<td>{{project.status}}</td>
+																			<td>{{project.notes}}</td>
+																			<td>
+																				<!--a Must Have Requirements-->
+																				<div class="modal fade" id="{{project.id}}mhave" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																						<div class="modal-dialog">
+																								<!-- Modal content -->
+																								<div class="modal-content">
+
+																										<div class="modal-header">
+																												<h5 class="modal-title">Must Have | <a data-toggle="modal" data-target="#{{project.id}}helo"
+																													aria-haspopup="true" aria-expanded="true" data-dismiss="modal">
+																													WBS</a>
+																												</h5>
+																												<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
+																												data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+																												<i class="now-ui-icons ui-1_simple-remove"></i>
+																												</a>
+																										</div>
+
+																										<div class="modal-body">
+																											<table class="table table-hover table-responsive">
+																													{% if currentUser %}
+																													<thead class="text-primary">
+																															<th><strong>Must Have</strong></th>
+																															<th><strong>Deadline</strong></th>
+																													</thead>
+																													<tbody>
+																														{% for item in requirements %}
+																															{% if project.id == item.projectId %}
+																																<tr class="text-black">
+																																		<td>{{item.must_have}}</td>
+																																		<td>{{item.deadline}}</td>
+																																</tr>
+																															{% endif %}
+																														{% endfor %}
+																													</tbody>
+																													{% endif %}
+																											</table>
+																										</div>
+																								</div>
+																						</div>
+																				</div>
+																				<!--Add Must Have Requirements End-->
+																			</td>
+
+																			<td>
+																				<!--Work Break Down Structure Start-->
+																				<div class="modal fade" id="{{project.id}}helo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																						<div class="modal-dialog">
+																								<!-- Modal content -->
+																								<div class="modal-content" style="width:750px; height:600px;">
+
+																										<div class="modal-header">
+																												<h5 class="modal-title">WBS</h5>
+																												<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
+																												data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+																												<i class="now-ui-icons ui-1_simple-remove"></i>
+																												</a>
+																										</div>
+
+																										<div class="modal-body table-fixed">
+																												<table class="table friendsoptionstable">
+																														{% if currentUser %}
+																														<thead class="text-primary">
+																															<tr>
+																																<th><strong>WBS Description</strong></th>
+																																<th><strong>Status</strong></th>
+																																<th><strong>Start Date</strong></th>
+																																<th><strong>End Date</strong></th>
+																																<th><strong>Create|Update</strong></th>
+																																<th><strong>Create|Update</strong></th>
+																															<tr>
+																														</thead>
+																														<tbody>
+																																{% for w in wbs %}
+																																		{% if project.groupId == w.groupId %}
+																																			<tr class="text-black">
+																																					<td>{{w.description}}</td>
+																																					<td>{{w.status}}</td>
+																																					<td>{{w.startdate}}</td>
+																																					<td>{{w.enddate}}</td>
+																																					<td>{{w.email}}</td>
+																																					<td>{{w.updated_at}}</td>
+																																			</tr>
+																																		{% endif %}
+																																{% endfor %}
+																														</tbody>
+																														{% endif %}
+																												</table>
+																										</div>
+																								</div>
+																						</div>
+																				</div>
+																				<!--Work Break Down Structure End-->
+																			</td>
+																	</tr>
+																	{% endfor %}
+															</tbody>
+															{% endif %}
+													</table>
+											</div>
+									</div>
+									<!--Panelist Projects Tables End-->
+
+                  <!--Panelist Group Tables Start-->
+									<div class="card table-fixed">
+											<div class="card-header bg-primary">
+													<ul class="nav nav-tabs nav-tabs-neutral">
+															<li class="nav-item">
+																	<a class="nav-link active" data-toggle="tab" role="tab">
+              											Group List
+              										</a>
+															</li>
+													</ul>
+											</div>
+											<div class="card-body">
+													<table class="table table-hover table-responsive">
+															{% if currentUser %}
+															<thead class="text-primary">
+                                  <th><strong>Group ID</strong></th>
+																	<th><strong>Group Name</strong></th>
+																	<th><strong>Chairman</strong></th>
+																	<th><strong>Adviser</strong></th>
+																	<th><strong>Coordinator</strong></th>
+															</thead>
+															<tbody>
+																	{% for project in groupList %}
+																	<tr class="text-black">
+																			<td>{{project.groupId}}</td>
+																			<td><a data-toggle="modal" data-target="#{{project.groupId}}gMember">{{project.groupName}}</td>
+																			<td>{{project.chairman}}</td>
+																			<td>{{project.adviser}}</td>
+																			<td>{{project.coordinator}}</td>
+																			<td>
+																				<!--a Must Have Requirements-->
+																				<div class="modal fade" id="{{project.groupId}}gMember" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																						<div class="modal-dialog">
+																								<!-- Modal content -->
+																								<div class="modal-content">
+
+																										<div class="modal-header">
+																												<h5 class="modal-title">Group Members</h5>
+																												<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
+																												data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+																												<i class="now-ui-icons ui-1_simple-remove"></i>
+																												</a>
+																										</div>
+
+																										<div class="modal-body">
+																											<table class="table table-hover table-responsive">
+																													{% if currentUser %}
+																													<thead class="text-primary">
+																															<th><strong>Members</strong></th>
+																													</thead>
+																													<tbody>
+																														{% for group in groups %}
+																															{% if project.groupId == group.groupId %}
+																																<tr class="text-black">
+																																		<td>{{group.firstname}} {{group.middlename}} {{group.lastname}}</td>
+																																</tr>
+																															{% endif %}
+																														{% endfor %}
+																													</tbody>
+																													{% endif %}
+																											</table>
+																										</div>
+																								</div>
+																						</div>
+																				</div>
+																				<!--Add Must Have Requirements End-->
+																			</td>
+																	</tr>
+																	{% endfor %}
+															</tbody>
+															{% endif %}
+													</table>
+											</div>
+									</div>
+									<!--Panelist Group Tables End-->
+							</div>
+					</div>
+			</div>
+	</div>
+</div>
+{% endblock %}

@@ -11,7 +11,7 @@ class AuthController {
     }
 
     * login(request, response) {
-        const userType = request.input('userType')
+        //const userType = request.input('userType')
         const email = request.input('email')
         const password = request.input('password')
 
@@ -22,6 +22,23 @@ class AuthController {
 
         try {
 
+            const logUser = yield User.query().where('email', email).fetch()
+            const strUser = JSON.stringify(logUser)
+            const prsUser = JSON.parse(strUser)
+            console.log('Parsed User '+prsUser[0].type)
+
+            const authCheckGrp = yield request.auth.attempt(email, password)
+            if (authCheckGrp){
+                if (prsUser[0].type === "S")
+                    return response.redirect('/dashboard')
+                else
+                    return response.redirect('/dashboardOptions')
+            } else {
+                yield response.sendView('login', {
+                loginMessage: loginMessage.error })
+            }
+
+            /*
             console.log('User type : ' + userType)
             const qryUser = yield Database.schema.raw("select * from users where email='" + email + "' and type='" + userType + "'")
             const rsUser = JSON.stringify(qryUser)
@@ -29,7 +46,7 @@ class AuthController {
             if (userType.toLowerCase() === 's') {
                 console.log('Student info '+logUser[0].length)
                 if (logUser[0].length === 1) {
-                    const authCheckGrp = yield request.auth.attempt(email, password, userType)
+                    const authCheckGrp = yield request.auth.attempt(email, password)
                     if (authCheckGrp)
                         return response.redirect('/dashboard')
                 }
@@ -41,13 +58,16 @@ class AuthController {
                     })
                     //response.redirect('back')
                 }
-               
+
             } else {
                 console.log('Faculty info '+logUser[0].length)
+
                 if (logUser[0].length === 1){
                     const authCheckFlty = yield request.auth.attempt(email, password, userType)
                     if (authCheckFlty)
-                        return response.redirect('/adviserDashboard')
+                        //return response.redirect('/adviserDashboard')
+                        return response.redirect('/dashboardOptions')
+
                 }
                 else {
                     console.log('Non Faculty member')
@@ -58,12 +78,14 @@ class AuthController {
                     //response.redirect('back')
                 }
 
-            }
-            
+            } */
+
         } catch (e) {
             //response.location('back')
+
             yield response.sendView('login', {
-                loginMessage: e.message
+                loginMessage: e.message + ' account'
+
             })
         }
 
@@ -72,13 +94,13 @@ class AuthController {
 				const isGroup = yield Database.table('groups').where('email', email).count()
 				const stringGrp = JSON.stringify(isGroup)
 				const noOfGrp = stringGrp.substr(stringGrp.indexOf(':')+1,1)
-				console.log('isGroup : '+noOfGrp)							
-				if (parseInt(noOfGrp) > 0){					
+				console.log('isGroup : '+noOfGrp)
+				if (parseInt(noOfGrp) > 0){
 					// Attempt to login with email and password
 					const authCheckGrp = yield request.auth.attempt(email, password)
 					if (authCheckGrp){
-						return response.redirect('/dashboard')	
-					}					
+						return response.redirect('/dashboard')
+					}
 				} else {
 					response.location('back')
 					yield response.sendView('login', {loginMessage: "That was not a Group account"})
@@ -93,7 +115,7 @@ class AuthController {
 					// Attempt to login with email and password
 					const authCheckAdv = yield request.auth.attempt(email, password)
 					if (authCheckAdv)
-						return response.redirect('/adviserDashboard')	
+						return response.redirect('/adviserDashboard')
 				} else {
 					response.location('back')
 					yield response.sendView('login', {loginMessage:"That was not an Adviser account"})

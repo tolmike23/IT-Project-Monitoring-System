@@ -7,13 +7,13 @@
 		</ul>
 	</div>
 {% endif %}
-{% if old('error') %}
-	<div class="alert alert-danger">
-		{{ old('error') }}
-	</div>
-{% endif %}
-{% if old('status') %}
+
+{% if old('successes') %}
 	<div class="alert alert-success">
-		{{ old('status') }}
+		<ul class="list-unstyled">
+			{% for success in old('successes') %}
+				<li>{{ success.message }}</li>
+			{% endfor %}
+		</ul>
 	</div>
 {% endif %}
