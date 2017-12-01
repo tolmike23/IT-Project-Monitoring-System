@@ -24,10 +24,12 @@ class PanelistController {
     .where('g.panelist',user.email)
 
     //Group List View
-    const groupList = yield Database.select('gc.groupId','gc.groupName','g.email', 'gc.chairman', 'gc.adviser', 'gc.coordinator')
+    const groupList = yield Database.select('gc.groupId','gc.groupName', 'gc.chairman', 'gc.adviser', 'gc.coordinator')
     .from('group_controls as gc')
-    .innerJoin('groups as g', 'gc.groupId', 'g.groupId')
     .where('gc.panelist', user.email)
+
+    //Groups Tables
+    const groups = yield Database.from('groups')
 
     //Notification Data
     const panelistNotification = yield Database.select('n.groupId','n.category','n.id','g.groupName')
@@ -51,7 +53,7 @@ class PanelistController {
     .where('g.panelist',user.email)
 
 
-    yield response.sendView('panelistDashboard',{projects, groupList, panelistNotification, panelistCounter, requirements, wbs})
+    yield response.sendView('panelistDashboard',{projects, groupList, panelistNotification, panelistCounter, requirements, wbs, groups})
   }
 
   * read (request, response){

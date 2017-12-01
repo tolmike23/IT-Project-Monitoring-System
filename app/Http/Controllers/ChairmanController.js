@@ -32,7 +32,15 @@ class ChairmanController {
     .innerJoin('group_controls as g','m.groupId','g.groupId')
     .where('g.chairman',user.email)
 
-    yield response.sendView('chairmanDashboard',{projects, chairmanNotification, chairmanCounter, requirements, wbs})
+    //Group List View
+    const groupList = yield Database.select('gc.groupId','gc.groupName', 'gc.chairman', 'gc.adviser', 'gc.coordinator')
+    .from('group_controls as gc')
+    .where('gc.chairman', user.email)
+
+    //Groups Tables
+    const groups = yield Database.from('groups')
+
+    yield response.sendView('chairmanDashboard',{projects, chairmanNotification, chairmanCounter, requirements, wbs, groupList, groups})
   }
 
   * read (request, response){
