@@ -1,0 +1,941 @@
+Project Requirements | Must have{% extends 'master' %}
+
+{% block content %}
+<div class="wrapper">
+    <div class="page-header clear-filter" filter-color="orange">
+        <div class="page-header-image" data-parallax="true"></div>
+        <div class="container">
+            <div class="row" style="padding-top:90px">
+                <div class="col-md-12 animsition" data-animsition-in-class="fade-in-down-sm" data-animsition-in-duration="500">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                            <h4 class="category">Faculty Dashboard | Coordinator</h4>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="dropdown">
+                                <a href="#pablo" class="btn btn-primary btn-round dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink1">
+                                    <strong> More options</strong>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+                                    <a class="dropdown-item" href="/adviserDashboard">Adviser page</a>
+                                    <a class="dropdown-item" href="panelistDashboard">Panelist page</a>
+                                    <a class="dropdown-item" href="chairmanDashboard">Chairman page</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" data-toggle="modal" data-target="#groupControl" href="#">Create groups</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" data-toggle="modal" data-target="#projectControl">Create Project</a>
+                                    <a class="dropdown-item" data-toggle="modal" data-target="#groupList">Group List</a>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2">
+                          <a href="/coordinatorDashboard" class="btn btn-primary btn-round">
+                             <i class="fa fa-refresh"></i>
+                          </a>
+                        </div>
+                    </div>
+                    <!--Recent endorsements from Adviser Tables Start-->
+                    <div class="card">
+                        <div class="card-header bg-primary">
+                            <ul class="nav nav-tabs nav-tabs-neutral">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" role="tab">
+                                        Recent endorsements
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body table-fixed">
+                            <table class="table table-hover table-responsive">
+                                {% if currentUser %}
+                                <thead class="text-primary">
+                                    <th><strong>Group</strong></th>
+                                    <th><strong>Proposal | Endorse</strong></th>
+                                    <th><strong>Activity</strong></th>
+                                    <th><strong>Endorsed By</strong></th>
+                                    <th><strong>Endorse Date</strong></th>
+                                    <th><strong>Remarks</strong></th>
+                                    <th><strong>&nbsp;</strong></th>
+                                </thead>
+                                <tbody>
+                                    {% for item in endorse %}
+                                      {% if (item.endorseType == 'Endorse to Coordinator') or (item.endorseType == 'Panel meeting')  %}
+                                    <tr class="text-black">
+                                        <td>{{item.groupId}}</td>
+                                        <td>{{item.description}}</td>
+                                        <td>{{item.endorseType}}</td>
+                                        <td>{{item.endorseBy}}</td>
+                                        <td>{{item.created_at}}</td>
+                                        <td>{{item.notes}}</td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <a href="#" data-toggle="modal" data-target="#{{item.groupId}}"  class="btn btn-primary btn-round">
+                                                    <strong>Endorse for </strong>
+                                                </a>
+                                            </div>
+
+                                            <div class="modal fade" id="{{item.groupId}}" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content -->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Create Endorsement</h5>
+                                                            <a class="nav nav-link nav-pills nav-pills-success"
+                                                               data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+                                                            </a>
+                                                        </div>
+
+                                                        <div class="modal-body">
+                                                            <form class="form-horizontal" role="form" method="POST" action="/submitEndorsement">
+
+                                                                {{ csrfField }}
+
+                                                                {% for gc in groupControl %}
+                                                                    <input id="endorseTo" name="endorseTo" value={{gc.chairman}} style="display:none;" />
+                                                                {% endfor %}
+
+                                                                <input id="studentId" name="studentId" value="{{currentUser.personal_code}}" style="display:none"/>
+                                                                <input id="groupId" type="number" class="form-control" name="groupId" value={{item.groupId}} style="display:none;">
+
+                                                                <div class="col-lg-12">
+                                                                    <label for="endorsedBy" class="col-lg-12 control-label">Created by</label>
+                                                                    <div class="form-group">
+                                                                        <input id="endorsedBy" type="email" class="form-control" name="endorsedBy" value="{{currentUser.email}}" disabled>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-12">
+                                                                    <label for="endorsedBy" class="col-lg-12 control-label">For Group</label>
+                                                                    <div class="form-group">
+                                                                        <input type="number" class="form-control" value={{item.groupId}} disabled>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-12">
+                                                                    <label for="project" class="col-lg-12 control-label">Description</label>
+                                                                    <div class="form-group">
+                                                                        <input id="description" type="text" class="form-control" name="description" placeholder="Describe here..." required/>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-12">
+                                                                    <div class="form-group">
+                                                                        <select class="selectpicker" id="endorseType" name="endorseType" data-style="btn btn-primary btn-round btn-md" required>
+                                                                            <option disabled selected style='display:none'>Endorse for</option>
+                                                                            <option value='Panel meeting'>Panel meeting</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-12">
+                                                                    <div class="form-group">
+                                                                        <label for="project" class="col-lg-12 control-label">Deadline / Meeting</label>
+                                                                        <input type="text" class="form-control datetimepicker" name="deadline" required/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-12">
+                                                                    <textarea id="notes" type="text" class="form-control" name="notes" placeholder="Additional remarks..." rows="3" required></textarea>
+                                                                </div>
+
+                                                                <div class="footer text-center">
+                                                                   <button type="submit" class="btn btn-primary btn-round btn-md">Save</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                          </td>
+                                      </tr>
+                                      {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                                {% endif %}
+                            </table>
+                        </div>
+                    </div>
+                    <!--Recent endorsements from Adviser Tables End-->
+
+
+                    <!-- Project Requirements Tab Start-->
+                    <div class="card">
+                        <div class="card-header bg-primary">
+                            <ul class="nav nav-tabs nav-tabs-neutral">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" role="tab">
+                                        Projects
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body">
+                            <table class="table table-responsive">
+                                {% if currentUser %}
+                                <thead class="text-primary">
+                                    <th><strong>Group Id</strong></th>
+                                    <th><strong>Group Name</strong></th>
+                                    <th><strong>Project Name</strong></th>
+                                </thead>
+                                <tbody>
+                                    {% for p in projects %}
+                                    <tr class="text-black">
+                                        <td>{{p.groupId}}</td>
+                                        <td>{{p.groupName}}</td>
+                                        <td><a data-toggle="modal" data-target="#{{p.id}}mhave" >{{p.projectname}}</a></td>
+                                        <td>
+                                            <button class="btn btn-primary btn-md btn-round" data-toggle="modal" data-target="#{{p.id}}req" href="#"><strong>ADD Requirements</strong></button>
+
+                                            <!--Add Must Have Requirements-->
+                                            <div class="modal fade" id="{{p.id}}req" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content -->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Create Must Have Requirements</h5>
+                                                            <a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
+                                                            data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+                                                            <i class="now-ui-icons ui-1_simple-remove"></i>
+																														</a>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <!--Error-->
+                                                            {% if old('error') %}
+                                                            <div class="text-danger">
+                                                                {{ old('error') }}
+                                                            </div>
+                                                            {% endif %}
+                                                            <!--Success-->
+                                                            {% if old('success') %}
+                                                            <div class="text-success">
+                                                                {{ old('success') }}
+                                                            </div>
+                                                            {% endif %}
+                                                            <form class="form-horizontal" role="form" method="POST" action="/insertMustHave">
+
+                                                                {{ csrfField }}
+                                                                <!--Requirements-->
+                                                                <div class="form-group">
+                                                                    <div class="col-md-4">
+                                                                        <label for="groupname" class="text-muted">Project Id</label>
+                                                                        <input type="text" class="form-control" value="{{p.id}}" disabled>
+                                                                        <input id="pid" name="pid" type="text" class="form-control" value="{{p.id}}" style='display:none'>
+                                                                        <input id="gid" name="gid" type="text" class="form-control" value="{{p.groupId}}" style='display:none'>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <div class="col-md-12">
+                                                                        <label for="groupname" class="text-muted">Must Have</label>
+                                                                        <input id="must" name="must" type="text" class="form-control" required>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label for="lastname" class="col-md-10 text-muted">Estimated Deadline</label>
+                                                                    <div class="col-md-12">
+                                                                        <input id="deadline" type="text" class="form-control datetimepicker" placeholder="Start Date" name="deadline">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="footer text-center">
+                                                                    <button type="submit" class="btn btn-primary btn-round btn-lg">Create</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="dropdown">
+                                                <a href="#" data-toggle="modal" data-target="#test"  class="btn btn-info btn-md btn-round">
+                                                    <strong>Endorse for </strong>
+                                                </a>
+                                            </div>
+
+                                            <div class="modal fade" id="test" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content -->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Create Endorsement</h5>
+                                                            <a class="nav nav-link nav-pills nav-pills-success"
+                                                               data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+                                                               <i class="now-ui-icons ui-1_simple-remove"></i>
+                                                            </a>
+                                                        </div>
+
+                                                        <div class="modal-body">
+                                                            <form class="form-horizontal" role="form" method="POST" action="/submitEndorsement">
+
+                                                                {{ csrfField }}
+
+                                                                {% for gc in groupControl %}
+                                                                    <input id="endorseTo" name="endorseTo" value={{gc.chairman}} style="display:none;" />
+                                                                {% endfor %}
+
+                                                                <div class="col-lg-12">
+                                                                    <label for="endorsedBy" class="col-lg-12 control-label">Created by</label>
+                                                                    <div class="form-group">
+                                                                        <input id="endorsedBy" type="email" class="form-control" name="endorsedBy" value="{{currentUser.email}}" disabled>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-12">
+                                                                    <label for="endorsedBy" class="col-lg-12 control-label">For Group</label>
+                                                                    <div class="form-group">
+                                                                        <input id="studentId" name="studentId" value="{{currentUser.personal_code}}" style="display:none"/>
+                                                                        <input id="groupId" type="number" class="form-control" name="groupId" value={{p.groupId}} style="display:none;">
+                                                                        <input type="number" class="form-control" value={{p.groupId}} disabled>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-12">
+                                                                    <label for="project" class="col-lg-12 control-label">Project Name</label>
+                                                                    <div class="form-group">
+                                                                        <input  type="text" class="form-control" value="{{p.projectname}}" disabled/>
+                                                                        <input id="description" type="text" class="form-control" name="description" value="{{p.projectname}}" style="display:none"/>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-12">
+                                                                    <div class="form-group">
+                                                                        <select class="selectpicker" id="endorseType" name="endorseType" data-style="btn btn-primary btn-round btn-md" required>
+                                                                            <option disabled selected style='display:none'>Endorse for</option>
+                                                                            <option value='Milestone checking'>Milestone checking</option>
+                                                                            <option value='Proposal defense'>Proposal defense</option>
+                                                                            <option value='Final defense'>Final defense</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-12">
+                                                                    <div class="form-group">
+                                                                        <label for="project" class="col-lg-12 control-label">Deadline / Meeting</label>
+                                                                        <input type="text" class="form-control datetimepicker" name="deadline" required/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-12">
+                                                                    <textarea id="notes" type="text" class="form-control" name="notes" placeholder="Additional remarks..." rows="3" required></textarea>
+                                                                </div>
+
+                                                                <div class="footer text-center">
+                                                                   <button type="submit" class="btn btn-primary btn-round btn-md">Save</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </td>
+
+                                        <td>
+                                        <button class="btn btn-success btn-md btn-round" data-toggle="modal" data-target="#{{p.id}}rate" href="#"><strong>ADD Rating</strong></button>
+                                            <div class="modal fade" id="{{p.id}}rate" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content -->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Add Project Rating</h5>
+                                                            <a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
+                                                            data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+                                                            <i class="now-ui-icons ui-1_simple-remove"></i>
+												                                    </a>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <!--Error-->
+                                                            {% if old('error') %}
+                                                            <div class="text-danger">
+                                                                {{ old('error') }}
+                                                            </div>
+                                                            {% endif %}
+                                                            <!--Success-->
+                                                            {% if old('success') %}
+                                                            <div class="text-success">
+                                                                {{ old('success') }}
+                                                            </div>
+                                                            {% endif %}
+                                                            <form class="form-horizontal" role="form" method="POST" action="/insertProjectRating">
+
+                                                                {{ csrfField }}
+                                                                <!--Requirements-->
+                                                                <div class="form-group">
+                                                                    <div class="col-md-4">
+                                                                        <label for="groupname" class="text-muted">Project Id</label>
+                                                                        <input type="text" class="form-control" value="{{p.id}}" disabled>
+                                                                        <input id="pid" name="pid" type="text" class="form-control" value="{{p.id}}" style='display:none'>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <div class="col-md-12">
+                                                                        <label for="groupname" class="text-muted">Criteria</label>
+                                                                        <input id="criteria" name="criteria" type="text" class="form-control" required>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label for="lastname" class="col-md-10 text-muted">Avg. score</label>
+                                                                    <div class="col-md-12">
+                                                                        <input id="avgScore" type="number" class="form-control"  name="avgScore" required>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label for="lastname" class="col-md-10 text-muted">Remarks</label>
+                                                                    <div class="col-md-12">
+                                                                        <textarea id="remarks" type="text" class="form-control"  name="remarks" required></textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="footer text-center">
+                                                                    <button type="submit" class="btn btn-primary btn-round btn-sm">Create</button>
+                                                                </div>
+                                                            </form>
+
+                                                            <!--Display ratings-->
+                                                            <div class="card-body">
+                                                                {% if currentUser %}
+                                                                <table class="table table-hover table-md table-striped table-responsive">
+                                                                    <thead class="text-warning">
+                                                                        <th><strong>Criteria</strong></th>
+                                                                        <th><strong>Avg. Score</strong></th>
+                                                                        <th><strong>Created</strong></th>
+                                                                        <th><strong>Remarks</strong></th>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {% for item in rating %}
+                                                                        <tr class="text-black">
+                                                                            <td>{{item.criteria}}</td>
+                                                                            <td>{{item.score}}</td>
+                                                                            <td>{{item.created_at}}</td>
+                                                                            <td>{{item.comments}}</td>
+                                                                        </tr>
+                                                                        {% endfor %}
+                                                                    </tbody>
+                                                                </table>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        {% set wbsId = p.groupId + 'ss' %}
+                                        <td>
+                                          <!--Add Must Have Requirements-->
+                                          <div class="modal fade" id="{{p.id}}mhave" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                              <div class="modal-dialog">
+                                                  <!-- Modal content -->
+                                                  <div class="modal-content" style="width:500px; height:400px;">
+
+                                                      <div class="modal-header">
+                                                          <h5 class="modal-title">Must Have | <a data-toggle="modal" data-target="#{{wbsId}}"
+                                                            aria-haspopup="true" aria-expanded="true" data-dismiss="modal">
+                                                            WBS</a>
+                                                          </h5>
+                                                      </div>
+
+                                                      <div class="modal-body">
+                                                        <table class="table table-hover table-responsive">
+                                                            {% if currentUser %}
+                                                            <thead class="text-primary">
+                                                                <th><strong>Project Name </strong></th>
+                                                                <th><strong>Must Have</strong></th>
+                                                                <th><strong>Deadline</strong></th>
+                                                            </thead>
+                                                            <tbody>
+                                                                {% for item in requirements %}
+                                                                  {% if p.groupId == item.groupId %}
+                                                                    <tr class="text-black">
+                                                                        <td>{{item.projectname}}</td>
+                                                                        <td>{{item.must_have}}</td>
+                                                                        <td>{{item.deadline}}</td>
+                                                                        <td>
+                                                                          <button class="btn btn-xs btn-white btn-round" data-toggle="modal" data-target="#{{item.id}}it">
+                                                                              <i class="fa fa-pencil-square-o"></i>
+                                                                          </button>
+                                                                          <!--Add Must Have Requirements-->
+                                                                          <div class="modal fade" id="{{item.id}}it" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                              <div class="modal-dialog">
+                                                                                  <br><br><br><br>
+                                                                                  <!-- Modal content -->
+                                                                                  <div class="modal-content">
+                                                                                      <div class="modal-header">
+                                                                                          <h5 class="modal-title">Edit Requirements</h5>
+                                                                                          <a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
+                                                                                          data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+                                                                                          <i class="now-ui-icons ui-1_simple-remove"></i>
+                                                                                          </a>
+                                                                                      </div>
+
+                                                                                      <div class="modal-body">
+                                                                                          <form class="form-horizontal" role="form" method="POST" action="/updateRequirements">
+                                                                                              {{ csrfField }}
+                                                                                              <input id="workId" name="workId" type="text" class="form-control" value="{{item.id}}" style="display:none">
+                                                                                              <div class="form-group">
+                                                                                                  <label for="groupname" class="text-muted">Must Have</label>
+                                                                                                  <div class="col-md-12">
+                                                                                                    <input id="mst" name="mst" type="text" class="form-control" value="{{item.must_have}}" >
+                                                                                                  </div>
+                                                                                              </div>
+
+                                                                                              <div class="form-group">
+                                                                                                  <label for="groupname" class="text-muted">Deadline</label>
+                                                                                                  <div class="col-md-12">
+                                                                                                    <input name="deadline" id="deadline" type="text" class="form-control datetimepicker" value="{{item.deadline}}">
+                                                                                                  </div>
+                                                                                              </div>
+
+                                                                                              <div class="footer text-center">
+                                                                                                  <button class="btn btn-primary btn-round btn-md">
+                                                                                                      <i class="fa fa-btn fa-sign-in">&nbsp;</i> Save
+                                                                                                  </button>
+                                                                                              </div>
+                                                                                          </form>
+                                                                                      </div>
+                                                                                  </div>
+                                                                              </div>
+                                                                          </div>
+                                                                          <!--Add Must Have Requirements End-->
+                                                                        </td>
+                                                                    </tr>
+                                                                  {% endif %}
+                                                                {% endfor %}
+                                                            </tbody>
+                                                            {% endif %}
+                                                        </table>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <!--Add Must Have Requirements End-->
+                                        </td>
+
+                                        <td>
+                                          <!--Work Break Down Structure Start-->
+                                          <div class="modal fade" id="{{wbsId}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                              <div class="modal-dialog">
+                                                  <!-- Modal content -->
+                                                  <div class="modal-content" style="width:750px; height:600px">
+
+                                                      <div class="modal-header">
+                                                          <h5 class="modal-title">WBS</h5>
+                                                          <a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
+                                                          data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+                                                          <i class="now-ui-icons ui-1_simple-remove"></i>
+                                                          </a>
+                                                      </div>
+
+                                                      <div class="modal-body table-fixed">
+                                                          <table class="table table-hover friendsoptionstable">
+                                                              {% if currentUser %}
+                                                              <thead class="text-primary">
+                                                                <tr>
+                                                                  <th><strong>WBS Description</strong></th>
+                                                                  <th><strong>Status</strong></th>
+                                                                  <th><strong>Start Date</strong></th>
+                                                                  <th><strong>End Date</strong></th>
+                                                                  <th><strong>Create|Update</strong></th>
+                                                                  <th><strong>Create|Update</strong></th>
+                                                                <tr>
+                                                              </thead>
+                                                              <tbody>
+                                                                  {% for w in wbs %}
+                                                                    {%if p.groupId == w.groupId %}
+                                                                    <tr class="text-black">
+                                                                        <td>{{w.description}}</td>
+                                                                        <td>{{w.status}}</td>
+                                                                        <td>{{w.startdate}}</td>
+                                                                        <td>{{w.enddate}}</td>
+                                                                        <td>{{w.email}}</td>
+                                                                        <td>{{w.updated_at}}</td>
+                                                                        <td>
+                                                                            <button class="btn btn-xs btn-white btn-round" data-toggle="modal" data-target="#{{w.workId}}wbss">
+                                                                                <i class="fa fa-pencil-square-o"></i>
+                                                                                <div class="ripple-container"></div>
+                                                                            </button>
+                                                                            <!--Add Must Have Requirements-->
+                                                                            <div class="modal fade" id="{{w.workId}}wbss" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" aria-hidden="false" style="width:750px">
+                                                                                <div class="modal-dialog">
+                                                                                    <!-- Modal content -->
+                                                                                    <div class="modal-content">
+
+                                                                                        <div class="modal-header">
+                                                                                            <h5 class="modal-title">Edit WBS</h5>
+                                                                                            <a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+                                                                                              <i class="now-ui-icons ui-1_simple-remove"></i>
+                                                                                            </a>
+                                                                                        </div>
+
+                                                                                        <div class="modal-body">
+                                                                                            <!--Error-->
+                                                                                            {% if old('error') %}
+                                                                                            <div class="text-danger">
+                                                                                                {{ old('error') }}
+                                                                                            </div>
+                                                                                            {% endif %}
+                                                                                            <!--Success-->
+                                                                                            {% if old('success') %}
+                                                                                            <div class="text-success">
+                                                                                                {{ old('success') }}
+                                                                                            </div>
+                                                                                            {% endif %}
+                                                                                            <form class="form-horizontal" role="form" method="POST" action="/updateWbsCor">
+                                                                                                {{ csrfField }}
+                                                                                                <input id="workId" name="workId" type="text" class="form-control" value="{{w.workId}}" style="display:none">
+
+                                                                                                <div class="form-group">
+                                                                                                    <label for="groupname" class="text-muted">WBS Description</label>
+                                                                                                    <div class="col-md-12">
+                                                                                                        <input id="descWbs" name="descWbs" type="text" class="form-control" value="{{w.description}}" required>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="form-group">
+                                                                                                    <label for="groupname" class="text-muted">Status:</label>
+                                                                                                    <div class="col-md-12">
+                                                                                                        <select name="status" id="status" class="selectpicker " data-style="btn btn-primary btn-default btn-round">
+                                                                                                            <option value="{{w.status}}" disabled>{{w.status}}</option>
+                                                                                                            <option value="{{w.status}}" style="display:none" selected>{{w.status}}</option>
+                                                                                                            {% if w.status == 'Not Started' %}
+                                                                                                            <option value="{{w.status}}" style="display:none">{{w.status}}</option>
+                                                                                                            <option value="On-going"> On-going </option>
+                                                                                                            <option value="Finished"> Finished </option>
+                                                                                                            {% endif %} {% if w.status == 'Finished' %}
+                                                                                                            <option value="{{w.status}}" style="display:none">{{w.status}}</option>
+                                                                                                            <option value="Not Started"> Not Started </option>
+                                                                                                            <option value="On-going"> On-going </option>
+                                                                                                            {% endif %} {% if w.status == 'On-going' %}
+                                                                                                            <option value="{{w.status}}" style="display:none">{{w.status}}</option>
+                                                                                                            <option value="Not Started"> Not Started </option>
+                                                                                                            <option value="Finished"> Finished </option>
+                                                                                                            {% endif %}
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="form-group">
+                                                                                                    <label for="lastname" class="col-md-10 text-muted">Start Date</label>
+                                                                                                    <div class="col-md-12">
+                                                                                                        <input id="startDate" type="text" class="form-control datetimepicker" placeholder="Start Date" name="startDate" value="{{w.startdate}}" required>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="form-group">
+                                                                                                    <label for="lastname" class="col-md-10 text-muted">End Date</label>
+                                                                                                    <div class="col-md-12">
+                                                                                                        <input id="endDate" type="text" class="form-control datetimepicker" placeholder="End Date" name="endDate" value="{{w.enddate}}" required>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="footer text-center">
+                                                                                                    <button class="btn btn-primary btn-round btn-md">
+                                                                                                        <i class="fa fa-btn fa-sign-in">&nbsp;</i> Save
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--Add Must Have Requirements End-->
+                                                                        </td>
+                                                                    </tr>
+                                                                    {% endif %}
+                                                                  {% endfor %}
+                                                              </tbody>
+                                                              {% endif %}
+                                                          </table>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <!--Work Break Down Structure End-->
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                {% endif %}
+                            </table>
+                        </div>
+                    </div>
+
+                    <!--Project Activity Log-->
+                    <div class="card">
+                        <div class="card-header bg-primary">
+                            <ul class="nav nav-tabs nav-tabs-neutral">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" role="tab">
+                                        Project Activity Log
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body table-fixed">
+                            <table class="table table-hover table-responsive">
+                                {% if currentUser %}
+                                <thead class="text-primary">
+                                    <th><strong>Group</strong></th>
+                                    <th><strong>Project Name</strong></th>
+                                    <th><strong>Activity</strong></th>
+                                    <th><strong>Endorsed By</strong></th>
+                                    <th><strong>Endorse Date</strong></th>
+                                    <th><strong>Description</strong></th>
+                                    <th><strong>&nbsp;</strong></th>
+                                </thead>
+                                <tbody>
+                                    {% for item in endorse %}
+                                      {% if (item.endorseType == 'Milestone checking') or
+                                      (item.endorseType == 'Proposal defense') or (item.endorseType == 'Final defense')  %}
+                                    <tr class="text-black">
+                                        <td>{{item.groupId}}</td>
+                                        <td>{{item.description}}</td>
+                                        <td>{{item.endorseType}}</td>
+                                        <td>{{item.endorseBy}}</td>
+                                        <td>{{item.created_at}}</td>
+                                        <td>{{item.notes}}</td>
+                                    </tr>
+                                      {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                                {% endif %}
+                            </table>
+                        </div>
+                    </div>
+                    <!--Recent endorsements from Adviser Tables End-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+	<!-- Fruit Jam Create Group Control -->
+	<div class="modal fade" id="groupControl" role="dialog">
+			<div class="modal-dialog">
+					<!-- Modal content -->
+					<div class="modal-content">
+							<div class="modal-header">
+									<h5 class="modal-title">Create Groups</h5>
+									<a class="nav nav-link nav-pills nav-pills-success"
+										 data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+									</a>
+							</div>
+							<div class="modal-body">
+												<!--Error-->
+										{% if old('error') %}
+													<div class="text-danger">
+															{{ old('error') }}
+													</div>
+											{% endif %}
+												<!--Success-->
+										{% if old('success') %}
+													<div class="text-success">
+															{{ old('success') }}
+													</div>
+											{% endif %}
+									<form class="form-horizontal" role="form" method="POST" action="/createGroup" enctype="multipart/form-data">
+
+											{{ csrfField }}
+
+											<div class="col-lg-8">
+													<label for="endorsedBy" class="col-lg-12 control-label">Created by</label>
+													<div class="form-group">
+															<input id="endorsedBy" type="email" class="form-control" name="endorsedBy" value="{{currentUser.email}}" disabled>
+													</div>
+											</div>
+
+											<div class="col-lg-4">
+													<label for="groupId" class="col-lg-12 control-label">Group Id</label>
+													<div class="form-group">
+															<input type="number" class="form-control"  min="1" value="{{maxId}}"  disabled>
+															<input id="groupId" name="groupId" type="number" class="form-control"  min="1" value="{{maxId}}" style='display:none'>
+													</div>
+											</div>
+
+											<div class="col-lg-8">
+													<label for="groupName" class="col-lg-12 control-label">Group Name</label>
+													<div class="form-group">
+															<input id="groupName" type="text" class="form-control" name="groupName"  placeholder="Example: Team Adonis"  required>
+													</div>
+											</div>
+
+											<div class="col-lg-8">
+	                        <label class="col-lg-12 control-label">Class Schedule</label>
+													<div class="form-group">
+														  <input id="startTime" name="startTime" type="text" class="form-control timepicker" placeholder="Start Time"required>
+													</div>
+													<div class="form-group">
+														  <input id="endTime" name="endTime" type="text" class="form-control timepicker" placeholder="End Time"required>
+                              <select class="selectpicker" data-size="7" data-style="btn btn-primary btn-round" name="days" id="days" required>
+    													    <option disabled selected>Days</option>
+    													    <option value="MWF">Monday | Wednesday | Friday</option>
+    													    <option value="TTH">Tuesday | Thursday</option>
+    													</select>
+													</div>
+	                    </div>
+
+											<div class="col-lg-4">
+													<label for="groupKey" class="col-lg-12 control-label">Group Key</label>
+													<div class="form-group">
+															<input id="groupKey" type="number" class="form-control" name="groupKey" min="0" max="9999999999" placeholder="25462729" required>
+													</div>
+
+											</div>
+											<label class="text-danger col-lg-12 control-label">{{createMessage}}</label>
+
+
+											<div class="col-lg-12">
+                        <label for="adviser" class="col-lg-12 control-label">Faculty</label>
+                        <div class="form-group">
+                          {# <label for="adviser" class="col-lg-12 control-label">Adviser</label> #}
+                          <select class="selectpicker" data-size="7" data-style="btn btn-primary btn-round" name="adviser" id="adviser" required>
+                              {%for faculty in users%}
+  													    <option disabled selected style="display:none">Adviser</option>
+  													    <option value="{{faculty.email}}">{{faculty.lastname}}, {{faculty.firstname}}</option>
+                              {%endfor%}
+													</select>
+                        </div>
+											</div>
+
+											<div class="col-lg-12">
+                        <div class="form-group">
+                          {# <label for="adviser" class="col-lg-12 control-label">Chairman</label> #}
+                          <select class="selectpicker" data-size="7" data-style="btn btn-primary btn-round" name="chairman" id="chairman" required>
+                              {%for faculty in users%}
+  													    <option disabled selected style="display:none">Chairman</option>
+  													    <option value="{{faculty.email}}">{{faculty.lastname}}, {{faculty.firstname}}</option>
+                              {%endfor%}
+													</select>
+                        </div>
+											</div>
+
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                          {# <label for="panelist" class="col-lg-12 control-label">Panelist</label> #}
+                          <select class="selectpicker" data-size="7" data-style="btn btn-primary btn-round" name="panelist" id="panelist" required>
+                              {%for faculty in users%}
+  													    <option disabled selected style="display:none">Panelist</option>
+  													    <option value="{{faculty.email}}">{{faculty.lastname}}, {{faculty.firstname}}</option>
+                              {%endfor%}
+													</select>
+                        </div>
+											</div>
+
+											<div class="footer text-center">
+												 <button type="submit" class="btn btn-primary btn-round btn-lg">Create</button>
+											</div>
+									</form>
+							</div>
+							<div class="modal-footer"></div>
+					</div>
+			</div>
+	</div>
+
+  <!-- Fruit Jam Create Group Control -->
+	<div class="modal fade" id="groupList" role="dialog">
+			<div class="modal-dialog" >
+					<!-- Modal content -->
+					<div class="modal-content" style="width: 900px; margin-left: -350px;">
+							<div class="modal-header">
+									<h5 class="modal-title">Group List</h5>
+									<a class="nav nav-link nav-pills nav-pills-success"
+										 data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+									</a>
+							</div>
+							<div class="modal-body">
+									<!--Display Created Groups-->
+									<div class="card-body">
+											{% if currentUser %}
+													<table class="table table-hover table-md">
+															<thead class="text-warning">
+  																	<th><strong>Group Name</strong></th>
+  																	<th><strong>Class Schedule</strong></th>
+  																	<th><strong>Group Key</strong></th>
+                                    <th><strong>Adviser</strong></th>
+                                    <th><strong>Chairman</strong></th>
+                                    <th><strong>Panelist</strong></th>
+															</thead>
+															<tbody>
+																	{% for g in groupControls %}
+																			<tr class="text-black">
+																					<td>{{g.groupName}}</td>
+																					<td>{{g.clSched}}</td>
+																					<td>{{g.groupKey}}</td>
+                                          <td>{{g.adviser}}</td>
+                                          <td>{{g.chairman}}</td>
+                                          <td>{{g.panelist}}</td>
+																			</tr>
+																	{% endfor %}
+															</tbody>
+													</table>
+											{% endif %}
+									</div>
+							</div>
+							<div class="modal-footer"></div>
+					</div>
+			</div>
+	</div>
+
+
+  <!-- Fruit Jam Project Control -->
+  <div class="modal fade" id="projectControl" role="dialog">
+  	<div class="modal-dialog">
+  			<!-- Modal content -->
+  			<div class="modal-content">
+  					<div class="modal-header">
+  							<h5 class="modal-title">Create Project</h5>
+  							<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+  								</a>
+  					</div>
+  					<div class="modal-body">
+  							<!--Error-->
+  							{% if old('error') %}
+  							<div class="text-danger">
+  									{{ old('error') }}
+  							</div>
+  							{% endif %}
+  							<!--Success-->
+  							{% if old('success') %}
+  							<div class="text-success">
+  									{{ old('success') }}
+  							</div>
+  							{% endif %}
+  							<form class="form-horizontal" role="form" method="POST" action="/createProject" enctype="multipart/form-data">
+
+  									{{ csrfField }}
+
+  									<div class="col-lg-8">
+  											<label for="endorsedBy" class="col-lg-12 control-label">Created by</label>
+  											<div class="form-group">
+  													<input id="endorsedBy" type="email" class="form-control" name="endorsedBy" value="{{currentUser.email}}" disabled>
+  											</div>
+  									</div>
+
+  									<div class="col-lg-8">
+  											<label for="groupId" class="col-lg-12 control-label">Group Details</label>
+  											<div class="form-group">
+  													<select class="selectpicker" data-size="7" data-style="btn btn-primary btn-round" name="groupId" id="groupId" required>
+  															<option disabled selected>Group Id | Group Name</option>
+  															{% for groups in gc%}
+  															<option value="{{groups.groupId}}">{{groups.groupId}} | {{groups.groupName}}</option>
+  															{% endfor %}
+  													</select>
+  											</div>
+  									</div>
+
+  									<div class="col-lg-8">
+  											<label for="projectName" class="col-lg-12 control-label">Project Name</label>
+  											<div class="form-group">
+  													<input id="projectName" type="text" class="form-control" name="projectName" placeholder="Example: Machine Learning" required>
+  											</div>
+  									</div>
+
+  									<div class="footer text-center">
+  											<button type="submit" class="btn btn-primary btn-round btn-lg">Create</button>
+  									</div>
+  							</form>
+  					</div>
+  			</div>
+  	</div>
+  </div>
+{% endblock %}

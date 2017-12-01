@@ -17,33 +17,57 @@
 
 const Route = use('Route')
 
-// Route.on('/').render('welcome')
-// Route.get('/', 'ListController.show')
-
+//Home Page
 Route.get('/', 'AuthController.index')
-
+//Login Page
 Route.get('/login', 'AuthController.index')
 Route.post('/login', 'AuthController.login')
-
+Route.get('/dashboardOptions','DashboardController.facultyOpt')
+Route.post('/viewAs','DashboardController.viewAs')
+//Register Page
 Route.get('/register', 'RegisterController.index')
 Route.post('/register', 'RegisterController.doRegister')
-
+Route.get('errors.passwordNotMatch','RegisterController.doRegister')
+//Logout
 Route.get('/logout', 'AuthController.logout')
-
-Route.get('/advisers', 'AdviserController.show')
+//Adviser Page
+Route.get('/adviserDashboard', 'AdviserController.showAdviser')
+Route.get('/confirm', 'AdviserController.confirm')
 Route.post('/advisers', 'AdviserController.add')
 Route.post('/addAdviser', 'AdviserController.call')
+Route.get('readAd/*', 'AdviserController.read')
+Route.post('/updateWbsAd', 'AdviserController.updateMust')
+//Coordinator Page
+Route.get('/coordinatorDashboard','CoordinatorController.showCoordinator')
+Route.post('/createGroup', 'CoordinatorController.createGroup')
+Route.post('/createProject', 'CoordinatorController.createProject')
+Route.post('/insertMustHave', 'CoordinatorController.insertReq')
+Route.post('/submitEndorsement','EndorseController.submitEndorse')
+Route.get('readCord/*', 'CoordinatorController.read')
+Route.post('/insertProjectRating','CoordinatorController.insertRating')
+Route.post('/updateWbsCor', 'CoordinatorController.updateMust')
+Route.post('/updateRequirements', 'CoordinatorController.updateReq')
+//Panelist Page
+Route.get('/panelistDashboard', 'PanelistController.index')
+Route.get('readPanel/*', 'PanelistController.read')
+Route.post('/updateRequirementsPanel', 'PanelistController.updateReq')
 
+//Chairman Page
+Route.get('/chairmanDashboard', 'ChairmanController.index')
+Route.get('readChaiman/*', 'ChairmanController.read')
+Route.post('/updateRequirementsChairman', 'ChairmanController.updateReq')
+
+//Group Page
 Route.get('/dashboard', 'DashboardController.showGroup')
-Route.post('/submitProposal', 'DashboardController.submitProposal')
-
-Route.post('/dashboard', 'GroupController.add')
-Route.post('/addGroup', 'GroupController.add')
-Route.get('/editGroup', 'GroupController.edit')
-Route.get('/joinGroup', 'GroupController.join')
-Route.post('/updateMember', 'GroupController.post')
 Route.get('/adviserDashboard', 'DashboardController.showAdviser')
+Route.post('/dashboard', 'GroupController.add')
+Route.post('/updateMember', 'GroupController.post')
+Route.get('/joinGroup', 'GroupController.join')
 
+//Endorse
+Route.post('/submitProposal', 'EndorseController.submitProposal')
+Route.get('/updateProposal', 'EndorseController.updateProposal')
+//Projects
 Route.get('/projects', 'ProjectsController.show')
 Route.post('/addProject', 'ProjectsController.call')
 Route.post('/Projects', 'ProjectsController.add')
@@ -55,7 +79,8 @@ Route.post('/addPanel','PanelistController.create')
 Route.get('errors.passwordNotMatch','RegisterController.doRegister')
 
 
-//jd
+//------------------Jd Start------------------------------
+//Notification
 
 //File Upload
 Route.post('/file', 'DashboardController.store')
@@ -67,8 +92,13 @@ Route.post('/addWork', 'DashboardController.mustHave')
 Route.get('/editWork', 'DashboardController.sendEditWbs')
 //Edit Work Break Down Structure post
 Route.post('/updateWbs', 'DashboardController.updateWbs')
-
-
-//Route.get('/got', function * (request, response) {
-//    response.status(200).json({ user: 'prosper' })
-//}).middleware('auth')
+//Notifications Read
+Route.get('read/*', 'DashboardController.read')
+//Project
+Route.get('/projects', 'ProjectsController.show')
+Route.post('/addProject', 'ProjectsController.call')
+Route.post('/Projects', 'ProjectsController.add')
+//Requirements
+Route.post('/addRequirements', 'RequirementsController.create')
+//Panelist
+Route.post('/addPanel','PanelistController.create')

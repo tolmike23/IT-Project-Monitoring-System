@@ -8,8 +8,10 @@ class WorkbreakdownsTableSchema extends Schema {
     this.create('workbreakdowns', (table) => {
       table.increments('workId').notNullable()
       table.integer('must_id').notNullable()
+      table.integer('groupId').notNullable()
       table.string('description').notNullable()
       table.string('email').notNullable()
+      table.string('status').notNullable()
       table.string('startdate').notNullable()
       table.string('enddate').notNullable()
       table.timestamps()

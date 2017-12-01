@@ -8,9 +8,10 @@ class RequirementsTableSchema extends Schema {
     this.create('requirements', (table) => {
       table.increments()
       table.integer('projectId').unsigned().notNullable()
+        table.integer('groupId').notNullable()
       table.string('must_have',254).notNullable()
       table.integer('milestone')
-	  table.timestamp('deadline')
+	    table.string('deadline')
       table.string('notes',254)
       table.timestamps()
     })
