@@ -33,7 +33,7 @@
 									</div>
 
 									<!--Adviser Proposal Tables Start-->
-									<div class="card">
+									<div class="card table-fixed">
 											<div class="card-header bg-primary">
 													<ul class="nav nav-tabs nav-tabs-neutral">
 															<li class="nav-item">
@@ -146,7 +146,7 @@
 									<!--Adviser Proposal Tables End-->
 
 									<!--Adviser Projects Tables Start-->
-									<div class="card">
+									<div class="card table-fixed">
 											<div class="card-header bg-primary">
 													<ul class="nav nav-tabs nav-tabs-neutral">
 															<li class="nav-item">
@@ -364,6 +364,83 @@
 											</div>
 									</div>
 									<!--Adviser Projects Tables End-->
+
+									<!--Chairman Group Tables Start-->
+									<div class="card table-fixed">
+											<div class="card-header bg-primary">
+													<ul class="nav nav-tabs nav-tabs-neutral">
+															<li class="nav-item">
+																	<a class="nav-link active" data-toggle="tab" role="tab">
+              											Group List
+              										</a>
+															</li>
+													</ul>
+											</div>
+											<div class="card-body">
+													<table class="table table-hover table-responsive">
+															{% if currentUser %}
+															<thead class="text-primary">
+                                  <th><strong>Group ID</strong></th>
+																	<th><strong>Group Name</strong></th>
+																	<th><strong>Chairman</strong></th>
+																	<th><strong>Adviser</strong></th>
+																	<th><strong>Coordinator</strong></th>
+															</thead>
+															<tbody>
+																	{% for project in groupList %}
+																	<tr class="text-black">
+																			<td>{{project.groupId}}</td>
+																			<td><a data-toggle="modal" data-target="#{{project.groupId}}gMember">{{project.groupName}}</td>
+																			<td>{{project.chairman}}</td>
+																			<td>{{project.adviser}}</td>
+																			<td>{{project.coordinator}}</td>
+																			<td>
+																				<!--Group Members-->
+																				<div class="modal fade" id="{{project.groupId}}gMember" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																						<div class="modal-dialog">
+																								<!-- Modal content -->
+																								<div class="modal-content">
+
+																										<div class="modal-header">
+																												<h5 class="modal-title">Group Members</h5>
+																												<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
+																												data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+																												<i class="now-ui-icons ui-1_simple-remove"></i>
+																												</a>
+																										</div>
+
+																										<div class="modal-body">
+																											<table class="table table-hover table-responsive">
+																													{% if currentUser %}
+																													<thead class="text-primary">
+																															<th><strong>Members</strong></th>
+																													</thead>
+																													<tbody>
+																														{% for group in groups %}
+																															{% if project.groupId == group.groupId %}
+																																<tr class="text-black">
+																																		<td>{{group.firstname}} {{group.middlename}} {{group.lastname}}</td>
+																																</tr>
+																															{% endif %}
+																														{% endfor %}
+																													</tbody>
+																													{% endif %}
+																											</table>
+																										</div>
+																								</div>
+																						</div>
+																				</div>
+																				<!--Group Members-->
+																			</td>
+																	</tr>
+																	{% endfor %}
+															</tbody>
+															{% endif %}
+													</table>
+											</div>
+									</div>
+									<!--Chairman Group Tables End-->
+
 							</div>
 					</div>
 			</div>

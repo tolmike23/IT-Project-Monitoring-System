@@ -62,10 +62,18 @@ class AdviserController {
     const notifyCounterAd = JSON.parse(adstring)
     const counterAdviser = notifyCounterAd[0].counter
 
+    //Group List View
+    const groupList = yield Database.select('gc.groupId','gc.groupName', 'gc.chairman', 'gc.adviser', 'gc.coordinator')
+    .from('group_controls as gc')
+    .where('gc.adviser', user.email)
+
+    //Groups Tables
+    const groups = yield Database.from('groups')
+
     //Return View
     yield response.sendView('adviserDashboard', {projects,proposals,
     proposalsApp:proposalsApp.toJSON(), proposalsDis:proposalsDis.toJSON(),
-    notifyAd, counterAdviser, wbs, requirements, user:true})
+    notifyAd, counterAdviser, wbs, requirements, user:true, groupList, groups})
 
 	}
 
