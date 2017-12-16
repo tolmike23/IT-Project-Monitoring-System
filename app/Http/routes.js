@@ -19,17 +19,21 @@ const Route = use('Route')
 
 //Home Page
 Route.get('/', 'AuthController.index')
+
 //Login Page
 Route.get('/login', 'AuthController.index')
 Route.post('/login', 'AuthController.login')
 Route.get('/dashboardOptions','DashboardController.facultyOpt')
 Route.post('/viewAs','DashboardController.viewAs')
+
 //Register Page
 Route.get('/register', 'RegisterController.index')
 Route.post('/register', 'RegisterController.doRegister')
 Route.get('errors.passwordNotMatch','RegisterController.doRegister')
+
 //Logout
 Route.get('/logout', 'AuthController.logout')
+
 //Adviser Page
 Route.get('/adviserDashboard', 'AdviserController.showAdviser')
 Route.get('/confirm', 'AdviserController.confirm')
@@ -37,6 +41,7 @@ Route.post('/advisers', 'AdviserController.add')
 Route.post('/addAdviser', 'AdviserController.call')
 Route.get('readAd/*', 'AdviserController.read')
 Route.post('/updateWbsAd', 'AdviserController.updateMust')
+
 //Coordinator Page
 Route.get('/coordinatorDashboard','CoordinatorController.showCoordinator')
 Route.post('/createGroup', 'CoordinatorController.createGroup')
@@ -47,6 +52,7 @@ Route.get('readCord/*', 'CoordinatorController.read')
 Route.post('/insertProjectRating','CoordinatorController.insertRating')
 Route.post('/updateWbsCor', 'CoordinatorController.updateMust')
 Route.post('/updateRequirements', 'CoordinatorController.updateReq')
+
 //Panelist Page
 Route.get('/panelistDashboard', 'PanelistController.index')
 Route.get('readPanel/*', 'PanelistController.read')
@@ -67,6 +73,7 @@ Route.get('/joinGroup', 'GroupController.join')
 //Endorse
 Route.post('/submitProposal', 'EndorseController.submitProposal')
 Route.get('/updateProposal', 'EndorseController.updateProposal')
+
 //Projects
 Route.get('/projects', 'ProjectsController.show')
 Route.post('/addProject', 'ProjectsController.call')

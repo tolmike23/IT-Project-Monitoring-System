@@ -9,13 +9,14 @@ class EndorseTableSchema extends Schema {
       table.increments()
       table.integer('groupId')
       table.integer('studentId')
-      table.string('description', 254)
+      table.string('description', 254) //title
       table.string('endorseType', 30)
       table.string('endorseBy', 200)
       table.string('endorseTo', 200)
       table.boolean('confirmed')
       table.datetime('confirmDate')
-      table.string('notes', 254)
+      table.string('notes', 254) // description
+      table.string('devTools', 254) // development tools
       table.timestamps()
     })
   }

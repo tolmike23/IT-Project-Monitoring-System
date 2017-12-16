@@ -15,10 +15,11 @@ class EndorseController {
         endorse.groupId = groupId
         endorse.studentId = user.id
         endorse.endorseBy = user.email
-        endorse.description = request.input('description')
+        endorse.description = request.input('description')//title
         endorse.endorseType = request.input('endorseType')
         endorse.endorseTo = request.input('endorseTo')
-        endorse.notes = request.input('notes')
+        endorse.notes = request.input('notes')//description
+        endorse.devTools = request.input('devTools')//devTools
         yield endorse.save()
 
         return response.redirect('/dashboard')
