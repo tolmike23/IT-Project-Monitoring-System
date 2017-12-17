@@ -77,199 +77,230 @@
                   {% if currentUser %}
                   <!-- Right Side Of Navbar -->
                       <ul class="nav navbar-nav">
-                        <!--Start Notifications Dashboard-->
+
+                        <!--Refresh -->
+                        {# <li class="nav-item active dropdown">
+                          <a class="nav-link nav-pills nav-pills-success" data-toggle="dropdown" aria-haspopup="true" >
+                          <i class="now-ui-icons arrows-1_refresh-69 "></i>
+                          </a>
+                        </li> #}
 
                         <!--DropDown Adviser Option-->
-                        {% if(Adviser >=   0 ) %}
+                        {% if(Adviser >= 0  ) %}
                         <li class="nav-item active dropdown">
                             <a class="nav-link nav-pills nav-pills-success" data-toggle="dropdown" aria-haspopup="true" >
                               <i class="now-ui-icons design_bullet-list-67 ">
                               </i>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="logoutDdLink">
-                                <a class="dropdown-item" href="/coordinatorDashboard">Coordinator page</a>
-                                <a class="dropdown-item" href="/panelistDashboard">Panelist</a>
-                                <a class="dropdown-item" href="/chairmanDashboard">Chairman page</a>
+                              <a class="dropdown-item" href="/coordinatorDashboard">Coordinator page</a>
+                              <a class="dropdown-item" href="/panelistDashboard">Panelist</a>
+                              <a class="dropdown-item" href="/chairmanDashboard">Chairman page</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="/adviserDashboard">Refresh page</a>
                             </div>
                         </li>
                         {% endif %}
 
-                          <li class="nav-item active dropdown">
-                            <!--No Notification For Group-->
-                            {% if (notifyGroupNotifyCounter <= 0 and counter <= 0) %}
-                              <a class="nav-link" data-toggle="tooltip" data-placement="right"
-                              title="No Notifications" aria-expanded="true">
-                              <i class="now-ui-icons ui-1_bell-53"></i>
-                              </a>
-                            {% endif %}
-
-                            {% if (notifyGroupNotifyCounter < 1) and (counter > 0) %}
-                              <a class="nav-link" data-toggle="tooltip" data-placement="right"
-                              title="Just a reminder: {{counter}} WBS due within 7 days." aria-expanded="true">
-                              <i class="now-ui-icons ui-1_bell-53"></i>
-                              <span><p class="btn-round btn-danger btn-sm"><strong>{{counter}}</strong></p></span>
-                              </a>
-                            {% endif %}
-
-                            {% if (notifyGroupNotifyCounter > 0) %}
-                              <a href="#" class="nav-link nav-pills nav-pills-primary alert" data-toggle="dropdown" id="navbarDropdownMenuLink2" aria-expanded="true">
-                              <i class="now-ui-icons ui-1_bell-53"></i>
-                              <span><p class="btn-round btn-danger btn-sm"><strong>{{notifyGroupNotifyCounter + counter}}</strong></p></span>
-                              </a>
-                              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2" data-toggle="popover">
-
-                              <!--Populate Unread Announcements-->
-                              {% for nC in fetchNotify %}
-                                <a class="dropdown-item" href="read/{{nC.id}}" data-toggle="tooltip" data-placement="right"
-                                title="{{nC.comment}}" id="read" name="read">{{nC.category}}</a>
-                                <div class="dropdown-divider"></div>
-                              {% endfor %}
-
-                              <!--Populate Unread Announcement FOR WBS-->
-                              {% if (counter > 0) %}
-                                <i class="dropdown-item" data-toggle="tooltip" data-placement="right"
-                                title="Just a reminder: {{counter}} WBS due within 7 days." >WBS Announcement</i>
-                              {% endif %}
-
-                              </div>
-                            {% endif %}
-                          </li>
-                          <!--End Notifications Dashboard-->
-
-
-                          <!--Start Notifications Adviser-->
-
-                          <li class="nav-item active dropdown">
-                          {% if (counterAdviser <= 0) %}
-
-                            <a class="nav-link" data-toggle="tooltip" data-placement="right"
-                            title="No Notifications" aria-expanded="true">
-                            <i class="now-ui-icons ui-1_bell-53"></i>
+                        <!--DropDown Coordinator Option-->
+                        {% if CoordinatorCounter >=  0 %}
+                        <li class="nav-item active dropdown">
+                            <a class="nav-link nav-pills nav-pills-success" data-toggle="dropdown" aria-haspopup="true" >
+                              <i class="now-ui-icons design_bullet-list-67 ">
+                              </i>
                             </a>
-
-                          {% endif %}
-
-                          {% if (counterAdviser > 0) %}
-
-                            <a href="#" class="nav-link nav-pills nav-pills-primary alert" data-toggle="dropdown" id="adDropDown" aria-expanded="true">
-                            <i class="now-ui-icons ui-1_bell-53"></i>
-                            <span><p class="btn-round btn-danger btn-sm"><strong>{{counterAdviser}}</strong></p></span>
-                            </a>
-
-                            <div class="dropdown-menu" aria-labelledby="adDropDown" data-toggle="popover">
-                            <!--Populate Unread Announcements-->
-                              {% for nAd in notifyAd %}
-                              <a class="dropdown-item" href="readAd/{{nAd.id}}" data-toggle="tooltip" data-placement="right"
-                              title="{{nAd.category}} For Group {{nAd.groupName}}" id="read" name="read">{{nAd.category}}</a>
+                            <div class="dropdown-menu" aria-labelledby="logoutDdLink">
+                              <a class="dropdown-item" href="/adviserDashboard">Adviser page</a>
+                              <a class="dropdown-item" href="panelistDashboard">Panelist page</a>
+                              <a class="dropdown-item" href="chairmanDashboard">Chairman page</a>
                               <div class="dropdown-divider"></div>
-                              {% endfor %}
+                              <a class="dropdown-item" data-toggle="modal" data-target="#groupControl" href="#">Create groups</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" data-toggle="modal" data-target="#projectControl">Create Project</a>
+                              <a class="dropdown-item" data-toggle="modal" data-target="#groupList">Group List</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="/coordinatorDashboard">Refresh page</a>
                             </div>
+                        </li>
+                        {% endif %}
 
-                          {% endif %}
-                          </li>
-
-                          <!--End Notifications Adviser-->
-
-                          <!--Start Notifications Coordinator-->
-
-                          <li class="nav-item active dropdown">
-                          {% if (cordCounter <= 0) %}
-
+                        <!--Start Notifications Dashboard-->
+                        <li class="nav-item active dropdown">
+                          <!--No Notification For Group-->
+                          {% if (notifyGroupNotifyCounter <= 0 and counter <= 0) %}
                             <a class="nav-link" data-toggle="tooltip" data-placement="right"
                             title="No Notifications" aria-expanded="true">
                             <i class="now-ui-icons ui-1_bell-53"></i>
                             </a>
-
                           {% endif %}
 
-                          {% if (cordCounter > 0) %}
-
-                            <a href="#" class="nav-link nav-pills nav-pills-primary alert" data-toggle="dropdown" id="adDropDown" aria-expanded="true">
-                            <i class="now-ui-icons ui-1_bell-53"></i>
-                            <span><p class="btn-round btn-danger btn-sm"><strong>{{cordCounter}}</strong></p></span>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="adDropDown" data-toggle="popover">
-                            <!--Populate Unread Announcements-->
-                              {% for nAdc in coordinatorCounter %}
-                              <a class="dropdown-item" href="readCord/{{nAdc.id}}" data-toggle="tooltip" data-placement="right"
-                              title="{{nAdc.category}} For Group {{nAdc.groupName}}" id="read" name="read">{{nAdc.category}}</a>
-                              {# <div class="dropdown-divider"></div> #}
-                                {% endfor %}
-                            </div>
-
-                            {% endif %}
-                          </li>
-                          <!--End Notifications Coordinator-->
-
-                          <!--Start Notifications Panelist-->
-
-                          <li class="nav-item active dropdown">
-                          {% if (panelistCounter <= 0) %}
-
+                          {% if (notifyGroupNotifyCounter < 1) and (counter > 0) %}
                             <a class="nav-link" data-toggle="tooltip" data-placement="right"
-                            title="No Notifications" aria-expanded="true">
+                            title="Just a reminder: {{counter}} WBS due within 7 days." aria-expanded="true">
                             <i class="now-ui-icons ui-1_bell-53"></i>
+                            <span><p class="btn-round btn-danger btn-sm"><strong>{{counter}}</strong></p></span>
                             </a>
-
                           {% endif %}
 
-                          {% if (panelistCounter > 0) %}
-
-                            <a href="#" class="nav-link nav-pills nav-pills-primary alert" data-toggle="dropdown" id="adDropDown" aria-expanded="true">
+                          {% if (notifyGroupNotifyCounter > 0) %}
+                            <a href="#" class="nav-link nav-pills nav-pills-primary alert" data-toggle="dropdown" id="navbarDropdownMenuLink2" aria-expanded="true">
                             <i class="now-ui-icons ui-1_bell-53"></i>
-                            <span><p class="btn-round btn-danger btn-sm"><strong>{{panelistCounter}}</strong></p></span>
+                            <span><p class="btn-round btn-danger btn-sm"><strong>{{notifyGroupNotifyCounter + counter}}</strong></p></span>
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="adDropDown" data-toggle="popover">
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2" data-toggle="popover">
+
                             <!--Populate Unread Announcements-->
-                              {% for nAdp in panelistNotification %}
-                              <a class="dropdown-item" href="readPanel/{{nAdp.id}}" data-toggle="tooltip" data-placement="right"
-                              title="{{nAdp.category}} For Group {{nAdp.groupName}}" id="read" name="read">{{nAdp.category}} </a>
-                              {% endfor %}
-                            </div>
+                            {% for nC in fetchNotify %}
+                              <a class="dropdown-item" href="read/{{nC.id}}" data-toggle="tooltip" data-placement="right"
+                              title="{{nC.comment}}" id="read" name="read">{{nC.category}}</a>
+                              <div class="dropdown-divider"></div>
+                            {% endfor %}
 
+                            <!--Populate Unread Announcement FOR WBS-->
+                            {% if (counter > 0) %}
+                              <i class="dropdown-item" data-toggle="tooltip" data-placement="right"
+                              title="Just a reminder: {{counter}} WBS due within 7 days." >WBS Announcement</i>
                             {% endif %}
-                          </li>
 
-                          <!--End Notifications Panelist-->
-
-                          <!--Start Notifications Chairman-->
-
-                          <li class="nav-item active dropdown">
-                          {% if (chairmanCounter <= 0) %}
-
-                            <a class="nav-link" data-toggle="tooltip" data-placement="right"
-                            title="No Notifications" aria-expanded="true">
-                            <i class="now-ui-icons ui-1_bell-53"></i>
-                            </a>
-
+                            </div>
                           {% endif %}
+                        </li>
+                        <!--End Notifications Dashboard-->
 
-                          {% if (chairmanCounter > 0) %}
 
-                            <a href="#" class="nav-link nav-pills nav-pills-primary alert" data-toggle="dropdown" id="adDropDown" aria-expanded="true">
-                            <i class="now-ui-icons ui-1_bell-53"></i>
-                            <span><p class="btn-round btn-danger btn-sm"><strong>{{chairmanCounter}}</strong></p></span>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="adDropDown" data-toggle="popover">
-                            <!--Populate Unread Announcements-->
-                              {% for nAdp in chairmanNotification %}
-                              <a class="dropdown-item" href="readChaiman/{{nAdp.id}}" data-toggle="tooltip" data-placement="right"
-                              title="{{nAdp.category}} For Group {{nAdp.groupName}}" id="read" name="read">{{nAdp.category}}</a>
-                              {% endfor %}
-                            </div>
+                        <!--Start Notifications Adviser-->
 
-                            {% endif %}
-                          </li>
+                        <li class="nav-item active dropdown">
+                        {% if (counterAdviser <= 0) %}
 
-                          <!--End Notifications Chairman-->
-                          <li class="nav-item active dropdown">
-                              <a class="nav-link nav-pills nav-pills-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="logoutDdLink" ><i class="now-ui-icons users_circle-08 "></i>&nbsp;{{ currentUser.email }}</a>
-                              <div class="dropdown-menu" aria-labelledby="logoutDdLink">
-                                  <a class="dropdown-item" href="/logout"><i class="fa fa-btn"></i>Logout</a>
-                              </div>
-                          </li>
-                      </ul>
-                  {% endif %}
+                          <a class="nav-link" data-toggle="tooltip" data-placement="right"
+                          title="No Notifications" aria-expanded="true">
+                          <i class="now-ui-icons ui-1_bell-53"></i>
+                          </a>
+
+                        {% endif %}
+
+                        {% if (counterAdviser > 0) %}
+
+                          <a href="#" class="nav-link nav-pills nav-pills-primary alert" data-toggle="dropdown" id="adDropDown" aria-expanded="true">
+                          <i class="now-ui-icons ui-1_bell-53"></i>
+                          <span><p class="btn-round btn-danger btn-sm"><strong>{{counterAdviser}}</strong></p></span>
+                          </a>
+
+                          <div class="dropdown-menu" aria-labelledby="adDropDown" data-toggle="popover">
+                          <!--Populate Unread Announcements-->
+                            {% for nAd in notifyAd %}
+                            <a class="dropdown-item" href="readAd/{{nAd.id}}" data-toggle="tooltip" data-placement="right"
+                            title="{{nAd.category}} For Group {{nAd.groupName}}" id="read" name="read">{{nAd.category}}</a>
+                            <div class="dropdown-divider"></div>
+                            {% endfor %}
+                          </div>
+
+                        {% endif %}
+                        </li>
+
+                        <!--End Notifications Adviser-->
+
+                      <!--Start Notifications Coordinator-->
+
+                      <li class="nav-item active dropdown">
+                      {% if (cordCounter <= 0) %}
+
+                        <a class="nav-link" data-toggle="tooltip" data-placement="right"
+                        title="No Notifications" aria-expanded="true">
+                        <i class="now-ui-icons ui-1_bell-53"></i>
+                        </a>
+
+                      {% endif %}
+
+                      {% if (cordCounter > 0) %}
+
+                        <a href="#" class="nav-link nav-pills nav-pills-primary alert" data-toggle="dropdown" id="adDropDown" aria-expanded="true">
+                        <i class="now-ui-icons ui-1_bell-53"></i>
+                        <span><p class="btn-round btn-danger btn-sm"><strong>{{cordCounter}}</strong></p></span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="adDropDown" data-toggle="popover">
+                        <!--Populate Unread Announcements-->
+                          {% for nAdc in coordinatorCounter %}
+                          <a class="dropdown-item" href="readCord/{{nAdc.id}}" data-toggle="tooltip" data-placement="right"
+                          title="{{nAdc.category}} For Group {{nAdc.groupName}}" id="read" name="read">{{nAdc.category}}</a>
+                          {# <div class="dropdown-divider"></div> #}
+                            {% endfor %}
+                        </div>
+
+                        {% endif %}
+                      </li>
+                      <!--End Notifications Coordinator-->
+
+                      <!--Start Notifications Panelist-->
+
+                      <li class="nav-item active dropdown">
+                      {% if (panelistCounter <= 0) %}
+
+                        <a class="nav-link" data-toggle="tooltip" data-placement="right"
+                        title="No Notifications" aria-expanded="true">
+                        <i class="now-ui-icons ui-1_bell-53"></i>
+                        </a>
+
+                      {% endif %}
+
+                      {% if (panelistCounter > 0) %}
+
+                        <a href="#" class="nav-link nav-pills nav-pills-primary alert" data-toggle="dropdown" id="adDropDown" aria-expanded="true">
+                        <i class="now-ui-icons ui-1_bell-53"></i>
+                        <span><p class="btn-round btn-danger btn-sm"><strong>{{panelistCounter}}</strong></p></span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="adDropDown" data-toggle="popover">
+                        <!--Populate Unread Announcements-->
+                          {% for nAdp in panelistNotification %}
+                          <a class="dropdown-item" href="readPanel/{{nAdp.id}}" data-toggle="tooltip" data-placement="right"
+                          title="{{nAdp.category}} For Group {{nAdp.groupName}}" id="read" name="read">{{nAdp.category}} </a>
+                          {% endfor %}
+                        </div>
+
+                        {% endif %}
+                      </li>
+
+                      <!--End Notifications Panelist-->
+
+                      <!--Start Notifications Chairman-->
+
+                      <li class="nav-item active dropdown">
+                      {% if (chairmanCounter <= 0) %}
+
+                        <a class="nav-link" data-toggle="tooltip" data-placement="right"
+                        title="No Notifications" aria-expanded="true">
+                        <i class="now-ui-icons ui-1_bell-53"></i>
+                        </a>
+
+                      {% endif %}
+
+                      {% if (chairmanCounter > 0) %}
+
+                        <a href="#" class="nav-link nav-pills nav-pills-primary alert" data-toggle="dropdown" id="adDropDown" aria-expanded="true">
+                        <i class="now-ui-icons ui-1_bell-53"></i>
+                        <span><p class="btn-round btn-danger btn-sm"><strong>{{chairmanCounter}}</strong></p></span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="adDropDown" data-toggle="popover">
+                        <!--Populate Unread Announcements-->
+                          {% for nAdp in chairmanNotification %}
+                          <a class="dropdown-item" href="readChaiman/{{nAdp.id}}" data-toggle="tooltip" data-placement="right"
+                          title="{{nAdp.category}} For Group {{nAdp.groupName}}" id="read" name="read">{{nAdp.category}}</a>
+                          {% endfor %}
+                        </div>
+
+                        {% endif %}
+                      </li>
+
+                      <!--End Notifications Chairman-->
+                      <li class="nav-item active dropdown">
+                          <a class="nav-link nav-pills nav-pills-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="logoutDdLink" ><i class="now-ui-icons users_circle-08 "></i>&nbsp;{{ currentUser.email }}</a>
+                          <div class="dropdown-menu" aria-labelledby="logoutDdLink">
+                              <a class="dropdown-item" href="/logout"><i class="fa fa-btn"></i>Logout</a>
+                          </div>
+                      </li>
+                  </ul>
+              {% endif %}
             </div>
             <!-- End Navbar -->
         </div>

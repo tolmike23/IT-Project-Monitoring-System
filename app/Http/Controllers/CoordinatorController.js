@@ -61,9 +61,20 @@ class CoordinatorController {
 
         const groupControls = yield GroupControl.query().where({coordinator: user.email}).fetch()
 
+        //Dashboard option
+        const coord = yield Database.from('group_controls as g')
+        .where('g.coordinator',user.email)
+        .count('* as counter')
+        console.log('Coordinator Counter : '+ JSON.stringify(coord))
+
+        const cord = JSON.stringify(coord)
+        const notifyCord = JSON.parse(cord)
+        const CoordinatorCounter = notifyCord[0].counter
+        console.log('Coordinator Counter : '+ JSON.stringify(CoordinatorCounter))
+
         yield response.sendView('coordinatorDashboard', {endorse:endorse, gc:gc.toJSON(), maxId,
           projects, requirements, coordinatorCounter, cordCounter, wbs,
-          rating:rating.toJSON(), users, groupControls:groupControls.toJSON()})
+          rating:rating.toJSON(), users, groupControls:groupControls.toJSON(), CoordinatorCounter })
     }
 
     * createGroup(request,response){
