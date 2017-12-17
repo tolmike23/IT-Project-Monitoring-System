@@ -78,6 +78,22 @@
                   <!-- Right Side Of Navbar -->
                       <ul class="nav navbar-nav">
                         <!--Start Notifications Dashboard-->
+
+                        <!--DropDown Adviser Option-->
+                        {% if(Adviser >=   0 ) %}
+                        <li class="nav-item active dropdown">
+                            <a class="nav-link nav-pills nav-pills-success" data-toggle="dropdown" aria-haspopup="true" >
+                              <i class="now-ui-icons design_bullet-list-67 ">
+                              </i>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="logoutDdLink">
+                                <a class="dropdown-item" href="/coordinatorDashboard">Coordinator page</a>
+                                <a class="dropdown-item" href="/panelistDashboard">Panelist</a>
+                                <a class="dropdown-item" href="/chairmanDashboard">Chairman page</a>
+                            </div>
+                        </li>
+                        {% endif %}
+
                           <li class="nav-item active dropdown">
                             <!--No Notification For Group-->
                             {% if (notifyGroupNotifyCounter <= 0 and counter <= 0) %}
@@ -246,7 +262,6 @@
                           </li>
 
                           <!--End Notifications Chairman-->
-
                           <li class="nav-item active dropdown">
                               <a class="nav-link nav-pills nav-pills-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="logoutDdLink" ><i class="now-ui-icons users_circle-08 "></i>&nbsp;{{ currentUser.email }}</a>
                               <div class="dropdown-menu" aria-labelledby="logoutDdLink">

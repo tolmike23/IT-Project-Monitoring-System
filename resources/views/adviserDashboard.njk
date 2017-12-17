@@ -11,7 +11,7 @@
 											<div class="col-lg-6 col-md-12">
 													<h4 class="category">Faculty Dashboard | Adviser</h4>
 											</div>
-
+											
 											<div class="col-lg-2">
 													<div class="dropdown">
 															<a href="#pablo" class="btn btn-primary btn-round dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink1">
@@ -24,6 +24,7 @@
 															</ul>
 													</div>
 											</div>
+
 
 											<div class="col-lg-2">
 												<a href="/adviserDashboard" class="btn btn-primary btn-round">
@@ -50,6 +51,7 @@
 																	<th><strong>Group Name</strong></th>
 																	<th><strong>Title</strong></th>
 																	<th><strong>Description</strong></th>
+																	<th><strong>Development Tools</strong></th>
 																	<th><strong>Type</strong></th>
 																	<th><strong>Created</strong></th>
 																	<th><strong>Action</strong></th>
@@ -60,7 +62,8 @@
 																	<tr class="text-black">
 																			<td>{{p.groupName}}</td>
 																			<td>{{p.description}}</td>
-																			<td>{{p.notes}}</td>
+																			<td><a data-toggle="modal" data-target="#descModalNull" >{{p.notes | truncate(20)}}</a></td>
+																			<td><a data-toggle="modal" data-target="#devToolsNull" >{{p.devTools | truncate(20)}}</a></td>
 																			<td>{{p.endorseType}}</td>
 																			<td>{{p.created_at}}</td>
 																			<td>
@@ -97,14 +100,70 @@
 																							{# {% endif %} #}
 																					</form>
 																			</td>
+																			<td>
+																				<!--Proposal Description Start-->
+																				<div class="modal fade" id="descModalNull" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																						<div class="modal-dialog">
+																								<!-- Modal content -->
+																								<div class="modal-content">
+
+																										<div class="modal-header">
+																												<h5 class="modal-title">Description</h5>
+																												<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
+																												data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+																												<i class="now-ui-icons ui-1_simple-remove"></i>
+																												</a>
+																										</div>
+
+																										<div class="modal-body">
+																											<p>{{p.notes}}</p>
+																										</div>
+
+																										<div class="modal-footer">
+																							        <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Close</button>
+																							      </div>
+																								</div>
+																						</div>
+																				</div>
+																				<!--Proposal Description End-->
+																			</td>
+																			<td>
+																				<!--Proposal Development Tools Start-->
+																				<div class="modal fade" id="devToolsNull" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																						<div class="modal-dialog">
+																								<!-- Modal content -->
+																								<div class="modal-content">
+
+																										<div class="modal-header">
+																												<h5 class="modal-title">Development Tools</h5>
+																												<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
+																												data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+																												<i class="now-ui-icons ui-1_simple-remove"></i>
+																												</a>
+																										</div>
+
+																										<div class="modal-body">
+																											<p>{{p.devTools}}</p>
+																										</div>
+
+																										<div class="modal-footer">
+																							        <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Close</button>
+																							      </div>
+																								</div>
+																						</div>
+																				</div>
+																				<!--Proposal Development Tools End-->
+																			</td>
 																	</tr>
 																	{% endfor %}
+
 																	<!--Approved-->
 																	{% for p in proposalsApp %}
 																	<tr class="text-black">
 																			<td>{{p.groupName}}</td>
 																			<td>{{p.description}}</td>
-																			<td>{{p.notes}}</td>
+																			<td><a data-toggle="modal" data-target="#descModalApp" >{{p.notes | truncate(20)}}</a></td>
+																			<td><a data-toggle="modal" data-target="#devToolsApp" >{{p.devTools | truncate(20)}}</a></td>
 																			<td>{{p.endorseType}}</td>
 																			<td>{{p.created_at}}</td>
 																			<td>
@@ -117,14 +176,72 @@
 																							</label>
 																					</form>
 																			</td>
+
+																			<td>
+																				<!--Proposal Description Start-->
+																				<div class="modal fade" id="descModalApp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																						<div class="modal-dialog">
+																								<!-- Modal content -->
+																								<div class="modal-content">
+
+																										<div class="modal-header">
+																												<h5 class="modal-title">Description</h5>
+																												<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
+																												data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+																												<i class="now-ui-icons ui-1_simple-remove"></i>
+																												</a>
+																										</div>
+
+																										<div class="modal-body">
+																											<p>{{p.notes}}</p>
+																										</div>
+
+																										<div class="modal-footer">
+																							        <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Close</button>
+																							      </div>
+																								</div>
+																						</div>
+																				</div>
+																				<!--Proposal Description End-->
+																			</td>
+
+																			<td>
+																				<!--Proposal Development Tools Start-->
+																				<div class="modal fade" id="devToolsApp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																						<div class="modal-dialog">
+																								<!-- Modal content -->
+																								<div class="modal-content">
+
+																										<div class="modal-header">
+																												<h5 class="modal-title">Development Tools</h5>
+																												<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
+																												data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+																												<i class="now-ui-icons ui-1_simple-remove"></i>
+																												</a>
+																										</div>
+
+																										<div class="modal-body">
+																											<p>{{p.devTools}}</p>
+																										</div>
+
+																										<div class="modal-footer">
+																							        <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Close</button>
+																							      </div>
+																								</div>
+																						</div>
+																				</div>
+																				<!--Proposal Development Tools End-->
+																			</td>
 																	</tr>
 																	{% endfor %}
+
 																	<!--Disapproved-->
 																	{% for p in proposalsDis %}
 																	<tr class="text-black">
 																			<td>{{p.groupName}}</td>
 																			<td>{{p.description}}</td>
-																			<td>{{p.notes}}</td>
+																			<td><a data-toggle="modal" data-target="#descModalDis" >{{p.notes | truncate(20)}}</a></td>
+																			<td><a data-toggle="modal" data-target="#devToolsDis" >{{p.devTools | truncate(20)}}</a></td>
 																			<td>{{p.endorseType}}</td>
 																			<td>{{p.created_at}}</td>
 																			<td>
@@ -135,6 +252,62 @@
 																									<span style="font-weight: bold; color:#FF0017">Disapproved</span>
 																							</label>
 																					</form>
+																			</td>
+
+																			<td>
+																				<!--Proposal Description Start-->
+																				<div class="modal fade" id="descModalDis" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																						<div class="modal-dialog">
+																								<!-- Modal content -->
+																								<div class="modal-content">
+
+																										<div class="modal-header">
+																												<h5 class="modal-title">Description</h5>
+																												<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
+																												data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+																												<i class="now-ui-icons ui-1_simple-remove"></i>
+																												</a>
+																										</div>
+
+																										<div class="modal-body">
+																											<p>{{p.notes}}</p>
+																										</div>
+
+																										<div class="modal-footer">
+																							        <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Close</button>
+																							      </div>
+																								</div>
+																						</div>
+																				</div>
+																				<!--Proposal Description End-->
+																			</td>
+
+																			<td>
+																				<!--Proposal Development Tools Start-->
+																				<div class="modal fade" id="devToolsDis" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																						<div class="modal-dialog">
+																								<!-- Modal content -->
+																								<div class="modal-content">
+
+																										<div class="modal-header">
+																												<h5 class="modal-title">Development Tools</h5>
+																												<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
+																												data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+																												<i class="now-ui-icons ui-1_simple-remove"></i>
+																												</a>
+																										</div>
+
+																										<div class="modal-body">
+																											<p>{{p.devTools}}</p>
+																										</div>
+
+																										<div class="modal-footer">
+																							        <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Close</button>
+																							      </div>
+																								</div>
+																						</div>
+																				</div>
+																				<!--Proposal Development Tools End-->
 																			</td>
 																	</tr>
 																	{% endfor %}

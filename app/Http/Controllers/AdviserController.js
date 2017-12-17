@@ -18,20 +18,22 @@ class AdviserController {
     const user = yield request.auth.getUser()
 
     //Proposal Null
-
-    const proposals = yield Database.select('g.groupId','g.groupName','e.description','e.endorseType', 'e.notes', 'e.created_at', 'e.id', '.e.endorseTo')
+    const proposals = yield Database.select('g.groupId','g.groupName','e.description','e.endorseType', 'e.notes', 'e.created_at', 'e.id', '.e.endorseTo', 'e.devTools')
     .from('endorses as e')
     .innerJoin('group_controls as g','e.groupId', 'g.groupId')
     .where({endorseTo: user.email, confirmed:null, endorseType: 'Proposal'})
 
     //Proposal Disapproved
-    const proposalsDis = yield Endorse.query().innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
-    .where({endorseTo: user.email, confirmed: 0, endorseType: 'Proposal'}).fetch()
+    const proposalsDis =  yield Database.select('g.groupId','g.groupName','e.description','e.endorseType', 'e.notes', 'e.created_at', 'e.id', '.e.endorseTo', 'e.devTools')
+    .from('endorses as e')
+    .innerJoin('group_controls as g','e.groupId', 'g.groupId')
+    .where({endorseTo: user.email, confirmed: 0, endorseType: 'Proposal'})
 
     //Proposal Approved
-    const proposalsApp = yield Endorse.query()
-    .innerJoin('group_controls','endorses.groupId', 'group_controls.groupId')
-    .where({endorseTo: user.email, confirmed: 1, endorseType: 'Proposal'}).fetch()
+    const proposalsApp = yield Database.select('g.groupId','g.groupName','e.description','e.endorseType', 'e.notes', 'e.created_at', 'e.id', '.e.endorseTo', 'e.devTools')
+    .from('endorses as e')
+    .innerJoin('group_controls as g','e.groupId', 'g.groupId')
+    .where({endorseTo: user.email, confirmed: 1, endorseType: 'Proposal'})
 
     //Work Break Down Structure
     const wbs = yield yield Database.select('g.groupName', 'm.workId', 'm.description', 'm.status','m.startdate','m.enddate','m.email','m.updated_at')
@@ -52,12 +54,20 @@ class AdviserController {
     .where('g.adviser',user.email)
 
     // Notifications Fetch Data
-    const notifyAd = yield Database.select('n.groupId', 'n.category', 'n.id','g.groupName').from('notifications as n').innerJoin('group_controls as g','n.groupId','g.groupId')
-    .where('g.adviser',user.email).where('n.statusAdviser', 0)
+    const notifyAd = yield Database.select('n.groupId', 'n.category', 'n.id','g.groupName')
+    .from('notifications as n')
+    .innerJoin('group_controls as g','n.groupId','g.groupId')
+    .where('g.adviser',user.email)
+    .where('n.statusAdviser', 0)
 
     //Notification Counter
-    const adCounter = yield Database.select('n.groupId').from('notifications as n').innerJoin('group_controls as g','n.groupId','g.groupId')
-    .where('g.adviser',user.email).where('n.statusAdviser', 0).count('* as counter')
+    const adCounter = yield Database.select('n.groupId')
+    .from('notifications as n')
+    .innerJoin('group_controls as g','n.groupId','g.groupId')
+    .where('g.adviser',user.email)
+    .where('n.statusAdviser', 0)
+    .count('* as counter')
+
     const adstring = JSON.stringify(adCounter)
     const notifyCounterAd = JSON.parse(adstring)
     const counterAdviser = notifyCounterAd[0].counter
@@ -70,10 +80,20 @@ class AdviserController {
     //Groups Tables
     const groups = yield Database.from('groups')
 
+    //Dashboard option
+    const adviser = yield Database.from('group_controls as g')
+    .where('g.adviser',user.email)
+    .count('* as counter')
+
+    const ad = JSON.stringify(adviser)
+    const notifyAdC = JSON.parse(ad)
+    const Adviser = notifyAdC[0].counter
+
+    console.log('Adviser Counter '+ JSON.stringify(Adviser))
+
     //Return View
-    yield response.sendView('adviserDashboard', {projects,proposals,
-    proposalsApp:proposalsApp.toJSON(), proposalsDis:proposalsDis.toJSON(),
-    notifyAd, counterAdviser, wbs, requirements, user:true, groupList, groups})
+    yield response.sendView('adviserDashboard', {projects,proposals,proposalsApp, proposalsDis,
+    notifyAd, counterAdviser, wbs, requirements, user:true, groupList, groups, Adviser})
 
 	}
 
