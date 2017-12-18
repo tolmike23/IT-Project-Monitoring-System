@@ -17,17 +17,21 @@ class CoordinatorController {
         .innerJoin('group_controls as g','p.groupId', 'g.groupId')
         .where('p.coordinator', user.email)
 
+
         const requirements = yield Database.select('p.projectname','r.id', 'r.must_have', 'r.deadline', 'r.groupId')
         .from('requirements as r')
         .innerJoin('projects as p','r.projectId', 'p.id')
         .where('p.coordinator', user.email)
 
         const endorse = yield Database.from('endorses')
+        .innerJoin('group_controls', 'group_controls.groupId', 'endorses.groupId')
         .whereRaw('endorseType != ?', ['Proposal'])
         .whereRaw('endorseTo = ?', [user.email])
-        .orderBy('created_at', 'desc')
+        .orderBy('endorses.created_at', 'desc')
 
-        const gc = yield GroupControl.query().where({coordinator: user.email, statusCoordinator: 0}).fetch()
+        const gc = yield GroupControl.query()
+        .where({coordinator: user.email})
+        .fetch()
 
         const gcMax = yield GroupControl.query().max('groupId as maxId')
         const gcMaxStringfy = JSON.stringify(gcMax)
@@ -65,16 +69,22 @@ class CoordinatorController {
         const coord = yield Database.from('group_controls as g')
         .where('g.coordinator',user.email)
         .count('* as counter')
-        console.log('Coordinator Counter : '+ JSON.stringify(coord))
 
         const cord = JSON.stringify(coord)
         const notifyCord = JSON.parse(cord)
         const CoordinatorCounter = notifyCord[0].counter
-        console.log('Coordinator Counter : '+ JSON.stringify(CoordinatorCounter))
+
+        //Groups Tables
+        const groups = yield Database.from('groups')
+
+        //Limit To Latest status
+        const endorseLimit = yield Database.from('endorses')
+        .innerJoin('group_controls', 'group_controls.groupId', 'endorses.groupId')
+        .orderBy('endorses.created_at', 'desc')
 
         yield response.sendView('coordinatorDashboard', {endorse:endorse, gc:gc.toJSON(), maxId,
           projects, requirements, coordinatorCounter, cordCounter, wbs,
-          rating:rating.toJSON(), users, groupControls:groupControls.toJSON(), CoordinatorCounter })
+          rating:rating.toJSON(), users, groupControls:groupControls.toJSON(), CoordinatorCounter, groups, endorseLimit })
     }
 
     * createGroup(request,response){

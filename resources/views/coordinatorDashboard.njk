@@ -11,29 +11,6 @@ Project Requirements | Must have{% extends 'master' %}
                         <div class="col-lg-6 col-md-12">
                             <h4 class="category">Faculty Dashboard | Coordinator</h4>
                         </div>
-                        {# <div class="col-lg-2">
-                            <div class="dropdown">
-                                <a href="#pablo" class="btn btn-primary btn-round dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink1">
-                                    <strong> More options</strong>
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-                                    <a class="dropdown-item" href="/adviserDashboard">Adviser page</a>
-                                    <a class="dropdown-item" href="panelistDashboard">Panelist page</a>
-                                    <a class="dropdown-item" href="chairmanDashboard">Chairman page</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" data-toggle="modal" data-target="#groupControl" href="#">Create groups</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" data-toggle="modal" data-target="#projectControl">Create Project</a>
-                                    <a class="dropdown-item" data-toggle="modal" data-target="#groupList">Group List</a>
-                                </ul>
-                            </div>
-                        </div> #}
-
-                        {# <div class="col-lg-2">
-                          <a href="/coordinatorDashboard" class="btn btn-primary btn-round">
-                             <i class="fa fa-refresh"></i>
-                          </a>
-                        </div> #}
                     </div>
                     <!--Recent endorsements from Adviser Tables Start-->
                     <div class="card">
@@ -41,7 +18,7 @@ Project Requirements | Must have{% extends 'master' %}
                             <ul class="nav nav-tabs nav-tabs-neutral">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" role="tab">
-                                        Recent endorsements
+                                        Event Logs
                                     </a>
                                 </li>
                             </ul>
@@ -50,105 +27,19 @@ Project Requirements | Must have{% extends 'master' %}
                             <table class="table table-hover table-responsive">
                                 {% if currentUser %}
                                 <thead class="text-primary">
-                                    <th><strong>Group</strong></th>
-                                    <th><strong>Proposal | Endorse</strong></th>
-                                    <th><strong>Activity</strong></th>
-                                    <th><strong>Endorsed By</strong></th>
-                                    <th><strong>Endorse Date</strong></th>
-                                    <th><strong>Remarks</strong></th>
-                                    <th><strong>&nbsp;</strong></th>
+                                    <th><strong>Group Name</strong></th>
+                                    <th><strong>Title</strong></th>
+                                    <th><strong>Status</strong></th>
+                                    <th><strong>Date</strong></th>
                                 </thead>
                                 <tbody>
                                     {% for item in endorse %}
-                                      {% if (item.endorseType == 'Endorse to Coordinator') or (item.endorseType == 'Panel meeting')  %}
-                                    <tr class="text-black">
-                                        <td>{{item.groupId}}</td>
+                                      <tr class="text-black">
+                                        <td>{{item.groupName}}</td>
                                         <td>{{item.description}}</td>
                                         <td>{{item.endorseType}}</td>
-                                        <td>{{item.endorseBy}}</td>
                                         <td>{{item.created_at}}</td>
-                                        <td>{{item.notes}}</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <a href="#" data-toggle="modal" data-target="#{{item.groupId}}"  class="btn btn-primary btn-round">
-                                                    <strong>Endorse for </strong>
-                                                </a>
-                                            </div>
-
-                                            <div class="modal fade" id="{{item.groupId}}" role="dialog">
-                                                <div class="modal-dialog">
-                                                    <!-- Modal content -->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Create Endorsement</h5>
-                                                            <a class="nav nav-link nav-pills nav-pills-success"
-                                                               data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
-                                                            </a>
-                                                        </div>
-
-                                                        <div class="modal-body">
-                                                            <form class="form-horizontal" role="form" method="POST" action="/submitEndorsement">
-
-                                                                {{ csrfField }}
-
-                                                                {% for gc in groupControl %}
-                                                                    <input id="endorseTo" name="endorseTo" value={{gc.chairman}} style="display:none;" />
-                                                                {% endfor %}
-
-                                                                <input id="studentId" name="studentId" value="{{currentUser.personal_code}}" style="display:none"/>
-                                                                <input id="groupId" type="number" class="form-control" name="groupId" value={{item.groupId}} style="display:none;">
-
-                                                                <div class="col-lg-12">
-                                                                    <label for="endorsedBy" class="col-lg-12 control-label">Created by</label>
-                                                                    <div class="form-group">
-                                                                        <input id="endorsedBy" type="email" class="form-control" name="endorsedBy" value="{{currentUser.email}}" disabled>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-lg-12">
-                                                                    <label for="endorsedBy" class="col-lg-12 control-label">For Group</label>
-                                                                    <div class="form-group">
-                                                                        <input type="number" class="form-control" value={{item.groupId}} disabled>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-lg-12">
-                                                                    <label for="project" class="col-lg-12 control-label">Description</label>
-                                                                    <div class="form-group">
-                                                                        <input id="description" type="text" class="form-control" name="description" placeholder="Describe here..." required/>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-lg-12">
-                                                                    <div class="form-group">
-                                                                        <select class="selectpicker" id="endorseType" name="endorseType" data-style="btn btn-primary btn-round btn-md" required>
-                                                                            <option disabled selected style='display:none'>Endorse for</option>
-                                                                            <option value='Panel meeting'>Panel meeting</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-lg-12">
-                                                                    <div class="form-group">
-                                                                        <label for="project" class="col-lg-12 control-label">Deadline / Meeting</label>
-                                                                        <input type="text" class="form-control datetimepicker" name="deadline" required/>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-12">
-                                                                    <textarea id="notes" type="text" class="form-control" name="notes" placeholder="Additional remarks..." rows="3" required></textarea>
-                                                                </div>
-
-                                                                <div class="footer text-center">
-                                                                   <button type="submit" class="btn btn-primary btn-round btn-md">Save</button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                          </td>
                                       </tr>
-                                      {% endif %}
                                     {% endfor %}
                                 </tbody>
                                 {% endif %}
@@ -248,6 +139,8 @@ Project Requirements | Must have{% extends 'master' %}
                                                 </div>
                                             </div>
                                         </td>
+
+
 
                                         <td>
                                             <div class="dropdown">
@@ -667,7 +560,7 @@ Project Requirements | Must have{% extends 'master' %}
                             <ul class="nav nav-tabs nav-tabs-neutral">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" role="tab">
-                                        Project Activity Log
+                                        Group List
                                     </a>
                                 </li>
                             </ul>
@@ -676,28 +569,109 @@ Project Requirements | Must have{% extends 'master' %}
                             <table class="table table-hover table-responsive">
                                 {% if currentUser %}
                                 <thead class="text-primary">
-                                    <th><strong>Group</strong></th>
-                                    <th><strong>Project Name</strong></th>
-                                    <th><strong>Activity</strong></th>
-                                    <th><strong>Endorsed By</strong></th>
-                                    <th><strong>Endorse Date</strong></th>
-                                    <th><strong>Description</strong></th>
-                                    <th><strong>&nbsp;</strong></th>
+                                    <th><strong>Group Name</strong></th>
+                                    <th><strong>Status</strong></th>
+                                    <th><strong>Group Key</strong></th>
+                                    <th><strong>Adviser</strong></th>
+                                    <th><strong>Chairman</strong></th>
+                                    <th><strong>Panelist</strong></th>
+                                    <th>&nbsp;</th>
+                                    <th><strong>Status</strong></th>
                                 </thead>
                                 <tbody>
-                                    {% for item in endorse %}
-                                      {% if (item.endorseType == 'Milestone checking') or
-                                      (item.endorseType == 'Proposal defense') or (item.endorseType == 'Final defense')  %}
-                                    <tr class="text-black">
-                                        <td>{{item.groupId}}</td>
-                                        <td>{{item.description}}</td>
-                                        <td>{{item.endorseType}}</td>
-                                        <td>{{item.endorseBy}}</td>
-                                        <td>{{item.created_at}}</td>
-                                        <td>{{item.notes}}</td>
-                                    </tr>
-                                      {% endif %}
-                                    {% endfor %}
+                                  {% for g in groupControls %}
+                                      <tr class="text-black">
+                                          <td><a data-toggle="modal" data-target="#{{g.groupId}}gMember">{{g.groupName}}</a></td>
+                                          <td>{{g.clSched}}</td>
+                                          <td>{{g.groupKey}}</td>
+                                          <td>{{g.adviser}}</td>
+                                          <td>{{g.chairman}}</td>
+                                          <td>{{g.panelist}}</td>
+                                          <td>
+    																				<!--Group Members-->
+    																				<div class="modal fade" id="{{g.groupId}}gMember" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    																						<div class="modal-dialog">
+    																								<!-- Modal content -->
+    																								<div class="modal-content">
+
+    																										<div class="modal-header">
+    																												<h5 class="modal-title">Group Members</h5>
+    																												<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal"
+    																												data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close">
+    																												<i class="now-ui-icons ui-1_simple-remove"></i>
+    																												</a>
+    																										</div>
+
+    																										<div class="modal-body">
+    																											<table class="table table-hover table-responsive">
+    																													{% if currentUser %}
+    																													<thead class="text-primary">
+    																															<th><strong>Members</strong></th>
+    																													</thead>
+    																													<tbody>
+    																														{% for group in groups %}
+    																															{% if g.groupId == group.groupId %}
+    																																<tr class="text-black">
+    																																		<td>{{group.firstname}} {{group.middlename}} {{group.lastname}}</td>
+    																																</tr>
+    																															{% endif %}
+    																														{% endfor %}
+    																													</tbody>
+    																													{% endif %}
+    																											</table>
+    																										</div>
+    																								</div>
+    																						</div>
+    																				</div>
+    																				<!--Group Members-->
+    																			</td>
+                                          {# <td>
+                                            {% for endor in endorseLimit%}
+                                              {% if g.groupId == endor.groupId %}
+                                                  {{endor.endorseType | truncate(20)}}
+                                              {% endif %}
+                                            {% endfor %}
+                                          </td> #}
+
+                                          <td>
+                                            <span class="badge badge-info">
+                                              <a data-toggle="modal" data-target="#{{g.groupId}}gPlist" class="text-white">Check</a>
+                                            </span>
+                                          </td>
+                                          <td>
+                                            <div class="modal fade" id="{{g.groupId}}gPlist" role="dialog">
+                                            	<div class="modal-dialog">
+                                            			<!-- Modal content -->
+                                            			<div class="modal-content">
+                                            					<div class="modal-header">
+                                                          <h5 class="modal-title">Group Status</h5>
+                                            							<a class="nav nav-link nav-pills nav-pills-success" data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
+                                          								</a>
+                                            					</div>
+
+                                            					<div class="modal-body">
+                                                        {% for endor in endorseLimit%}
+                                                          {% if g.groupId == endor.groupId %}
+                                                                <li style="list-style: none;">
+                                                                  <label class="form-check-label">
+                                                                      <input class="form-check-input" type="checkbox" checked disabled>
+                                                                      {{endor.endorseType}}
+                                                                  </label>
+                                                                </li>
+                                                              <br>
+                                                          {% endif %}
+                                                        {% endfor %}
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="checkbox" checked disabled>
+                                                            For Proposal
+                                                        </label>
+                                            					</div>
+                                            			</div>
+                                            	</div>
+                                            </div>
+                                          <td>
+                                      </tr>
+                                  {% endfor %}
                                 </tbody>
                                 {% endif %}
                             </table>
@@ -825,51 +799,6 @@ Project Requirements | Must have{% extends 'master' %}
 												 <button type="submit" class="btn btn-primary btn-round btn-lg">Create</button>
 											</div>
 									</form>
-							</div>
-							<div class="modal-footer"></div>
-					</div>
-			</div>
-	</div>
-
-  <!-- Fruit Jam Create Group Control -->
-	<div class="modal fade" id="groupList" role="dialog">
-			<div class="modal-dialog" >
-					<!-- Modal content -->
-					<div class="modal-content" style="width: 900px; margin-left: -350px;">
-							<div class="modal-header">
-									<h5 class="modal-title">Group List</h5>
-									<a class="nav nav-link nav-pills nav-pills-success"
-										 data-dismiss="modal" data-toggle="tooltip" aria-haspopup="true" aria-expanded="true" title="Close"><i class="now-ui-icons ui-1_simple-remove"></i>
-									</a>
-							</div>
-							<div class="modal-body">
-									<!--Display Created Groups-->
-									<div class="card-body">
-											{% if currentUser %}
-													<table class="table table-hover table-md">
-															<thead class="text-warning">
-  																	<th><strong>Group Name</strong></th>
-  																	<th><strong>Class Schedule</strong></th>
-  																	<th><strong>Group Key</strong></th>
-                                    <th><strong>Adviser</strong></th>
-                                    <th><strong>Chairman</strong></th>
-                                    <th><strong>Panelist</strong></th>
-															</thead>
-															<tbody>
-																	{% for g in groupControls %}
-																			<tr class="text-black">
-																					<td>{{g.groupName}}</td>
-																					<td>{{g.clSched}}</td>
-																					<td>{{g.groupKey}}</td>
-                                          <td>{{g.adviser}}</td>
-                                          <td>{{g.chairman}}</td>
-                                          <td>{{g.panelist}}</td>
-																			</tr>
-																	{% endfor %}
-															</tbody>
-													</table>
-											{% endif %}
-									</div>
 							</div>
 							<div class="modal-footer"></div>
 					</div>
